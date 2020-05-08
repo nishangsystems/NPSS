@@ -1,0 +1,21 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class AdminSeeder extends Seeder{
+
+      public function run()
+      {
+          $date = new \DateTime();
+          DB::table('users')->insert([
+             'first_name' => 'John',
+             'last_name' => 'Doe',
+             'email' => 'admin@gmail.com',
+             'phone' => '67777777',
+             'address' => 'NY 12345, Street 7',
+             'slug' => Hash::make('john'.$date->format('Y-m-d H:i:s')),
+             'password' => Hash::make('12345678'),
+             'status'=>'active',
+          ]);
+      }
+}
