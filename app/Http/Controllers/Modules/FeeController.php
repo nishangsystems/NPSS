@@ -12,7 +12,8 @@ use DateTime;
 class FeeController extends Controller{
 
     public function index(Request $request){
-        return view('fees.index');
+        $data['fees'] = \App\StudentFeePayment::all();
+        return view('fees.index')->with($data);
     }
 
     public function show(Request $request, $slug){

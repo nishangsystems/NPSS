@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="{{asset('assets/css')}}/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/all.min.css">
     <link rel="stylesheet" href="{{asset('assets/fonts')}}/flaticon.css">
+    <link rel="stylesheet" href="{{asset('assets')}}/toastr/toastr.min.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/animate.min.css">
     @yield('style')
     <link rel="stylesheet" href="{{asset('assets/css')}}/style.css">
-
     <script src="{{asset('assets/js')}}/modernizr-3.6.0.min.js"></script>
 </head>
 
@@ -266,6 +266,22 @@
 <script src="{{asset('assets/js')}}/bootstrap.min.js"></script>
 <script src="{{asset('assets/js')}}/jquery.scrollUp.min.js"></script>
 <script src="{{asset('assets/js')}}/main.js"></script>
+<script src="{{asset('assets')}}/toastr/toastr.min.js"></script>
+<script>
+    @if(Session::has('success'))
+        toastr.success('{{Session::get('success')}}');
+    @endif
+
+    @if(Session::has('error'))
+        toastr.error('{{Session::get('error')}}');
+    @endif
+
+    @if(count($errors)>0)
+    @foreach ($errors->all() as $e)
+        toastr.error('{{$e}}');
+    @endforeach
+    @endif
+</script>
 @yield('script')
 </body>
 

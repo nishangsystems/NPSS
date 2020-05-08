@@ -12,7 +12,8 @@ use DateTime;
 class SubjectController extends Controller{
 
     public function index(){
-        return view('subject.index');
+        $data['subjects'] = \App\Subject::all();
+        return view('subject.index')->with($data);
     }
 
     public function show(Request $request, $slug){

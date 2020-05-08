@@ -223,7 +223,7 @@
                                             <label class="form-check-label">#0021</label>
                                         </div>
                                     </td>
-                                    <td class="text-center"><img src="img/figure/student2.png" alt="student"></td>
+                                    <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
                                     <td>Mark Willy</td>
                                     <td>Male</td>
                                     <td>2</td>

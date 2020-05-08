@@ -22,7 +22,7 @@
             </div>
             <div class="single-info-details">
                 <div class="item-img">
-                    <img src="img/figure/teacher.jpg" alt="teacher">
+                    <img src="{{asset('assets/img')}}/figure/teacher.jpg" alt="teacher">
                 </div>
                 <div class="item-content">
                     <div class="header-inline item-header">

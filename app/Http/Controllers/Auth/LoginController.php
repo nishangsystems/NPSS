@@ -28,7 +28,7 @@ class LoginController extends Controller
 
         //Attempt to log the user in
         if( Auth::guard('user')->attempt(['email'=>$request->email,'password'=>$request->password], $request->remember)){
-
+            $request->session()->flash('success', 'Login Successful');
         }
         $request->session()->flash('error', 'Invalid Email or Password');
         return redirect()->back()->withInput($request->only('email','remember'));

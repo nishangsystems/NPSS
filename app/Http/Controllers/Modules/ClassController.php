@@ -12,7 +12,8 @@ use DateTime;
 class ClassController extends Controller{
 
     public function index(Request $request){
-        return view('class.index');
+        $data['class'] = \App\Classes::all();
+        return view('class.index')->with($data);
     }
 
     public function show(Request $request, $slug){

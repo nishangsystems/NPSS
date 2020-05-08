@@ -53,12 +53,6 @@
                     <table class="table display data-table text-nowrap">
                         <thead>
                         <tr>
-                            <th>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input checkAll">
-                                    <label class="form-check-label">Route Name</label>
-                                </div>
-                            </th>
                             <th>Vehicle No</th>
                             <th>Driver Name</th>
                             <th>Driver License</th>
@@ -67,34 +61,30 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input">
-                                        <label class="form-check-label">Wales Road </label>
-                                    </div>
-                                </td>
-                                <td>MT988800</td>
-                                <td>Johnathan John</td>
-                                <td>DLNC025936</td>
-                                <td>+889562365846</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            @foreach($transports as $transport)
+                                <tr>
+                                    <td>{{$transport->vehicle_nu}}</td>
+                                    <td>{{$transport->driver->first_name}} {{$transport->driver->last_name}}</td>
+                                    <td>{{$transport->license}}</td>
+                                    <td>{{$transport->phone}}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                               aria-expanded="false">
+                                                <span class="flaticon-more-button-of-three-dots"></span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

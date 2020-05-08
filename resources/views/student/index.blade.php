@@ -49,17 +49,10 @@
                 <table class="table display data-table text-nowrap">
                     <thead>
                     <tr>
-                        <th>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input checkAll">
-                                <label class="form-check-label">Roll</label>
-                            </div>
-                        </th>
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Class</th>
-                        <th>Section</th>
                         <th>Parents</th>
                         <th>Address</th>
                         <th>Date Of Birth</th>
@@ -69,40 +62,35 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input">
-                                <label class="form-check-label">#0021</label>
-                            </div>
-                        </td>
-                        <td class="text-center"><img src="img/figure/student2.png" alt="student"></td>
-                        <td>Mark Willy</td>
-                        <td>Male</td>
-                        <td>2</td>
-                        <td>A</td>
-                        <td>Jack Sparrow </td>
-                        <td>TA-107 Newyork</td>
-                        <td>02/05/2001</td>
-                        <td>+ 123 9988568</td>
-                        <td>kazifahim93@gmail.com</td>
-                        <td>
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <span class="flaticon-more-button-of-three-dots"></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                        @foreach($students as $student)
+                            <tr>
+                                <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
+                                <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                <td>{{$student->gender}}</td>
+                                <td>{{$student->class->name}}</td>
+                                <td>{{$student->parent->first_name}} {{$student->parent->last_name}}</td>
+                                <td>{{$student->address}}</td>
+                                <td>{{$student->dob}}</td>
+                                <td>{{$student->phone}}</td>
+                                <td>{{$student->email}}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

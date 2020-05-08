@@ -12,7 +12,8 @@ use DateTime;
 class StudentController extends Controller{
 
     public function index(){
-        return view('student.index');
+        $data['students'] = \App\Student::all();
+        return view('student.index')->with($data);
     }
 
     public function show(Request $request, $slug){

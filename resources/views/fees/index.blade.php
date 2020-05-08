@@ -48,56 +48,38 @@
                 <table class="table data-table text-nowrap">
                     <thead>
                     <tr>
-                        <th>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input checkAll">
-                                <label class="form-check-label">ID</label>
-                            </div>
-                        </th>
                         <th>Photo</th>
                         <th>Name</th>
-                        <th>Gender</th>
-                        <th>Class</th>
                         <th>Section</th>
-                        <th>Expense</th>
+                        <td>Motive</td>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th>Phone</th>
-                        <th>E-mail</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input">
-                                <label class="form-check-label">#0021</label>
-                            </div>
-                        </td>
-                        <td><img src="img/figure/student2.png" alt="student"></td>
-                        <td>Mark Willy</td>
-                        <td>Male</td>
-                        <td>2</td>
-                        <td>A</td>
-                        <td>Class Test</td>
-                        <td>$2,0000.00</td>
-                        <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
-                        <td>+ 123 9988568</td>
-                        <td>kazifahim93@gmail.com</td>
-                        <td>
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <span class="flaticon-more-button-of-three-dots"></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                        @foreach($fees as $fee)
+                            <tr>
+                                <td><img src="img/figure/student2.png" alt="student"></td>
+                                <td>Mark Willy</td>
+                                <td>2</td>
+                                <td>Class Test</td>
+                                <td>$2,0000.00</td>
+                                <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

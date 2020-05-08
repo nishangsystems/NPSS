@@ -12,7 +12,8 @@ use DateTime;
 class TransportController extends Controller{
 
     public function index(){
-        return view('transport.index');
+        $data['transports'] = \App\Transport::all();
+        return view('transport.index')->with($data);
     }
 
     public function show(Request $request, $slug){

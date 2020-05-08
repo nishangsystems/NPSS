@@ -12,7 +12,8 @@ use DateTime;
 class RolesController extends Controller{
 
     public function index(Request $request){
-        return view('roles.index');
+        $data['roles'] = \App\Role::all();
+        return view('roles.index')->with($data);
     }
 
     public function show(Request $request, $slug){

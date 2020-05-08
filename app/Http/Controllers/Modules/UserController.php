@@ -13,9 +13,14 @@ class UserController extends Controller{
 
     public function index(){
         if(\request('type') == 'teacher'){
-            return view('users.teacher');
+            $data['users'] = \App\Role::whereSlug('teacher')->first()->users;
+            return view('users.teacher')->with($data);
+        }else if(\request('type') == 'parent'){
+            $data['users'] = \App\Role::whereSlug('parent')->first()->users;
+            return view('users.parent')->with($data);
         }else{
-            return view('users.parent');
+            $data['users'] = \App\User::all();
+            return view('users.index')->with($data);
         }
 
     }

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{asset('assets/css')}}/main.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/all.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/toastr/toastr.min.css">
+    <link rel="stylesheet" href="{{asset('assets')}}/toastr/toastr.min.css">
     <link rel="stylesheet" href="{{asset('assets/fonts')}}/flaticon.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/animate.min.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/style.css">

@@ -64,7 +64,7 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td class="text-center"><img src="img/figure/student2.png" alt="student"></td>
+                                <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
                                 <td>{{$user->first_name}} {{$user->last_name}}</td>
                                 <td>{{$user->gender}}</td>
                                 <td>{{$user->occupation}}</td>
@@ -80,10 +80,10 @@
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="#"><i
                                                     class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="#"><i
+                                            <a class="dropdown-item" href="{{route('user.edit',$user->slug)}}"><i
                                                     class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                            <a class="dropdown-item" href="{{route('user.show',$user->slug)}}"><i
+                                                    class="fa fa-eye text-orange-peel"></i>View</a>
                                         </div>
                                     </div>
                                 </td>

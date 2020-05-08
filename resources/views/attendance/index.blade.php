@@ -35,7 +35,7 @@
                                 <label>Select Class</label>
                                 <select class="select2" required>
                                     <option value="">Select Class</option>
-                                    @foreach(\App\Class::all() as $session)
+                                    @foreach(\App\Classes::all() as $session)
                                         <option value="{{$session->id}}">{{$session->byLocale()->name}}</option>
                                     @endforeach
                                 </select>
