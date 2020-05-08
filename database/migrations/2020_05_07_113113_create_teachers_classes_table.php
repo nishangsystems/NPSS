@@ -15,6 +15,9 @@ class CreateTeachersClassesTable extends Migration
     {
         Schema::create('teachers_classes', function (Blueprint $table) {
             $table->id();
+            $table->integer('teacher_id');
+            $table->integer('class_id');
+            $table->integer('year_id');
             $table->timestamps();
         });
     }

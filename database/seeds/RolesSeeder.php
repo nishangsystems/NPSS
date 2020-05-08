@@ -12,7 +12,6 @@ class RolesSeeder extends Seeder{
             foreach(config('constants.ROLES') as $role){
                 DB::table('roles')->insert([
                    'name' => $role,
-                   'logged_by'=>1,
                    'slug' => strtolower($role),
                 ]);
             }

@@ -15,6 +15,9 @@ class CreateStudentDiscountsTable extends Migration
     {
         Schema::create('student_discounts', function (Blueprint $table) {
             $table->id();
+            $table->integer('student_id');
+            $table->integer('amount');
+            $table->integer('year_id');
             $table->timestamps();
         });
     }

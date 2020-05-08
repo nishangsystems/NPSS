@@ -10,7 +10,7 @@ class RolesPermissionSeeder extends Seeder{
             $faker = Faker\Factory::create();
             $date = new \DateTime();
             foreach(\App\Permission::all() as $permission){
-                DB::table('role_permission')->insert([
+                DB::table('roles_permissions')->insert([
                    'role_id' => 1,
                    'permission_id'=>$permission->id,
                 ]);

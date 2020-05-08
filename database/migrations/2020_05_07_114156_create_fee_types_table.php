@@ -15,6 +15,8 @@ class CreateFeeTypesTable extends Migration
     {
         Schema::create('fee_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('name_fr');
             $table->timestamps();
         });
     }

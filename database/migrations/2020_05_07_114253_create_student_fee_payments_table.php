@@ -15,6 +15,10 @@ class CreateStudentFeePaymentsTable extends Migration
     {
         Schema::create('student_fee_payments', function (Blueprint $table) {
             $table->id();
+            $table->integer('student_id');
+            $table->integer('parent_id')->nullable();
+            $table->integer('amount');
+            $table->integer('year_id')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,9 @@ class CreateClassFeesTable extends Migration
     {
         Schema::create('class_fees', function (Blueprint $table) {
             $table->id();
+            $table->integer('amount')->nullable();
+            $table->integer('class_id')->nullable();
+            $table->integer('year_id')->nullable();
             $table->timestamps();
         });
     }

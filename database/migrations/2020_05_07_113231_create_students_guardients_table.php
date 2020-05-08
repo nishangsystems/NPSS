@@ -15,6 +15,8 @@ class CreateStudentsGuardientsTable extends Migration
     {
         Schema::create('students_guardients', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent_id');
+            $table->integer('student_id');
             $table->timestamps();
         });
     }

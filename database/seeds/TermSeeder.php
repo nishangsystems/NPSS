@@ -9,9 +9,8 @@ class TermSeeder extends Seeder{
           $faker = Faker\Factory::create();
           $date = new \DateTime();
           foreach(config('constants.TERM') as $type){
-                DB::table('term')->insert([
+                DB::table('terms')->insert([
                     'name' => $type,
-                    'logged_by' => 1,
                     'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
                     'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
                 ]);

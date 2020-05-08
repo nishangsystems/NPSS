@@ -6,7 +6,7 @@ class UserRole extends Seeder{
 
       public function run()
       {
-            DB::table('business_users_role')->insert([
+            DB::table('users_roles')->insert([
                'user_id' => 1,
                'role_id'=>1
             ]);

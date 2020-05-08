@@ -2,6 +2,7 @@
 
 return [
     'USER_STATUS' => ['active','suspended','unconfirmed'],
+    'GENDER' => ['male','female'],
     'FEE_TYPE' => ['PTA','FEE'],
     'TERM' => ['First Term','Second Term','Third Term'],
     'SEQUENCE' => [
