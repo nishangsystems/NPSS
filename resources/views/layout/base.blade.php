@@ -69,8 +69,8 @@
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                        aria-expanded="false">
                         <div class="admin-title">
-                            <h5 class="item-title">Stevne Zone</h5>
-                            <span>Admin</span>
+                            <h5 class="item-title">{{request()->user()->first_name}} {{request()->user()->last_name}}</h5>
+                            <span>{{request()->user()->roles()->first()->byLocale()->name}}</span>
                         </div>
                         <div class="admin-img">
                             <img src="{{asset('assets/img')}}/figure/admin.jpg" alt="Admin">
@@ -78,7 +78,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="item-header">
-                            <h6 class="item-title">Steven Zone</h6>
+                            <h6 class="item-title">{{request()->user()->first_name}} {{request()->user()->last_name}}</h6>
                         </div>
                         <div class="item-content">
                             <ul class="settings-list">
@@ -90,17 +90,18 @@
                         </div>
                     </div>
                 </li>
+                @if(request()->user()->hasUnreadMessages())
                 <li class="navbar-item dropdown header-message">
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                        aria-expanded="false">
                         <i class="far fa-envelope"></i>
                         <div class="item-title d-md-none text-16 mg-l-10">Message</div>
-                        <span>5</span>
+                         <span>{{request()->user()->unreadMessageCount()}}</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="item-header">
-                            <h6 class="item-title">05 Message</h6>
+                            <h6 class="item-title">{{request()->user()->unreadMessageCount()}} New Message</h6>
                         </div>
                         <div class="item-content">
                             <div class="media">
@@ -110,7 +111,7 @@
                                 <div class="media-body space-sm">
                                     <div class="item-title">
                                         <a href="#">
-                                            <span class="item-name">Maria Zaman</span>
+                                            <span class="item-name">John Glenn</span>
                                             <span class="item-time">18:30</span>
                                         </a>
                                     </div>
@@ -118,54 +119,11 @@
                                         Is it usefull for me.....</p>
                                 </div>
                             </div>
-                            <div class="media">
-                                <div class="item-img bg-yellow author-online">
-                                    <img src="{{asset('assets/img')}}/figure/student12.png" alt="{{asset('assets/img')}}">
-                                </div>
-                                <div class="media-body space-sm">
-                                    <div class="item-title">
-                                        <a href="#">
-                                            <span class="item-name">Benny Roy</span>
-                                            <span class="item-time">10:35</span>
-                                        </a>
-                                    </div>
-                                    <p>What is the reason of buy this item.
-                                        Is it usefull for me.....</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="item-img bg-pink">
-                                    <img src="{{asset('assets/img')}}/figure/student13.png" alt="{{asset('assets/img')}}">
-                                </div>
-                                <div class="media-body space-sm">
-                                    <div class="item-title">
-                                        <a href="#">
-                                            <span class="item-name">Steven</span>
-                                            <span class="item-time">02:35</span>
-                                        </a>
-                                    </div>
-                                    <p>What is the reason of buy this item.
-                                        Is it usefull for me.....</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="item-img bg-violet-blue">
-                                    <img src="{{asset('assets/img')}}/figure/student11.png" alt="{{asset('assets/img')}}">
-                                </div>
-                                <div class="media-body space-sm">
-                                    <div class="item-title">
-                                        <a href="#">
-                                            <span class="item-name">Joshep Joe</span>
-                                            <span class="item-time">12:35</span>
-                                        </a>
-                                    </div>
-                                    <p>What is the reason of buy this item.
-                                        Is it usefull for me.....</p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </li>
+                @endif
                 <li class="navbar-item dropdown header-language">
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button"
                        data-toggle="dropdown" aria-expanded="false"><i class="fas fa-globe-americas"></i>{{ strtoupper(app()->getLocale()) }}</a>
@@ -307,8 +265,8 @@
 <script src="{{asset('assets/js')}}/popper.min.js"></script>
 <script src="{{asset('assets/js')}}/bootstrap.min.js"></script>
 <script src="{{asset('assets/js')}}/jquery.scrollUp.min.js"></script>
-@yield('script')
 <script src="{{asset('assets/js')}}/main.js"></script>
+@yield('script')
 </body>
 
 </html>

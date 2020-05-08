@@ -48,48 +48,36 @@
                 <table class="table display data-table text-nowrap">
                     <thead>
                     <tr>
-                        <th>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input checkAll">
-                                <label class="form-check-label">ID</label>
-                            </div>
-                        </th>
                         <th>Book Name</th>
                         <th>Subject</th>
                         <th>Writter</th>
                         <th>Class</th>
                         <th>Published</th>
-                        <th>Creating Date</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input">
-                                <label class="form-check-label">#0021</label>
-                            </div>
-                        </td>
-                        <td>English Grammer</td>
-                        <td>English</td>
-                        <td>David Morgan</td>
-                        <td>5</td>
-                        <td>2019</td>
-                        <td>12.02.2019</td>
-                        <td>
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <span class="flaticon-more-button-of-three-dots"></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                        @foreach(\App\Books::all() as $book)
+                            <tr>
+                                <td>{{$book->title}}</td>
+                                <td>{{$book->subject->byLocale()->name}}</td>
+                                <td>{{$book->author}}</td>
+                                <td>{{$book->class->byLocale()->name}}</td>
+                                <td>{{$book->published}}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
                     </tbody>
                 </table>
             </div>

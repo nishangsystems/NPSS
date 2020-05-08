@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-   // Route::group(['middleware' => 'auth'], function() {
+    Route::group(['middleware' => 'auth'], function() {
         Route::get('dashboard','DashboardController@index')->name('home');
 
         Route::resource('student','Modules\StudentController');
@@ -51,5 +51,5 @@ use Illuminate\Support\Facades\Route;
         Route::post('expenses/new','Modules\ExpensesController@newSubmit')->name('expenses.collect.submit');
 
 
-    //});
+    });
 

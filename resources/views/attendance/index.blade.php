@@ -33,13 +33,11 @@
                         <div class="row">
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Select Class</label>
-                                <select class="select2">
+                                <select class="select2" required>
                                     <option value="">Select Class</option>
-                                    <option value="1">Nursery</option>
-                                    <option value="2">Play</option>
-                                    <option value="3">One</option>
-                                    <option value="4">Two</option>
-                                    <option value="5">Three</option>
+                                    @foreach(\App\Class::all() as $session)
+                                        <option value="{{$session->id}}">{{$session->byLocale()->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -72,12 +70,11 @@
                             </div>
                             <div class="col-xl-3 col-lg-6 col-12 form-group">
                                 <label>Select Session</label>
-                                <select class="select2">
+                                <select class="select2" required>
                                     <option value="0">Select Session</option>
-                                    <option value="1">2016-2017</option>
-                                    <option value="2">2017-20108</option>
-                                    <option value="3">2018-2019</option>
-                                    <option value="4">2020-2021</option>
+                                    @foreach(\App\Session::all() as $session)
+                                        <option value="{{$session->id}}">{{$session->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-12 form-group mg-t-8">
