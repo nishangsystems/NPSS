@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Teacher Dashboard
+    Parent Dashboard
 @endsection
 
 @section('style')

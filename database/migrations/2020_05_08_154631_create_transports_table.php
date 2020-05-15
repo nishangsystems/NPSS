@@ -18,6 +18,7 @@ class CreateTransportsTable extends Migration
             $table->integer('driver_id')->nullable();
             $table->string('vehicle_nu');
             $table->string('license');
+            $table->string('photo');
             $table->string('phone')->nullable();
             $table->timestamps();
         });

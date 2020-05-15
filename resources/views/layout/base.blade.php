@@ -157,9 +157,12 @@
                             <li class="nav-item">
                                 <a href="{{route('student.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Students</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{route('student.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Admission Form</a>
-                            </li>
+                            @if (\Auth::user()->can('create_student'))
+                                <li class="nav-item">
+                                    <a href="{{route('student.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Admission Form</a>
+                                </li>
+                            @endif
+
                         </ul>
                     </li>
                     <li class="nav-item sidebar-nav-item">
@@ -168,9 +171,12 @@
                             <li class="nav-item">
                                 <a href="{{route('user.index')}}?type=teacher" class="nav-link"><i class="fas fa-angle-right"></i>All Teachers</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{route('user.create')}}?type=teacher" class="nav-link"><i class="fas fa-angle-right"></i>Add Teacher</a>
-                            </li>
+                            @if (\Auth::user()->can('create_user'))
+                                <li class="nav-item">
+                                    <a href="{{route('user.create')}}?type=teacher" class="nav-link"><i class="fas fa-angle-right"></i>Add Teacher</a>
+                                </li>
+                            @endif
+
                         </ul>
                     </li>
                     <li class="nav-item sidebar-nav-item">
@@ -179,9 +185,11 @@
                             <li class="nav-item">
                                 <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Add Parent</a>
-                            </li>
+                            @if (\Auth::user()->can('create_user'))
+                                <li class="nav-item">
+                                    <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Add Parent</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     <li class="nav-item sidebar-nav-item">
@@ -190,28 +198,46 @@
                             <li class="nav-item">
                                 <a href="{{route('books.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Book</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{route('books.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Add New Book</a>
-                            </li>
+                            @if (\Auth::user()->can('create_book'))
+                                <li class="nav-item">
+                                    <a href="{{route('books.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Add New Book</a>
+                                </li>
+                            @endif
+
                         </ul>
                     </li>
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Fees & Expenses</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Fees Collection</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Expenses</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if(\Auth::user()->can('select_fee','update_fee','create_fee') )
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Fees & Expenses</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Fees Collection</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Owed Fees</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Completed Fees</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Expenses</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (\Auth::user()->can('create_class','see_class','delete_class'))
                     <li class="nav-item">
                         <a href="{{route('class.index')}}" class="nav-link"><i class="flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i><span>Class</span></a>
                     </li>
+                    @endif
+
+                    @if (\Auth::user()->can('create_subject','see_class','delete_class'))
                     <li class="nav-item">
                         <a href="{{route('subject.index')}}" class="nav-link"><i class="flaticon-open-book"></i><span>Subject</span></a>
                     </li>
+                    @endif
+
                     <li class="nav-item">
                         <a href="{{route('attendance.index')}}" class="nav-link"><i class="flaticon-checklist"></i><span>Attendance</span></a>
                     </li>
@@ -224,17 +250,36 @@
                     <li class="nav-item">
                         <a href="{{route('message.index')}}" class="nav-link"><i class="flaticon-chat"></i><span>Message</span></a>
                     </li>
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Account</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('user.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('roles.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Roles</a>
-                            </li>
-                        </ul>
-                    </li>
+                   @if(\Auth::user()->hasRole('admin'))
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Account</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{route('user.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('roles.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Roles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('roles.permissions')}}" class="nav-link"><i class="fas fa-angle-right"></i>Permissions</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="#" class="nav-link"><i class="flaticon-settings-work-tool"></i><span>Setting</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{route('settings.session')}}" class="nav-link"><i class="fas fa-angle-right"></i>Session</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('settings.terms')}}" class="nav-link"><i class="fas fa-angle-right"></i>Terms</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('settings.sequences')}}" class="nav-link"><i class="fas fa-angle-right"></i>Sequences</a>
+                                </li>
+                            </ul>
+                        </li>
+                   @endif
                 </ul>
             </div>
         </div>

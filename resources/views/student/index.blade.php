@@ -54,25 +54,17 @@
                         <th>Gender</th>
                         <th>Class</th>
                         <th>Parents</th>
-                        <th>Address</th>
-                        <th>Date Of Birth</th>
-                        <th>Phone</th>
-                        <th>E-mail</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($students as $student)
                             <tr>
-                                <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
+                                <td class="text-center"><img src="{{route('image.render', $student->photo)}}" style="width: 30px;" alt="student"></td>
                                 <td>{{$student->first_name}} {{$student->last_name}}</td>
                                 <td>{{$student->gender}}</td>
-                                <td>{{$student->class->name}}</td>
-                                <td>{{$student->parent->first_name}} {{$student->parent->last_name}}</td>
-                                <td>{{$student->address}}</td>
-                                <td>{{$student->dob}}</td>
-                                <td>{{$student->phone}}</td>
-                                <td>{{$student->email}}</td>
+                                <td>{{($student->classes != null)?$student->classes->name:''}}</td>
+                                <td>{{($student->parent != null)?$student->parent->first_name:''}} {{($student->parent != null)?$student->parent->last_name:''}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"

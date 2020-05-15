@@ -17,8 +17,10 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_fr')->nullable();
+            $table->enum('type', config('constants.SUBJECT_TYPE'))->default('science');
             $table->string('code')->nullable();
             $table->string('slug');
+            $table->integer('class_id');
             $table->timestamps();
         });
     }

@@ -50,26 +50,19 @@
                     <tr>
                         <th>Photo</th>
                         <th>Name</th>
-                        <th>Gender</th>
-                        <th>Class</th>
-                        <th>Subject</th>
                         <th>Address</th>
                         <th>Phone</th>
-                        <th>E-mail</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
+                                <td class="text-center"><img src="{{route('image.render',$user->photo)}}" width="30" alt="img"></td>
                                 <td>{{$user->first_name}} {{$user->last_name}}</td>
                                 <td>{{$user->gender}}</td>
-                                <td>{{$user->class->name}}</td>
-                                <td>{{$user->subject->name}}</td>
                                 <td>{{$user->address}}</td>
                                 <td>{{$user->phone}}</td>
-                                <td>{{$user->email}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

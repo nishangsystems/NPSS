@@ -12,8 +12,9 @@ class AdminSeeder extends Seeder{
              'last_name' => 'Doe',
              'email' => 'admin@gmail.com',
              'phone' => '67777777',
+              'photo' => 'default.png',
              'address' => 'NY 12345, Street 7',
-             'slug' => Hash::make('john'.$date->format('Y-m-d H:i:s')),
+             'slug' => str_replace("/","",\Hash::make('john'.$date->format('Y-m-d H:i:s'))),
              'password' => Hash::make('12345678'),
              'status'=>'active',
           ]);

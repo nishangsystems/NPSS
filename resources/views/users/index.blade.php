@@ -54,7 +54,7 @@
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Gender</th>
-                        <th>Occupation</th>
+                        <th>Role</th>
                         <th>Address</th>
                         <th>Phone</th>
                         <th>E-mail</th>
@@ -64,10 +64,10 @@
                     <tbody>
                     @foreach($users as $user)
                         <tr>
-                            <td class="text-center"><img src="{{asset('assets/img')}}/figure/student2.png" alt="student"></td>
+                            <td class="text-center"><img src="{{route('image.render', $user->photo)}}" alt="student"></td>
                             <td>{{$user->first_name}} {{$user->last_name}}</td>
                             <td>{{$user->gender}}</td>
-                            <td>{{$user->occupation}}</td>
+                            <td>{{$user->roles->first()->name}}</td>
                             <td>{{$user->address}}</td>
                             <td>{{$user->phone}}</td>
                             <td>{{$user->email}}</td>
@@ -80,7 +80,7 @@
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="#"><i
                                                 class="fas fa-times text-orange-red"></i>Close</a>
-                                        <a class="dropdown-item" href="{{route('user.edit',$user->slug)}}"><i
+                                        <a class="dropdown-item" href="{{route('roles.assign')}}?user={{$user->slug}}"><i
                                                 class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                                         <a class="dropdown-item" href="{{route('user.show',$user->slug)}}"><i
                                                 class="fa fa-eye text-orange-peel"></i>View</a>

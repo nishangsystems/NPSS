@@ -102,13 +102,12 @@
                             <div class="item-icon">
                                 <i class="fas fa-exclamation-circle"></i>
                             </div>
-                            <h3 class="item-title">Some Field Requierd Here</h3>
+                            <h3 class="item-title">Some Field Required Here</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- All Notice Area End Here -->
     </div>
 @endsection
 

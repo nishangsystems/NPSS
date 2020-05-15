@@ -11,4 +11,8 @@ class Classes extends Model{
         }
         return $this;
     }
+
+    public function subjects(){
+        return $this->hasMany('App\Subject','class_id');
+    }
 }

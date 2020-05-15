@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name','last_name', 'email', 'password','gender','address','email','phone','photo','slug'
     ];
 
     /**
@@ -78,6 +78,10 @@ class User extends Authenticatable
     public function unreadMessageCountForSender (User $user)
     {
         return count(Messages::where('recipient_id', $this->id)->where('sender_id', $user->id)->where('read', 0)->get());
+    }
+
+    public function roleR() {
+        return $this->hasMany(UserRole::class);
     }
 
 }

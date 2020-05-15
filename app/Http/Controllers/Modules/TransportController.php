@@ -33,7 +33,19 @@ class TransportController extends Controller{
         return view('welcome');
     }
 
-    public function delete(Request $request, $slug){
-        return view('welcome');
+    public function store(Request $request)
+    {
+        if ($request->user()->can('create-tasks')) {
+            //Code goes here
+        }
+        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        if ($request->user()->can('delete-tasks')) {
+            //Code goes here
+        }
+        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
     }
 }

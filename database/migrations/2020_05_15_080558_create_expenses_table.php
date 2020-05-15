@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassSubjectsTable extends Migration
+class CreateExpensesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateClassSubjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('class_subjects', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->integer('sub_id');
-            $table->integer('class_id');
+            $table->integer('user_id');
+            $table->integer('amount');
+            $table->string('date');
+            $table->string('motive');
+            $table->enum('status', config('constants.EXPENSE_STATUS'))->default('paid');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateClassSubjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('class_subjects');
+        Schema::dropIfExists('expenses');
     }
 }

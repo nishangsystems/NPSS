@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>User Roles</h3>
+                            <h3>{{request('role')?\App\Role::whereSlug(request('role'))->first()->byLocale()->name." Permissions":"User Permissions"}}</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -38,7 +38,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($roles as $role)
+                            @foreach($permissions as $role)
                                 <tr>
                                     <td>{{$role->byLocale()->name}}</td>
                                     <td align="right">
@@ -48,10 +48,9 @@
                                                 <span class="flaticon-more-button-of-three-dots"></span>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{route('user.index')}}?role={{$role->slug}}"><i
+                                                <a class="dropdown-item" href="{{route('user.index')}}?permission={{$role->slug}}"><i
                                                         class="fas fa-user"></i> Users</a>
-                                                <a class="dropdown-item" href="{{route('roles.permissions')}}?role={{$role->slug}}"><i
-                                                        class="fas fa-cogs text-dark-pastel-green"></i> Permissions</a>
+
                                             </div>
                                         </div>
                                     </td>

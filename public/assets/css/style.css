@@ -5086,3 +5086,6 @@ ul {
 .text-orange-red {
   color: #ff0000;
 }
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: #000 !important;
+}

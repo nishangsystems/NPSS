@@ -22,6 +22,8 @@ return [
                               ['id' => '5','name' => 'Fee'],
                               ['id' => '6','name' => 'Roles']
                            ],
-    'COMMON_PERMISSION' => ['Select','Create','Update','Delete','Suspend','Activate'],
+    'COMMON_PERMISSION' => ['See','Create','Update','Delete','Suspend','Activate'],
     'ROLES' => ['Admin','Teacher','Parent','HM'],
+    'EXPENSE_STATUS' => ['paid','pending','due'],
+    'SUBJECT_TYPE' => ['science','arts','commercial'],
 ];

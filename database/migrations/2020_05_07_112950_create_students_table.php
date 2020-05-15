@@ -22,9 +22,11 @@ class CreateStudentsTable extends Migration
             $table->string('address')->nullable();
             $table->string('admission_year')->nullable();
             $table->string('class')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
+            $table->string('photo');
             $table->string('slug');
+            $table->string('section')->nullable();
             $table->enum('gender', config('constants.GENDER'))->default('male');
             $table->timestamps();
         });

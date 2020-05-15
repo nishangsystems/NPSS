@@ -15,20 +15,12 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>All Subjects</h3>
+                        <h3>{{$title}}</h3>
                     </div>
                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                           aria-expanded="false">...</a>
-
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                        </div>
+                       @if(\Auth::user()->can('create_subject'))
+                            <a href="{{route('subject.create')}}" class="fw-btn-fill btn-gradient-yellow">Add Subject</a>
+                       @endif
                     </div>
                 </div>
                 <form class="mg-b-20">
@@ -63,7 +55,7 @@
                                 <tr>
                                     <td>{{$subject->byLocale()->name}}</td>
                                     <td>{{$subject->byLocale()->type}}</td>
-                                    <td>{{$subject->class->byLocale()->name}}</td>
+                                    <td>{{$subject->classR->byLocale()->name}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"

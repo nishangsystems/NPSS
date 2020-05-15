@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('slug');
+            $table->string('photo');
             $table->enum('status', config('constants.USER_STATUS'))->default('active');
             $table->enum('gender', config('constants.GENDER'))->default('male');
             $table->rememberToken();

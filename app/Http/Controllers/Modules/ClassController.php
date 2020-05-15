@@ -24,15 +24,32 @@ class ClassController extends Controller{
         return view('class.edit');
     }
 
-    public function create(Request $request){
-        return view('class.create');
-    }
-
     public function update(Request $request, $slug){
         return view('welcome');
     }
 
-    public function delete(Request $request, $slug){
-        return view('welcome');
+    public function store(Request $request){
+        if ($request->user()->can('create_class')) {
+            $this->validate($request, [
+                'name' => 'required',
+            ]);
+
+            $class = new \App\Classes();
+            $class->name = $request->name;
+            $class->save();
+
+            $request->session()->flash('success', "Class Created successfully");
+        }else{
+            $request->session()->flash('error', "Not allowed to perform this action");
+        }
+        return redirect()->to(route('class.index'));
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        if ($request->user()->can('delete_class')) {
+            //Code goes here
+        }
+        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
     }
 }

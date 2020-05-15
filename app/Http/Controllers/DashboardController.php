@@ -13,8 +13,10 @@ class DashboardController extends Controller{
             return view('dashboard.admin');
         }else if($request->user()->hasRole('teacher')){
             return view('dashboard.teacher');
-        }else{
+        }else if($request->user()->hasRole('parent')){
             return view('dashboard.parent');
+        }else{
+            return view('dashboard.admin');
         }
 
     }

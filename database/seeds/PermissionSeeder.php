@@ -12,7 +12,7 @@ class PermissionSeeder extends Seeder{
             foreach(config('constants.PERMISSION_GROUPS') as $group){
                 if($group['id'] >= 2){
                     DB::table('permissions')->insert([
-                       'name' => 'Select '.$group['name'],
+                       'name' => 'See '.$group['name'],
                        'slug' =>  strtolower('Select_'.$group['name']),
                     ]);
 

@@ -5,33 +5,18 @@
     <!-- Student Details Area Start Here -->
     <div class="card height-auto">
         <div class="card-body">
-            <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>About Me</h3>
-                </div>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button"
-                       data-toggle="dropdown" aria-expanded="false">...</a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                </div>
-            </div>
             <div class="single-info-details">
                 <div class="item-img">
                     <img src="{{asset('assets/img')}}/figure/parents.jpg" alt="student">
                 </div>
                 <div class="item-content">
                     <div class="header-inline item-header">
-                        <h3 class="text-dark-medium font-medium">Steven Jones</h3>
+                        <h3 class="text-dark-medium font-medium">{{$user->first_name}} {{$user->last_name}}</h3>
                         <div class="header-elements">
                             <ul>
-                                <li><a href="#"><i class="far fa-edit"></i></a></li>
-                                <li><a href="#"><i class="fas fa-print"></i></a></li>
-                                <li><a href="#"><i class="fas fa-download"></i></a></li>
+                                @if(\Auth::user()->hasRole('admin'))
+                                    <li><a href="{{route('roles.assign')}}?user={{$user->slug}}"><i class="far fa-edit"></i></a></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
