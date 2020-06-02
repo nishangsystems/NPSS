@@ -17,6 +17,7 @@ class CreateClassesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_fr')->nullable();
+            $table->string('section_id');
             $table->timestamps();
         });
     }

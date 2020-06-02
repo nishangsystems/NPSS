@@ -1,8 +1,6 @@
 @extends('layout.base')
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-@endsection
+
 
 @section('section')
     <!-- Breadcubs Area End Here -->

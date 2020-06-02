@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubClassesTable extends Migration
+class CreateClassSectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateSubClassesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sub_classes', function (Blueprint $table) {
+        Schema::create('class_sections', function (Blueprint $table) {
             $table->id();
+            $table->integer('class_id');
             $table->string('name');
             $table->string('name_fr')->nullable();
             $table->timestamps();
@@ -28,6 +29,6 @@ class CreateSubClassesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_classes');
+        Schema::dropIfExists('class_sections');
     }
 }

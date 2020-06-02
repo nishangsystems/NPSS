@@ -6,6 +6,8 @@
 
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
 @endsection
 
 @section('section')
@@ -26,13 +28,15 @@
                 <form class="mg-b-20">
                     <div class="row gutters-8">
                         <div class="col-lg-4 col-12 form-group">
-                            <input type="text" placeholder="Search by Exam ..." class="form-control">
+                            <input type="text" placeholder="Search by Name..." class="form-control">
                         </div>
                         <div class="col-lg-3 col-12 form-group">
-                            <input type="text" placeholder="Search by Subject ..." class="form-control">
-                        </div>
-                        <div class="col-lg-3 col-12 form-group">
-                            <input type="text" placeholder="dd/mm/yyyy" class="form-control">
+                            <select name="section" class="select2">
+                                <option value="0">Select Section</option>
+                                @foreach(\App\Section::all() as $class)
+                                    <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-lg-2 col-12 form-group">
                             <button type="submit"
@@ -45,8 +49,8 @@
                         <thead>
                         <tr>
                             <th>Subject Name</th>
-                            <th>Subject Type</th>
-                            <th>Class</th>
+                            <th>Subject Code</th>
+                            <th>Section</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -54,8 +58,8 @@
                             @foreach($subjects as $subject)
                                 <tr>
                                     <td>{{$subject->byLocale()->name}}</td>
-                                    <td>{{$subject->byLocale()->type}}</td>
-                                    <td>{{$subject->classR->byLocale()->name}}</td>
+                                    <td>{{$subject->id}}</td>
+                                    <td>{{$subject->section->byLocale()->name}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -63,12 +67,9 @@
                                                 <span class="flaticon-more-button-of-three-dots"></span>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                             </div>
                                         </div>
                                     </td>
@@ -85,4 +86,6 @@
 
 @section('script')
     <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/js')}}/select2.min.js"></script>
+    <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
 @endsection

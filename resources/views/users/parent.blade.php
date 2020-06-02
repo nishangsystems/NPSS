@@ -15,32 +15,19 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All Parents Data</h3>
-                </div>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                       aria-expanded="false">...</a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i
-                                class="fas fa-times text-orange-red"></i>Close</a>
-                        <a class="dropdown-item" href="#"><i
-                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                        <a class="dropdown-item" href="#"><i
-                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
+                    <h3>All Parents Info</h3>
                 </div>
             </div>
             <form class="mg-b-20">
                 <div class="row gutters-8">
                     <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by ID ..." class="form-control">
-                    </div>
-                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
                         <input type="text" placeholder="Search by Name ..." class="form-control">
                     </div>
+                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                        <input type="text" placeholder="Search by Student Name ..." class="form-control">
+                    </div>
                     <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Phone ..." class="form-control">
+                        <input type="text" placeholder="Search Email ..." class="form-control">
                     </div>
                     <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
                         <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
@@ -51,7 +38,6 @@
                 <table class="table display data-table text-nowrap">
                     <thead>
                     <tr>
-                        <th>Photo</th>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Address</th>
@@ -62,7 +48,6 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td class="text-center"><img src="{{route('image.render', $user->photo)}}" alt="student"></td>
                                 <td>{{$user->first_name}} {{$user->last_name}}</td>
                                 <td>{{$user->gender}}</td>
                                 <td>{{$user->address}}</td>

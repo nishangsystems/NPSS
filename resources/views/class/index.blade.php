@@ -1,9 +1,6 @@
 @extends('layout.base')
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
-@endsection
+
 
 @section('section')
     <div class="row">
@@ -47,6 +44,7 @@
                                 <th>Name</th>
                                 <th>Student</th>
                                 <th>Teacher</th>
+                                <th>Class</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -54,8 +52,9 @@
                                @foreach(\App\Classes::get() as $class)
                                    <tr>
                                        <td>{{$class->name}}</td>
-                                       <td>{{$class->student}}</td>
-                                       <td>0</td>
+                                       <td>{{$class->student->count()}}</td>
+                                       <td>{{$class->teacher->count()}}</td>
+                                       <td>{{$class->subjects()->count()}}</td>
                                        <td align="right">
                                            <div class="dropdown">
                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -63,9 +62,9 @@
                                                    <span class="flaticon-more-button-of-three-dots"></span>
                                                </a>
                                                <div class="dropdown-menu dropdown-menu-right">
-                                                   <a class="dropdown-item" href="#"><i
+                                                   <a class="dropdown-item" href="{{route('student.index')}}?class={{$class->id}}"><i
                                                            class="fas fa-graduation-cap text-orange-red"></i>  Student</a>
-                                                   <a class="dropdown-item" href="#"><i
+                                                   <a class="dropdown-item"href="{{route('class.teacher',$class->id)}}"><i
                                                            class="fas fa-user text-dark-pastel-green"></i>  Teachers</a>
                                                    <a class="dropdown-item" href="{{route('subject.index')}}?class={{$class->id}}"><i
                                                            class="fas fa-book text-orange-peel"></i>  Subject</a>
@@ -83,7 +82,4 @@
         </div>
     </div>
 @endsection
-@section('script')
-    <script src="{{asset('assets/js')}}/select2.min.js"></script>
-    <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
-@endsection
+

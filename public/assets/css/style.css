@@ -5089,3 +5089,8 @@ ul {
 .select2-container .select2-selection--single .select2-selection__rendered {
     color: #000 !important;
 }
+
+.d-flex-column{
+    display: flex;
+    flex-direction: column !important;
+}

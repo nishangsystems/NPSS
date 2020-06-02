@@ -32,7 +32,11 @@ use Illuminate\Support\Facades\Route;
         Route::resource('student','Modules\StudentController');
         Route::resource('user','Modules\UserController');
         Route::resource('books','Modules\BookController');
+
         Route::resource('class','Modules\ClassController')->except(['create']);
+        Route::get('class/teacher/{class_id}','Modules\ClassController@teacher')->name('class.teacher');
+        Route::post('class/teacher/{class_id}','Modules\ClassController@Addteacher')->name('class.teacher.add');
+
         Route::resource('subject','Modules\SubjectController');
         Route::resource('transport','Modules\TransportController');
         Route::resource('attendance','Modules\AttendanceController');
@@ -43,11 +47,14 @@ use Illuminate\Support\Facades\Route;
         Route::resource('notice','Modules\NoticeController');
         Route::resource('message','Modules\MessageController');
 
-
         Route::get('fee','Modules\FeeController@index')->name('fee');
         Route::get('fee/collection','Modules\FeeController@collect')->name('fee.collect');
-        Route::post('fee/collection','Modules\FeeController@collectSubmit')->name('fee.collect.submit');
-
+        Route::get('class/fee/status','Modules\FeeController@classFee')->name('class.fee');
+        Route::post('class/fee/status','Modules\FeeController@classFeeUpdate')->name('class.fee.update');
+        Route::post('fee/collection','Modules\FeeController@store')->name('fee.collect.submit');
+        Route::get('fee/type','Modules\FeeController@type')->name('fee.type');
+        Route::post('fee/type','Modules\FeeController@typePost')->name('fee.type.post');
+        Route::get('fee/owing','Modules\FeeController@owing')->name('fee.owing');
 
         Route::get('expenses','Modules\ExpensesController@index')->name('expenses');
         Route::get('expenses/new','Modules\ExpensesController@new')->name('expenses.collect');
@@ -57,6 +64,8 @@ use Illuminate\Support\Facades\Route;
         Route::post('setting/session', 'Modules\SettingController@sessionPost')->name('settings.sessionPost');
         Route::get('setting/terms', 'Modules\SettingController@terms')->name('settings.terms');
         Route::get('setting/sequences', 'Modules\SettingController@sequences')->name('settings.sequences');
+
+        Route::post('config','Modules\SettingController@config')->name('config.set');
     });
 
 Route::get('/image/{filename}', 'ImageController@renderImage')->name('image.render');

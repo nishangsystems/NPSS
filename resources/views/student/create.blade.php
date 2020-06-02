@@ -1,10 +1,5 @@
 @extends('layout.base')
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
-@endsection
-
 @section('section')
     <!-- Admit Form Area Start Here -->
     <div class="card height-auto">
@@ -14,7 +9,7 @@
                     <h3>Add New Students</h3>
                 </div>
             </div>
-            <form class="new-added-form" method="post"  enctype="multipart/form-data" action="{{route('student.index')}}">
+            <form class="new-added-form" method="post"  enctype="multipart/form-data" action="{{route('student.store')}}">
                 @csrf
                 <div class="row">
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -91,9 +86,4 @@
             </form>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script src="{{asset('assets/js')}}/select2.min.js"></script>
-    <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
 @endsection

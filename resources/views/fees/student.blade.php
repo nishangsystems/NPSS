@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Fee
+    Owing Fee
 @endsection
 
 @section('style')
@@ -10,15 +10,12 @@
 
 @section('section')
     <!-- Breadcubs Area End Here -->
-    <!-- Fees Table Area Start Here -->
+    <!-- $students Table Area Start Here -->
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All Fees Collection</h3>
-                </div>
-                <div class="dropdown">
-                    <a href="{{route('fee.collect')}}" class="fw-btn-fill btn-gradient-yellow">Collect Fee</a>
+                    <h3>All $students Collection</h3>
                 </div>
             </div>
             <div class="table-responsive">
@@ -28,21 +25,15 @@
                         <th>Name</th>
                         <th>Class</th>
                         <th>Amount</th>
-                        <th>Collected By</th>
-                        <th>Academic Year</th>
-                        <th>Date</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($fees as $fee)
+                        @foreach($students as $student)
                             <tr>
-                                <td>{{$fee->student->first_name}} {{$fee->student->last_name}}</td>
-                                <td>{{($fee->student->class($fee->session->id))?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
-                                <td>{{$fee->amount}}</td>
-                                <td>{{$fee->user->first_name}} {{$fee->user->last_name}}</td>
-                                <td>{{$fee->session->name}}</td>
-                                <td>{{$fee->created_at->format('d/m/Y')}}</td>
+                                <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                <td>{{($student->class(getYear()))?$student->class(getYear())->byLocale()->name:''}}</td>
+                                <td>{{$student->dept(getYear())}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -50,6 +41,7 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="{{route('fee.collect')}}?student={{$student->id}}"><i class="fas fa-plus text-success"></i>Collect Fee</a>
                                         </div>
                                     </div>
                                 </td>

@@ -84,4 +84,18 @@ class User extends Authenticatable
         return $this->hasMany(UserRole::class);
     }
 
+    public function collectFee($request){
+        if($this->can('create_fee')){
+            \App\StudentFeePayment::create([
+                'student_id'=>$request->student,
+                'amount'=>$request->amount,
+                'method'=>$request->method,
+                'bursar_id'=>$this->id,
+                'year_id'=>$request->year,
+                'reference'=>$request->reference,
+                'type_id'=>$request->type,
+            ]);
+        }
+    }
+
 }

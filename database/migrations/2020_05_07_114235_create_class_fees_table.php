@@ -18,6 +18,7 @@ class CreateClassFeesTable extends Migration
             $table->integer('amount')->nullable();
             $table->integer('class_id')->nullable();
             $table->integer('year_id')->nullable();
+            $table->integer('type_id')->nullable();
             $table->timestamps();
         });
     }

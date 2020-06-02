@@ -1,9 +1,6 @@
 @extends('layout.base')
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
-@endsection
+
 
 @section('section')
     <div class="row">
@@ -32,10 +29,10 @@
                                 </select>
                             </div>
                             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                <label>Select Class *</label>
-                                <select name="class" class="select2">
-                                    <option value="0">Please Select</option>
-                                    @foreach(\App\Classes::all() as $class)
+                                <label>Select Section *</label>
+                                <select name="section" class="select2">
+                                    <option value="0">Please Select Section</option>
+                                    @foreach(\App\Section::all() as $class)
                                         <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
                                     @endforeach
                                 </select>
@@ -55,7 +52,4 @@
     </div>
 @endsection
 
-@section('script')
-    <script src="{{asset('assets/js')}}/select2.min.js"></script>
-    <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
-@endsection
+

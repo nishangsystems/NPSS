@@ -52,4 +52,37 @@ class ClassController extends Controller{
         }
         return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
     }
+
+    public  function teacher($id){
+        $data['users'] = \App\Classes::find($id)->teachers(getYear());
+        $data['class'] = \App\Classes::find($id);
+        return view('class.teacher')->with($data);
+    }
+
+    public function Addteacher(Request $request, $id){
+
+        $class = \App\Classes::find($id);
+        if($class == null){
+            $request->session()->flash('error',"Class Not Found");
+            return redirect()->back();
+        }
+
+       if($request->action == 'add'){
+           $this->validate($request, [
+               'teacher' => 'required',
+               'action' => 'required'
+           ]);
+
+           $class->addTeacher($request->teacher);
+       }else{
+           $this->validate($request, [
+               'action' => 'required',
+               'teacher' => 'required',
+           ]);
+
+           $class->removeTeacher($request->teacher);
+       }
+        $request->session()->flash('success',"Successful");
+        return redirect()->back();
+    }
 }

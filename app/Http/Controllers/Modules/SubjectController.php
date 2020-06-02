@@ -45,9 +45,9 @@ class SubjectController extends Controller{
         if ($request->user()->can('create_subject')) {
             $this->validate($request, [
                 'name' => 'required',
-                'type' => 'required',
+                'type' => 'nullable',
                 'code' => 'required',
-                'class' => 'required',
+                'section' => 'required',
             ]);
             $date = new \DateTime();
             $slug = \Hash::make($request->name.$date->format('Y-m-d H:i:s'));
@@ -57,7 +57,7 @@ class SubjectController extends Controller{
             $subject->type = $request->type;
             $subject->code = $request->code;
             $subject->slug = $slug;
-            $subject->class_id = $request->class;
+            $subject->section_id = $request->section;
             $subject->save();
 
             $request->session()->flash('success', "Subject Created successfully");

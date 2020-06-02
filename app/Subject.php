@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model{
+
     public function byLocale()
     {
         if (\App::getLocale() == "fr") {
@@ -13,7 +14,8 @@ class Subject extends Model{
         return $this;
     }
 
-    public function classR(){
-        return $this->belongsTo('\App\Classes','class_id');
+    public function section(){
+        return $this->belongsTo('App\Section', 'section_id');
     }
+
 }

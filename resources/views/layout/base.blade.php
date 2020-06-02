@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('assets/fonts')}}/flaticon.css">
     <link rel="stylesheet" href="{{asset('assets')}}/toastr/toastr.min.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/animate.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
     @yield('style')
     <link rel="stylesheet" href="{{asset('assets/css')}}/style.css">
     <script src="{{asset('assets/js')}}/modernizr-3.6.0.min.js"></script>
@@ -211,13 +213,16 @@
                             <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Fees & Expenses</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
+                                    <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Class Fee</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Fees Collection</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Owed Fees</a>
+                                    <a href="{{route('fee.owing')}}" class="nav-link"><i class="fas fa-angle-right"></i>Owed Fees</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Completed Fees</a>
+                                    <a href="{{route('fee.type')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fees Type</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Expenses</a>
@@ -283,6 +288,33 @@
                 </ul>
             </div>
         </div>
+
+        @if(\Auth::user()->hasRole('admin') && getYear() == 0)
+            <div class="modal fade" id="yearModal"  role="dialog" aria-labelledby="exampleModalLabel1">
+                <div class="modal-dialog" role="document">
+                    <form method="post" class="modal-content" action="{{route('config.set')}}">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Please Enter the following config settings</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-12 form-group">
+                                <label>Current Accademic year *</label>
+                                <select class="select2" name="year" required>
+                                    <option value="">Please Select Year *</option>
+                                    @foreach(\App\Session::get() as $session)
+                                         <option value="{{$session->id}}">{{$session->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-gradient-yellow text-white">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endif
         <!-- Sidebar Area End Here -->
         <div class="dashboard-content-one">
             <!-- Breadcubs Area Start Here -->
@@ -297,9 +329,9 @@
 
             @yield('section')
 
-            <footer class="footer-wrap-layout1">
-                <div class="copyright">© Copyrights <a href="#">{{env('APP_NAME',"")}}</a> 2020. All rights reserved. Designed by <a href="#">@fritz</a></div>
-            </footer>
+{{--            <footer class="footer-wrap-layout1">--}}
+{{--                <div class="copyright">© Copyrights <a href="#">{{env('APP_NAME',"")}}</a> 2020. All rights reserved. Designed by <a href="#">@fritz</a></div>--}}
+{{--            </footer>--}}
         </div>
     </div>
     <!-- Page Area End Here -->
@@ -312,6 +344,8 @@
 <script src="{{asset('assets/js')}}/jquery.scrollUp.min.js"></script>
 <script src="{{asset('assets/js')}}/main.js"></script>
 <script src="{{asset('assets')}}/toastr/toastr.min.js"></script>
+<script src="{{asset('assets/js')}}/select2.min.js"></script>
+<script src="{{asset('assets/js')}}/datepicker.min.js"></script>
 <script>
     @if(Session::has('success'))
         toastr.success('{{Session::get('success')}}');
@@ -325,6 +359,13 @@
     @foreach ($errors->all() as $e)
         toastr.error('{{$e}}');
     @endforeach
+    @endif
+
+    @if(\Auth::user()->hasRole('admin') && getYear() == 0)
+        $('#yearModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
     @endif
 </script>
 @yield('script')

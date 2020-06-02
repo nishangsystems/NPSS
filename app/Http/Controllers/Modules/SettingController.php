@@ -35,4 +35,15 @@ class SettingController extends Controller{
         return view('setting.sequences');
     }
 
+    public function config(Request $request){
+        $this->validate($request, [
+            'year' => 'required',
+        ]);
+
+        setting(['current_year' => $request->year])->save();
+
+        $request->session()->flash('success',"Current Academic Year Set Successfully");
+        return redirect()->back();
+    }
+
 }

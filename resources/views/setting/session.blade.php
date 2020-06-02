@@ -25,29 +25,14 @@
                             </div>
                         </div>
                     </form>
-                    <div class="notice-board-wrap">
-                        <div class="table-responsive">
-                            <table class="table display data-table text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach(\App\Session::get() as $sequence)
-                                    <tr>
-                                        <td>{{$sequence->name}}</td>
-                                        <td align="right">
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
+            </div>
+            <div class="row px-2">
+                @foreach(\App\Session::get() as $sequence)
+                    <div class="col-md-3 card">
+                       <div class="card-body d-flex justify-content-center align-items-center"> <div>{{$sequence->name}}</div></div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <!-- All Notice Area End Here -->

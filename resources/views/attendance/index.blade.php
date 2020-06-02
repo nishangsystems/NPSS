@@ -4,9 +4,7 @@
     Admin Dashboard
 @endsection
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-@endsection
+
 
 @section('section')
     <div class="row">
