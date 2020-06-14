@@ -24,7 +24,7 @@ class ClassSeeder extends Seeder{
                        'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
                    ]);
                }
-               $i++;
+
 
               DB::table('class_sections')->insert([
                   'name' => $type." A",
@@ -32,6 +32,7 @@ class ClassSeeder extends Seeder{
                   'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
                   'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
               ]);
+              $i++;
           }
       }
 }

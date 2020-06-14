@@ -37,21 +37,14 @@
                     <tbody>
                         @foreach($fees as $fee)
                             <tr>
-                                <td>{{$fee->student->first_name}} {{$fee->student->last_name}}</td>
+                                <td>{{$fee->student->name}}</td>
                                 <td>{{($fee->student->class($fee->session->id))?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
                                 <td>{{$fee->amount}}</td>
                                 <td>{{$fee->user->first_name}} {{$fee->user->last_name}}</td>
                                 <td>{{$fee->session->name}}</td>
                                 <td>{{$fee->created_at->format('d/m/Y')}}</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                        </div>
-                                    </div>
+
                                 </td>
                             </tr>
                         @endforeach

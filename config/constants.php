@@ -15,14 +15,17 @@ return [
                     ['t_id' => '3','name' => '5st Sequence'],
                     ['t_id' => '3','name' => '6st Sequence'],
                 ],
+
     'PERMISSION_GROUPS' => [
                               ['id' => '1','name' => 'Student'],
                               ['id' => '2','name' => 'User'],
                               ['id' => '3','name' => 'Subject'],
                               ['id' => '4','name' => 'Class'],
                               ['id' => '5','name' => 'Fee'],
-                              ['id' => '6','name' => 'Roles']
+                              ['id' => '6','name' => 'Roles'],
+                              ['id' => '7','name' => 'Result']
                            ],
+
     'COMMON_PERMISSION' => ['See','Create','Update','Delete','Suspend','Activate'],
     'ROLES' => ['Admin','Teacher','Parent','HM'],
     'EXPENSE_STATUS' => ['paid','pending','due'],

@@ -20,15 +20,12 @@
                 @csrf
                 <div class="form-group col-12">
                     <select class="select2 " name="student" required>
-                        <option value="">Please Select Student *</option>
-                        @foreach($students as $student)
-                                <option {{request('student')== $student->id?'selected':''}} value="{{$student->id}}">{{$student->first_name}} {{$student->last_name}}</option>
-                        @endforeach
+                          <option  value="{{$student->id}}">{{$student->name}}</option>
                     </select>
                 </div>
                 <div class="form-group col-12">
                     <label>Amount</label>
-                    <input type="text" name="amount" value="{{request('student')?\App\Student::find(request('student'))->dept(getYear()):''}}" required placeholder="Enter Amount" class="form-control">
+                    <input type="text" name="amount" value="" required placeholder="Enter Amount" class="form-control">
                 </div>
                 <div class="form-group col-6">
                     <label>Reference</label>

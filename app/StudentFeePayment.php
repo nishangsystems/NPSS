@@ -15,6 +15,10 @@ class StudentFeePayment extends Model
         return $this->belongsTo('App\Student', 'student_id');
     }
 
+    public function method(){
+        return $this->belongsTo('App\PaymentMethod', 'method');
+    }
+
     public function session(){
         return $this->belongsTo('App\Session', 'year_id');
     }

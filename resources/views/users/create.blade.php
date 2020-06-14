@@ -9,30 +9,18 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>Add New Parents</h3>
-                </div>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button"
-                       data-toggle="dropdown" aria-expanded="false">...</a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
+                    <h3>Add New User</h3>
                 </div>
             </div>
             <form class="new-added-form" method="post" action="{{route('user.store')}}"  enctype="multipart/form-data" >
                 @csrf
-                <input type="hidden" value="{{request('type')}}" name="type">
+               @if(request('type'))
+                    <input type="hidden" value="{{request('type')}}" name="type">
+               @endif
                 <div class="row">
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>First Name *</label>
-                        <input type="text" name="first_name" value="{{old('first_name')}}" placeholder="" class="form-control">
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>Last Name *</label>
-                        <input type="text" name="last_name" value="{{old('last_name')}}" placeholder="" class="form-control">
+                        <label>Name *</label>
+                        <input type="text" name="name" value="{{old('name')}}" placeholder="" class="form-control">
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Gender *</label>
@@ -42,9 +30,21 @@
                             <option value="female">Female</option>
                         </select>
                     </div>
+                    @if(!request('type'))
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>User Role *</label>
+                            <select name="type"  value="{{old('type')}}" class="select2">
+                                <option value="">Please Select Role *</option>
+                               @foreach(\App\Role::all() as $role)
+                                    <option value="{{$role->byLocale()->slug}}">{{$role->byLocale()->name}}</option>
+                               @endforeach
+                            </select>
+                        </div>
+                    @endif
+
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>E-Mail</label>
-                        <input type="email" name="email"  value="{{old('email')}}" placeholder="" class="form-control">
+                        <label>E-Mail / Username</label>
+                        <input type="text" name="email"  value="{{old('email')}}" placeholder="" class="form-control">
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Address</label>

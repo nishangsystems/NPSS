@@ -20,6 +20,10 @@
                                 <input type="text" name="name" placeholder="" class="form-control">
                             </div>
                             <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                                <label>Score *</label>
+                                <input type="text" name="score" placeholder="" class="form-control">
+                            </div>
+                            <div class="col-12-xxxl col-lg-6 col-12 form-group">
                                 <label>Subject Type *</label>
                                 <select name="type" class="select2">
                                     <option value="">Please Select</option>

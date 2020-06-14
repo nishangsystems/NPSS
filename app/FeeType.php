@@ -17,4 +17,16 @@ class FeeType extends Model
         }
         return $this;
     }
+
+    public function feePayment(){
+        return $this->hasMany('App\StudentFeePayment','type_id');
+    }
+
+    public function total($year){
+        $total = 0;
+        foreach($this->feePayment()->where('year_id', $year)->get() as $payment){
+            $total = $payment->amount + $total;
+        }
+        return $total;
+    }
 }

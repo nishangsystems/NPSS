@@ -13,12 +13,8 @@
                 @csrf
                 <div class="row">
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>First Name *</label>
-                        <input type="text" value="{{old('first_name')}}" name="first_name" required class="form-control">
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>Last Name *</label>
-                        <input type="text" value="{{old('last_name')}}"  name="last_name" required placeholder="" class="form-control">
+                        <label>Name *</label>
+                        <input type="text" value="{{old('name')}}" name="name" required class="form-control">
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Gender *</label>
@@ -67,7 +63,7 @@
                         <select class="select2"  value="{{old('admission_year')}}"  required name="admission_year">
                             <option>Please Select Admission Year</option>
                             @foreach(\App\Session::all() as $class)
-                                <option value="{{$class->id}}">{{$class->name}}</option>
+                                <option {{($class->id == getYear())?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
                             @endforeach
                         </select>
                     </div>

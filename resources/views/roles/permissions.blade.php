@@ -14,19 +14,6 @@
                         <div class="item-title">
                             <h3>{{request('role')?\App\Role::whereSlug(request('role'))->first()->byLocale()->name." Permissions":"User Permissions"}}</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -42,17 +29,8 @@
                                 <tr>
                                     <td>{{$role->byLocale()->name}}</td>
                                     <td align="right">
-                                        <div class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                               aria-expanded="false">
-                                                <span class="flaticon-more-button-of-three-dots"></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{route('user.index')}}?permission={{$role->slug}}"><i
-                                                        class="fas fa-user"></i> Users</a>
-
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-primary" href="{{route('user.index')}}?permission={{$role->slug}}"><i
+                                                class="fas fa-user"></i> Users</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -85,19 +85,7 @@
                         <div class="item-title">
                             <h3>Earnings</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">...</a>
 
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="earning-report">
                         <div class="item-content">
@@ -133,19 +121,6 @@
                         <div class="item-title">
                             <h3>Expenses</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="expense-report">
                         <div class="monthly-expense pseudo-bg-Aquamarine">
@@ -174,19 +149,6 @@
                         <div class="item-title">
                             <h3>Students</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="doughnut-chart-wrap">
                         <canvas id="student-doughnut-chart" width="100" height="300"></canvas>
@@ -211,19 +173,6 @@
                         <div class="item-title">
                             <h3>Notice Board</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="notice-box-wrap">
 
@@ -231,7 +180,7 @@
                             <div class="notice-list">
                                 <div class="post-date bg-skyblue">{{$notice->created_at->format('d F, Y')}}</div>
                                 <h6 class="notice-title"><a href="#">{{$notice->content}}</a></h6>
-                                <div class="entry-meta"> {{$notice->user->first_name}} {{$notice->user->last_name}} / <span>{{$notice->created_at->diffForHumans()}}</span></div>
+                                <div class="entry-meta"> {{$notice->user->name}} / <span>{{$notice->created_at->diffForHumans()}}</span></div>
                             </div>
                         @endforeach
 

@@ -8,8 +8,7 @@ class AdminSeeder extends Seeder{
       {
           $date = new \DateTime();
           DB::table('users')->insert([
-             'first_name' => 'John',
-             'last_name' => 'Doe',
+             'name' => 'John',
              'email' => 'admin@gmail.com',
              'phone' => '67777777',
               'photo' => 'default.png',

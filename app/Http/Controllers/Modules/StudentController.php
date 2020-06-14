@@ -13,11 +13,11 @@ class StudentController extends Controller{
 
     public function index(Request $request){
         $data['students'] =[];
-        if($request->class){
+        if(!$request->class){
             $data['students'] = \App\Student::all();
         }else{
-            $class = \App\Classes::find(\request('class'));
-            $data['students'] = $class->student();
+            $class = \App\ClassSection::find(\request('class'));
+            $data['students'] = $class->students(getYear());
         }
         return view('student.index')->with($data);
     }
@@ -35,18 +35,17 @@ class StudentController extends Controller{
     }
     public function store(Request $request)
     {
-        if ($request->user()->can('create_student')) {
+        if (\Auth::user()->can('create_student')) {
             $this->validate($request, [
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'name' => 'required',
                 'gender' => 'required',
-                'dob' => 'required',
-                'address' => 'required',
+                'dob' => 'nullable',
+                'address' => 'nullable',
                 'email' => 'nullable|email',
-                'class' => 'required',
-                'section' => 'required',
+                'class' => 'nullable',
+                'section' => 'nullable',
                 'admission_year' => 'required',
-                'phone' => 'required',
+                'phone' => 'nullable',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024'
             ]);
 
@@ -62,18 +61,18 @@ class StudentController extends Controller{
                 $input['slug'] = str_replace("/","",$slug);
                 $input['photo'] = $image;
                 $student = \App\Student::create($input);
-
+                $class = \App\Classes::find($student->class);
                 $studentClass = \App\StudentsClass::create([
                     'student_id'=> $student->id,
                     'class_id'=> $student->class,
                     'year_id'=> $request->admission_year,
-                    'section_id'=> $request->section,
+                    'section_id'=> $class->subClass->first()->id,
                 ]);
                 \DB::commit();
                 $request->session()->flash('success', "Student Created successfully");
             }catch(\Exception $e){
                 \DB::rollback();
-                $request->session()->flash('error', "Not allowed to perform this action");
+                $request->session()->flash('error', "Something went wrong");
             }
 
         }else{
@@ -81,12 +80,24 @@ class StudentController extends Controller{
         }
         return redirect()->to(route('student.index'));
     }
-
     public function destroy(Request $request, $id)
     {
         if ($request->user()->can('delete_student')) {
-            //Code goes here
+            $student = \App\Student::whereSlug($id)->first();
+            if($student == null){
+                abort(404);
+            }
+           if($student->feePayment == 0 ){
+               $student->delete();
+               $request->session()->flash('success', "Student Deleted successfully");
+           }else{
+               $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
+           }
+
+        }else{
+            $request->session()->flash('error', "Not allowed to perform this action");
         }
+
         return redirect()->to(route('student.index'));
     }
 }

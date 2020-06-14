@@ -48,25 +48,15 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td>{{$user->first_name}} {{$user->last_name}}</td>
+                                <td>{{$user->name}}</td>
                                 <td>{{$user->gender}}</td>
                                 <td>{{$user->address}}</td>
                                 <td>{{$user->phone}}</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="{{route('user.edit',$user->slug)}}"><i
-                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="{{route('user.show',$user->slug)}}"><i
-                                                    class="fa fa-eye text-orange-peel"></i>View</a>
-                                        </div>
-                                    </div>
+                                    <a class="btn btn-success" href="{{route('user.edit',$user->slug)}}"><i
+                                            class="fas fa-cogs"></i> Edit</a>
+                                    <a class="btn btn-primary" href="{{route('user.show',$user->slug)}}"><i
+                                            class="fa fa-eye"></i> View</a>
                                 </td>
                             </tr>
                         @endforeach

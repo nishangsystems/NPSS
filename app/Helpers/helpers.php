@@ -7,6 +7,13 @@ if (!function_exists('getYear')) {
     }
 }
 
+if (!function_exists('getTerm')) {
+    function getTerm()
+    {
+        return setting('current_term',"0");
+    }
+}
+
 if (!function_exists('getClassFee')) {
     function getClassFee($class, $year, $type)
     {
@@ -30,3 +37,37 @@ if (!function_exists('getClassTotalFee')) {
        return $total;
     }
 }
+
+if (!function_exists('getTotalScholarship')) {
+    function getTotalScholarship($year)
+    {
+        $total = 0;
+        foreach(\App\StudentDiscount::where('year_id', $year)->get() as $type){
+            $total = $total + $type->amount;
+        }
+        return $total;
+    }
+}
+
+
+if (!function_exists('getFeePayed')) {
+    function getFeePayed( $year)
+    {
+        $total = 0;
+        foreach(\App\StudentFeePayment::where('year_id', $year)->get() as $type){
+            $total = $total + $type->amount;
+        }
+        return $total;
+    }
+}
+if (!function_exists('getExpenses')) {
+    function getExpenses( $year)
+    {
+        $total = 0;
+        foreach(\App\Expenses::get() as $type){
+            $total = $total + $type->amount;
+        }
+        return $total;
+    }
+}
+

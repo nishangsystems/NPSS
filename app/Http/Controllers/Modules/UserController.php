@@ -38,19 +38,19 @@ class UserController extends Controller{
         if(!$data['user']){
             abort(404);
         }
-        if(\request('type') == 'teacher'){
-            return view('users.show_teacher')->with($data);
-        }else{
-            return view('users.show_parent')->with($data);
-        }
+        return view('users.show_parent')->with($data);
     }
 
     public function edit(Request $request, $slug){
-        if(\request('type') == 'teacher'){
-            return view('users.edit_teacher');
-        }else{
-            return view('users.edit_parent');
+
+        $user = \App\User::whereSlug($slug)->first();
+        if(!$user){
+            abort(404);
         }
+
+
+        $data['user'] = $user;
+        return view('users.edit')->with($data);
     }
 
     public function create(Request $request){
@@ -58,39 +58,63 @@ class UserController extends Controller{
     }
 
     public function update(Request $request, $slug){
-        return view('welcome');
+        $this->validate($request, [
+            'name' => 'required',
+            'gender' => 'required',
+            'address' => 'nullable',
+            'phone' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024',
+        ]);
+
+        $user = \App\User::whereSlug($slug)->first();
+        if(!$user){
+            abort(404);
+        }
+
+        if($request->file('image')!=null){
+            $image = explode('/', $request->image->store('files'))[1];
+            $user->photo = $image;
+        }
+        $user->name = $request->name;
+        $user->gender = $request->gender;
+        $user->address = $request->address;
+        $user->email = $request->email;
+
+        $user->phone = $request->phone;
+        $user->save();
+
+        $request->session()->flash('success', "Account Updated successfully");
+        $data['user'] = $user;
+        return view('users.show_parent')->with($data);
     }
 
     public function store(Request $request)
     {
         if ($request->user()->can('create_user')) {
             $this->validate($request, [
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'name' => 'required',
                 'gender' => 'required',
-                'address' => 'required',
+                'address' => 'nullable',
                 'email' =>'required|unique:users,email',
-                'phone' => 'required',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,jpg|max:1024',
+                'phone' => 'nullable',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024',
                 'type'=>'required'
             ]);
-
-
 
             $role = \App\Role::whereSlug($request->type)->first();
             if($role == null){
                 $request->session()->flash('error', "Invalid Role");
             }else{
-                $image = "";
+
                 if($request->file('image')!=null){
                     $image = explode('/', $request->image->store('files'))[1];
+                    $input['photo'] = $image;
                 }
-
                 $date = new \DateTime();
                 $slug = \Hash::make($request->name.$date->format('Y-m-d H:i:s'));
                 $input = $request->all();
                 $input['slug'] = str_replace("/","",$slug);
-                $input['photo'] = $image;
+
                 $input['password'] = \Hash::make("12345678");
                 $user = \App\User::create($input);
 
@@ -113,5 +137,28 @@ class UserController extends Controller{
             //Code goes here
         }
         return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+    }
+
+    public function parentAssign(Request $request, $slug){
+        $user = \app\User::whereSlug($slug)->first();
+        if($user == null){
+            abort(404);
+        }
+        $data['user'] = $user;
+        return view('users.assign')->with($data);
+    }
+
+    public function parentAssignPost(Request $request, $slug){
+        $this->validate($request, [
+            'student_id' => 'required',
+            'parent_id' => 'required',
+        ]);
+
+        $studentGuardient = \App\StudentsGuardient::create([
+            'student_id'=>$request->student_id,
+            'parent_id'=>$request->parent_id
+        ]);
+        $request->session()->flash('success', "Student Assign to parent Successfully");
+        return redirect()->to(route('user.index'));
     }
 }

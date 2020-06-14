@@ -84,9 +84,8 @@
                         </div>
                         <div class="item-content">
                             <ul class="settings-list">
-                                <li><a href="{{route('user.show',1)}}?type=teacher"><i class="flaticon-user"></i>My Profile</a></li>
-                                <li><a href="{{route('message.index')}}"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a></li>
-                                <li><a href="{{route('user.edit',1)}}?type=teacher"><i class="flaticon-gear-loading"></i>Account Settings</a></li>
+                                <li><a href="{{route('user.show',\Auth::user()->slug)}}"><i class="flaticon-user"></i>My Profile</a></li>
+                                <li><a href="{{route('user.edit',\Auth::user()->slug)}}"><i class="flaticon-gear-loading"></i>Account Settings</a></li>
                                 <li><a href="{{route('logout')}}"><i class="flaticon-turn-off"></i>Log Out</a></li>
                             </ul>
                         </div>
@@ -100,30 +99,6 @@
                         <div class="item-title d-md-none text-16 mg-l-10">Message</div>
                          <span>{{request()->user()->unreadMessageCount()}}</span>
                     </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="item-header">
-                            <h6 class="item-title">{{request()->user()->unreadMessageCount()}} New Message</h6>
-                        </div>
-                        <div class="item-content">
-                            <div class="media">
-                                <div class="item-img bg-skyblue author-online">
-                                    <img src="{{asset('assets/img')}}/figure/student11.png" alt="{{asset('assets/img')}}">
-                                </div>
-                                <div class="media-body space-sm">
-                                    <div class="item-title">
-                                        <a href="#">
-                                            <span class="item-name">John Glenn</span>
-                                            <span class="item-time">18:30</span>
-                                        </a>
-                                    </div>
-                                    <p>What is the reason of buy this item.
-                                        Is it usefull for me.....</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </li>
                 @endif
                 <li class="navbar-item dropdown header-language">
@@ -137,10 +112,7 @@
             </ul>
         </div>
     </div>
-    <!-- Header Menu Area End Here -->
-    <!-- Page Area Start Here -->
     <div class="dashboard-page-one">
-        <!-- Sidebar Area Start Here -->
         <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
             <div class="mobile-sidebar-header d-md-none">
                 <div class="header-logo">
@@ -152,115 +124,140 @@
                     <li class="nav-item">
                         <a href="{{route('home')}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
                     </li>
-
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('student.index')}}" class="nav-link"><i class="flaticon-classmates"></i><span>Students</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('student.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Students</a>
-                            </li>
-                            @if (\Auth::user()->can('create_student'))
-                                <li class="nav-item">
-                                    <a href="{{route('student.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Admission Form</a>
-                                </li>
-                            @endif
-
-                        </ul>
-                    </li>
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('user.index')}}?type=teacher" class="nav-link"><i class="flaticon-multiple-users-silhouette"></i><span>Teachers</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('user.index')}}?type=teacher" class="nav-link"><i class="fas fa-angle-right"></i>All Teachers</a>
-                            </li>
-                            @if (\Auth::user()->can('create_user'))
-                                <li class="nav-item">
-                                    <a href="{{route('user.create')}}?type=teacher" class="nav-link"><i class="fas fa-angle-right"></i>Add Teacher</a>
-                                </li>
-                            @endif
-
-                        </ul>
-                    </li>
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="flaticon-couple"></i><span>Parents</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
-                            </li>
-                            @if (\Auth::user()->can('create_user'))
-                                <li class="nav-item">
-                                    <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Add Parent</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('books.index')}}" class="nav-link"><i class="flaticon-books"></i><span>Library</span></a>
-                        <ul class="nav sub-group-menu">
-                            <li class="nav-item">
-                                <a href="{{route('books.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Book</a>
-                            </li>
-                            @if (\Auth::user()->can('create_book'))
-                                <li class="nav-item">
-                                    <a href="{{route('books.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Add New Book</a>
-                                </li>
-                            @endif
-
-                        </ul>
-                    </li>
                     @if(\Auth::user()->can('select_fee','update_fee','create_fee') )
                         <li class="nav-item sidebar-nav-item">
                             <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Fees & Expenses</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Class Fee</a>
+                                    <a href="{{route('fee.type')}}" class="nav-link"><i class="fas fa-angle-right"></i>Create Income Type</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>All Fees Collection</a>
+                                    <a href="{{route('fee.student')}}?action=fee" class="nav-link"><i class="fas fa-angle-right"></i>Receive Fees</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee.owing')}}" class="nav-link"><i class="fas fa-angle-right"></i>Owed Fees</a>
+                                    <a href="{{route('fee.print')}}?action=reciept" class="nav-link"><i class="fas fa-angle-right"></i>Print Receipts</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee.type')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fees Type</a>
+                                    <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Record Expenses</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Expenses</a>
+                                    <a href="{{route('fee.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fee Reports</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.student')}}?action=scholarship" class="nav-link"><i class="fas fa-angle-right"></i>Give scholarship</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Configure Class Fee</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.scholarship.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Scholarship Reports</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.income')}}" class="nav-link"><i class="fas fa-angle-right"></i>Income Statement</a>
                                 </li>
                             </ul>
                         </li>
                     @endif
-
                     @if (\Auth::user()->can('create_class','see_class','delete_class'))
-                    <li class="nav-item">
-                        <a href="{{route('class.index')}}" class="nav-link"><i class="flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i><span>Class</span></a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{{route('class.index')}}" class="nav-link"><i class="flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i><span>Class</span></a>
+                        </li>
                     @endif
+                    @if (\Auth::user()->can('create_student'))
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="{{route('student.index')}}" class="nav-link"><i class="flaticon-classmates"></i><span>Pupils Center</span></a>
+                            <ul class="nav sub-group-menu">
+
+                                @if (\Auth::user()->can('create_student'))
+                                    <li class="nav-item">
+                                        <a href="{{route('student.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Enroll Pupil</a>
+                                    </li>
+                                @endif
+                                    <li class="nav-item">
+                                        <a href="{{route('class.index')}}?action=student" class="nav-link"><i class="fas fa-angle-right"></i>Class List</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('student.promote')}}" class="nav-link"><i class="fas fa-angle-right"></i>Promote Pupil</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('student.changeClass')}}" class="nav-link"><i class="fas fa-angle-right"></i>Change Class</a>
+                                    </li>
+                            </ul>
+                        </li>
+                    @endif
+                    <li class="nav-item sidebar-nav-item">
+                        <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="flaticon-couple"></i><span>Parents Center</span></a>
+                        <ul class="nav sub-group-menu">
+
+                            @if (\Auth::user()->can('create_user'))
+                                <li class="nav-item">
+                                    <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Create Parent</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('user.index')}}?type=assign_parent" class="nav-link"><i class="fas fa-angle-right"></i>Assign to Pupil</a>
+                                </li>
+                            @endif
+
+                            <li class="nav-item">
+                                <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
+                            </li>
+                        </ul>
+                    </li>
 
                     @if (\Auth::user()->can('create_subject','see_class','delete_class'))
-                    <li class="nav-item">
-                        <a href="{{route('subject.index')}}" class="nav-link"><i class="flaticon-open-book"></i><span>Subject</span></a>
-                    </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="{{route('subject.index')}}?type=parent" class="nav-link"><i class="flaticon-open-book"></i><span>Subjects</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{route('subject.index')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>Create Subject</span></a>
+                                </li>
+                                @if (\Auth::user()->hasRole('admin'))
+                                    <li class="nav-item">
+                                        <a href="{{route('subject.create')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>All Subjects</span></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
                     @endif
 
-                    <li class="nav-item">
-                        <a href="{{route('attendance.index')}}" class="nav-link"><i class="flaticon-checklist"></i><span>Attendance</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('transport.index')}}" class="nav-link"><i class="flaticon-bus-side-view"></i><span>Transport</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('notice.index')}}" class="nav-link"><i class="flaticon-script"></i><span>Notice</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('message.index')}}" class="nav-link"><i class="flaticon-chat"></i><span>Message</span></a>
+                    <li class="nav-item sidebar-nav-item">
+                        <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Result</span></a>
+                        <ul class="nav sub-group-menu">
+                           @if(\Auth::user()->hasRole('admin'))
+                                <li class="nav-item">
+                                    <a href="{{route('result.class')}}" class="nav-link"><i class="fas fa-angle-right"></i>Class</a>
+                                </li>
+                           @elseif(\Auth::user()->hasRole('teacher'))
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','teacher')}}?action=recordmarks" class="nav-link"><i class="fas fa-angle-right"></i>Record Marks</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','teacher')}}?action=rank" class="nav-link"><i class="fas fa-angle-right"></i>Rank Students</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','teacher')}}?action=print" class="nav-link"><i class="fas fa-angle-right"></i>Print Results</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','parent')}}?action=print_rank" class="nav-link"><i class="fas fa-angle-right"></i>Print Rank Sheets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','parent')}}?action=deptors" class="nav-link"><i class="fas fa-angle-right"></i>Fee Controlled Print</a>
+                                </li>
+                           @else
+                                <li class="nav-item">
+                                    <a href="{{route('result.class.student','parent')}}" class="nav-link"><i class="fas fa-angle-right"></i>Student</a>
+                                </li>
+                           @endif
+
+                        </ul>
                     </li>
                    @if(\Auth::user()->hasRole('admin'))
                         <li class="nav-item sidebar-nav-item">
-                            <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Account</span></a>
+                            <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Users & Accounts</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="{{route('user.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Users</a>
+                                    <a href="{{route('user.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Create New User</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('roles.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Roles</a>
@@ -268,19 +265,25 @@
                                 <li class="nav-item">
                                     <a href="{{route('roles.permissions')}}" class="nav-link"><i class="fas fa-angle-right"></i>Permissions</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{route('user.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>View Users</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item sidebar-nav-item">
                             <a href="#" class="nav-link"><i class="flaticon-settings-work-tool"></i><span>Setting</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="{{route('settings.session')}}" class="nav-link"><i class="fas fa-angle-right"></i>Session</a>
+                                    <a href="{{route('settings.session')}}" class="nav-link"><i class="fas fa-angle-right"></i>Accademic Year</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('settings.terms')}}" class="nav-link"><i class="fas fa-angle-right"></i>Terms</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('settings.sequences')}}" class="nav-link"><i class="fas fa-angle-right"></i>Sequences</a>
+                                </li>
+                                <li class="nav-item">
+                                    <span onclick="ShowModal()" class="nav-link"><i class="fas fa-angle-right"></i>Configure Year and Sequence</span>
                                 </li>
                             </ul>
                         </li>
@@ -289,7 +292,7 @@
             </div>
         </div>
 
-        @if(\Auth::user()->hasRole('admin') && getYear() == 0)
+        @if(\Auth::user()->hasRole('admin'))
             <div class="modal fade" id="yearModal"  role="dialog" aria-labelledby="exampleModalLabel1">
                 <div class="modal-dialog" role="document">
                     <form method="post" class="modal-content" action="{{route('config.set')}}">
@@ -299,11 +302,19 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-12 form-group">
-                                <label>Current Accademic year *</label>
+                                <label>Current Academic year *</label>
                                 <select class="select2" name="year" required>
                                     <option value="">Please Select Year *</option>
                                     @foreach(\App\Session::get() as $session)
-                                         <option value="{{$session->id}}">{{$session->name}}</option>
+                                         <option {{$session->id == getYear() ? 'selected':''}} value="{{$session->id}}">{{$session->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                <label>Current Sequence *</label>
+                                <select class="select2" name="sequence" required>
+                                    <option value="">Please Select Sequence *</option>
+                                    @foreach(\App\Sequence::get() as $session)
+                                        <option {{$session->id == getTerm() ? 'selected':''}}  value="{{$session->id}}">{{$session->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -315,26 +326,13 @@
                 </div>
             </div>
         @endif
-        <!-- Sidebar Area End Here -->
         <div class="dashboard-content-one">
-            <!-- Breadcubs Area Start Here -->
             <div class="breadcrumbs-area">
                 <h3>@yield('title')</h3>
-                <ul>
-                    <li>
-                        <a href="{{route('home')}}">Home</a>
-                    </li>
-                </ul>
             </div>
-
             @yield('section')
-
-{{--            <footer class="footer-wrap-layout1">--}}
-{{--                <div class="copyright">© Copyrights <a href="#">{{env('APP_NAME',"")}}</a> 2020. All rights reserved. Designed by <a href="#">@fritz</a></div>--}}
-{{--            </footer>--}}
         </div>
     </div>
-    <!-- Page Area End Here -->
 </div>
 
 <script src="{{asset('assets/js')}}/jquery-3.3.1.min.js"></script>
@@ -361,12 +359,16 @@
     @endforeach
     @endif
 
-    @if(\Auth::user()->hasRole('admin') && getYear() == 0)
+    @if(\Auth::user()->hasRole('admin') && (getYear()==0 || getTerm() == 0))
         $('#yearModal').modal({
             backdrop: 'static',
             keyboard: false
         });
     @endif
+
+    function ShowModal(){
+        $('#yearModal').modal().show()
+    }
 </script>
 @yield('script')
 </body>

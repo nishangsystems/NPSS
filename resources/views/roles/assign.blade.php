@@ -22,7 +22,7 @@
                             <option value="">Please Select User</option>
                             @foreach(\App\User::get() as $user)
                                 @if(!$user->hasRole('admin'))
-                                    <option {{($user->slug == request('user'))?'selected':''}} value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
+                                    <option {{($user->slug == request('user'))?'selected':''}} value="{{$user->id}}"> {{$user->name}}</option>
                                 @endif
                             @endforeach
                         </select>

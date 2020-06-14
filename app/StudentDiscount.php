@@ -14,4 +14,16 @@ class StudentDiscount extends Model
         }
         return $this;
     }
+
+    protected $fillable = [
+        'student_id','amount','year_id'
+    ];
+
+    public function student(){
+        return $this->belongsTo('App\Student', 'student_id');
+    }
+
+    public function session(){
+        return $this->belongsTo('App\Session', 'year_id');
+    }
 }

@@ -70,4 +70,8 @@ class Classes extends Model{
             $fee->save();
         }
     }
+
+    public function subClass(){
+        return $this->hasMany('\App\ClassSection','class_id');
+    }
 }

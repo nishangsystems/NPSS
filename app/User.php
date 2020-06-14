@@ -9,7 +9,7 @@ use App\Permissions\HasPermissionsTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasPermissionsTrait;
+    use Notifiable, HasPermissionsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'password','gender','address','email','phone','photo','slug'
+        'name', 'email', 'password', 'gender', 'address', 'email', 'phone', 'photo', 'slug'
     ];
 
     /**
@@ -45,19 +45,20 @@ class User extends Authenticatable
 
     public function notice()
     {
-        return \App\Notice::where('role',$this->roles->first->slug)->get();
+        return \App\Notice::where('role', $this->roles->first->slug)->get();
     }
 
 
-    public function hasUnreadMessages ()
+    public function hasUnreadMessages()
     {
         return count(Messages::where('recipient_id', $this->id)->where('read', 0)->get()) > 0;
     }
 
-    public function getUnread(){
+    public function getUnread()
+    {
         $count = count(Messages::where('recipient_id', $this->id)
             ->where('read', 0)->get());
-        return ($count == 0) ? "": $count;
+        return ($count == 0) ? "" : $count;
     }
 
     /**
@@ -65,7 +66,7 @@ class User extends Authenticatable
      *
      * @return int
      */
-    public function unreadMessageCount ()
+    public function unreadMessageCount()
     {
         return count(Messages::where('recipient_id', $this->id)->where('read', 0)->get());
     }
@@ -75,27 +76,43 @@ class User extends Authenticatable
      *
      * @return int
      */
-    public function unreadMessageCountForSender (User $user)
+    public function unreadMessageCountForSender(User $user)
     {
         return count(Messages::where('recipient_id', $this->id)->where('sender_id', $user->id)->where('read', 0)->get());
     }
 
-    public function roleR() {
+    public function roleR()
+    {
         return $this->hasMany(UserRole::class);
     }
 
-    public function collectFee($request){
-        if($this->can('create_fee')){
+    public function collectFee($request)
+    {
+        if ($this->can('create_fee')) {
             \App\StudentFeePayment::create([
-                'student_id'=>$request->student,
-                'amount'=>$request->amount,
-                'method'=>$request->method,
-                'bursar_id'=>$this->id,
-                'year_id'=>$request->year,
-                'reference'=>$request->reference,
-                'type_id'=>$request->type,
+                'student_id' => $request->student,
+                'amount' => $request->amount,
+                'method' => $request->method,
+                'bursar_id' => $this->id,
+                'year_id' => $request->year,
+                'reference' => $request->reference,
+                'type_id' => $request->type,
             ]);
         }
     }
 
+
+
+    public function class($year)
+    {
+        return $this->belongsToMany('App\ClassSection', 'teachers_classes', 'teacher_id', 'class_id')->where('year_id', $year)->first();
+    }
+
+    public function students(){
+        return $this->belongsToMany('App\Student','students_guardients','parent_id','student_id');
+    }
+
+
+
 }
+

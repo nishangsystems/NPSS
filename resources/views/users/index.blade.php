@@ -52,28 +52,23 @@
                     <tbody>
                     @foreach($users as $user)
                         <tr>
-                            <td class="text-center"><img src="{{route('image.render', $user->photo)}}" alt="student"></td>
-                            <td>{{$user->first_name}} {{$user->last_name}}</td>
+                            <td class="text-center"><img src="{{route('image.render', $user->photo?$user->photo:' ')}}" width="30"></td>
+                            <td>{{$user->name}}</td>
                             <td>{{$user->gender}}</td>
                             <td>{{$user->roles->first()->name}}</td>
                             <td>{{$user->address}}</td>
                             <td>{{$user->phone}}</td>
                             <td>{{$user->email}}</td>
                             <td>
-                                <div class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                       aria-expanded="false">
-                                        <span class="flaticon-more-button-of-three-dots"></span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#"><i
-                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                        <a class="dropdown-item" href="{{route('roles.assign')}}?user={{$user->slug}}"><i
-                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                        <a class="dropdown-item" href="{{route('user.show',$user->slug)}}"><i
-                                                class="fa fa-eye text-orange-peel"></i>View</a>
-                                    </div>
-                                </div>
+                                @if(request('type') == 'assign_parent')
+                                    <a class="btn btn-primary" href="{{route('parent.assign',$user->slug)}}"><i
+                                            class="fas fa-cogs"></i> Assign Student</a>
+                                 @else
+                                    <a class="btn btn-primary" href="{{route('roles.assign')}}?user={{$user->slug}}"><i
+                                            class="fas fa-cogs text-dark-pastel-green"></i> Edit</a>
+                                    <a class="btn btn-success" href="{{route('user.show',$user->slug)}}"><i
+                                            class="fa fa-eye text-orange-peel"></i> View</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -33,20 +33,12 @@
                                 <tr>
                                     <td>{{$role->byLocale()->name}}</td>
                                     <td align="right">
-                                        <div class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                               aria-expanded="false">
-                                                <span class="flaticon-more-button-of-three-dots"></span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{route('roles.edit',$role->slug)}}?role={{$role->slug}}"><i
-                                                        class="fas fa-edit"></i> Edit</a>
-                                                <a class="dropdown-item" href="{{route('user.index')}}?role={{$role->slug}}"><i
-                                                        class="fas fa-user"></i> Users</a>
-                                                <a class="dropdown-item" href="{{route('roles.permissions')}}?role={{$role->slug}}"><i
-                                                        class="fas fa-cogs text-dark-pastel-green"></i> Permissions</a>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-success" href="{{route('roles.edit',$role->slug)}}?role={{$role->slug}}"><i
+                                                class="fas fa-edit"></i> Edit</a>
+                                        <a class="btn btn-primary" href="{{route('user.index')}}?role={{$role->slug}}"><i
+                                                class="fas fa-user"></i> Users</a>
+                                        <a class="btn btn-danger" href="{{route('roles.permissions')}}?role={{$role->slug}}"><i
+                                                class="fas fa-cogs text-dark-pastel-green"></i> Permissions</a>
                                     </td>
                                 </tr>
                             @endforeach

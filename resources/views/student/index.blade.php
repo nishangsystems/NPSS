@@ -60,26 +60,29 @@
                     <tbody>
                         @foreach($students as $student)
                             <tr>
-                                <td class="text-center"><img src="{{route('image.render', $student->photo)}}" style="width: 30px;" alt="student"></td>
-                                <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                <td class="text-center"><img src="{{route('image.render', $student->photo)}}" style="width: 30px;" alt=""></td>
+                                <td>{{$student->name}} </td>
                                 <td>{{$student->gender}}</td>
-                                <td>{{($student->classes != null)?$student->classes->name:''}}</td>
-                                <td>{{($student->parent != null)?$student->parent->first_name:''}} {{($student->parent != null)?$student->parent->last_name:''}}</td>
+                                <td>{{($student->class(getYear()) != null)?$student->class(getYear())->name:''}}</td>
+                                <td>{{($student->parent() != null)?$student->parent()->first_name:''}} {{($student->parent() != null)?$student->parent()->last_name:''}}</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                           aria-expanded="false">
-                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                        </div>
-                                    </div>
+
+                                     <a class="btn btn-primary" href="{{route('student.show', $student->slug)}}"><i
+                                                    class="fas fa-eye text-orange-peel"></i> View</a>
+                                    @if(\Auth::user()->hasRole('admin'))
+                                        <a class="btn btn-success" href="{{route('student.edit', $student->slug)}}"><i
+                                                class="fas fa-edit text-dark-pastel-green"></i> Edit</a>
+
+                                        <a onclick="event.preventDefault();
+												document.getElementById('delete').submit();" class=" btn btn-danger"><i
+                                                class="fas fa-trash"></i> Delete</a>
+
+
+                                        <form id="delete" action="{{route('student.destroy', $student->slug)}}" method="POST" style="display: none;">
+                                            @method('DELETE')
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

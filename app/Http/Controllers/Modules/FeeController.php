@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use anlutro\LaravelSettings\ArrayUtil;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -25,11 +26,9 @@ class FeeController extends Controller{
     }
 
     public function collect(Request $request){
-        $data['students'] = [];
-        foreach(\App\Classes::get() as $class){
-            foreach( $class->students(getYear()) as $student){
-                array_push($data['students'],$student);
-            }
+        $data['student'] = \App\Student::whereSlug($request->student)->first();
+        if(!$data['student']){
+            abort(404);
         }
         return view('fees.create')->with($data);
     }
@@ -113,6 +112,109 @@ class FeeController extends Controller{
             }
         }
         $data['students'] = $students;
+        return view('fees.owing_student')->with($data);
+    }
+
+    public function student(Request $request){
+        $student = [];
+        if($request->action == 'scholarship'){
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $class){
+                foreach( $class->students(getYear()) as $student){
+                    $students->push($student);
+                }
+            }
+            $data['students'] = $students;
+        }else{
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $class){
+                foreach( $class->students(getYear()) as $student){
+                    if($student->dept(getYear()) > 0){
+                        $students->push($student);
+                    }
+                }
+            }
+            $data['students'] = $students;
+        }
         return view('fees.student')->with($data);
     }
+
+    public function print(Request $request){
+        if($request->action == 'print'){
+            $student = \App\Student::whereSlug($request->student)->first();
+            $data['title'] = $student->name."'s Fee Reciept for ".\App\Session::find(getYear())->name;
+            $data['student'] = $student;
+            $pdf = \PDF::loadView('template.fee', $data);
+            return $pdf->download($student->name.'_fee.pdf');
+        }else{
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $class){
+                foreach( $class->students(getYear()) as $student){
+                    if($student->feePayment->count() > 0){
+                        $students->push($student);
+                    }
+                }
+            }
+            $data['students'] = $students;
+            return view('fees.student')->with($data);
+        }
+    }
+
+    public function report(Request $request){
+        if($request->action == 'print') {
+            $data['title'] = "Fee Report";
+            $data['fees'] = \App\StudentFeePayment::all();
+            $pdf = \PDF::loadView('template.income', $data);
+            return $pdf->download('_fee.pdf');
+        }else{
+            $data['fees'] = \App\StudentFeePayment::all();
+            return view('fees.report')->with($data);
+        }
+    }
+
+    public function scholarship(Request $request){
+        $data['student'] = \App\Student::whereSlug($request->student)->first();
+        if(!$data['student']){
+            abort(404);
+        }
+
+            return view('fees.scholarship')->with($data);
+
+    }
+
+    public function scholarshipSave(Request $request){
+        if ($request->user()->can('create_fee')) {
+            $this->validate($request, [
+                'student' => 'required',
+                'amount' => 'required|integer',
+            ]);
+            \App\Student::find($request->student)->setScholarShip($request);
+            $request->session()->flash('success',"Scholarship Saved Successfully");
+            return redirect(route('fee.student')."?action=scholarship");
+        }else{
+            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+        }
+    }
+
+    public function scholarshipReport (Request $request){
+        $data['fees'] =   \App\StudentDiscount::where('year_id',getYear())->get();
+        $data['title'] =   "Scholarships";
+        if($request->action == 'print'){
+            $pdf = \PDF::loadView('template.scholarship', $data);
+            return $pdf->download('Scholarship.pdf');
+        }else {
+            return view('fees.scholarship_report')->with($data);
+        }
+    }
+
+    public function income(Request $request){
+        $data['title'] =   "Income Statement";
+        if($request->action == 'print'){
+            $pdf = \PDF::loadView('template.income', $data);
+            return $pdf->download('Income_report.pdf');
+        }else {
+            return view('fees.income')->with($data);
+        }
+    }
+
 }

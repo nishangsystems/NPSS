@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Owing Fee
+    Recent Student
 @endsection
 
 @section('style')
@@ -9,13 +9,11 @@
 @endsection
 
 @section('section')
-    <!-- Breadcubs Area End Here -->
-    <!-- $students Table Area Start Here -->
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All $students Collection</h3>
+                    <h3>Recent Student</h3>
                 </div>
             </div>
             <div class="table-responsive">
@@ -24,26 +22,28 @@
                     <tr>
                         <th>Name</th>
                         <th>Class</th>
-                        <th>Amount</th>
+                        <th>Amount Payed</th>
+                        <th>Amount Owing</th>
+                        <th>Scholarship</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($students as $student)
                             <tr>
-                                <td>{{$student->first_name}} {{$student->last_name}}</td>
+                                <td>{{$student->name}}</td>
                                 <td>{{($student->class(getYear()))?$student->class(getYear())->byLocale()->name:''}}</td>
+                                <td>{{$student->totalPaid(getYear())}}</td>
                                 <td>{{$student->dept(getYear())}}</td>
+                                <td>{{$student->scholarship(getYear())}}</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="{{route('fee.collect')}}?student={{$student->id}}"><i class="fas fa-plus text-success"></i>Collect Fee</a>
-                                        </div>
-                                    </div>
+                                    @if(request('action')=='reciept')
+                                        <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> Print </a>
+                                    @elseif(request('action')=='scholarship')
+                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> Scholarship</a>
+                                    @else
+                                        <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> Collect Fee</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

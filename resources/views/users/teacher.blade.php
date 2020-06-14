@@ -22,24 +22,13 @@
                    @endif
                 </div>
             </div>
-            <form class="mg-b-20">
-                <div class="row gutters-8">
-                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Name ..." class="form-control">
-                    </div>
-                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Email ..." class="form-control">
-                    </div>
-                    <div class="col-1-xxxl col-xl-2 col-lg-6 col-12  form-group">
-                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                    </div>
-                </div>
-            </form>
             <div class="table-responsive">
                 <table class="table display data-table text-nowrap">
                     <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Class</th>
+                        <th>Gender</th>
                         <th>Address</th>
                         <th>Phone</th>
                         <th></th>
@@ -48,7 +37,8 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td>{{$user->first_name}} {{$user->last_name}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->class(getYear())?$user->class(getYear())->name:'No class assigned'}}</td>
                                 <td>{{$user->gender}}</td>
                                 <td>{{$user->address}}</td>
                                 <td>{{$user->phone}}</td>
@@ -74,7 +64,6 @@
         </div>
     </div>
 @endsection
-
 @section('script')
     <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection

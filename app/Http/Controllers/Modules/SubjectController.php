@@ -48,6 +48,7 @@ class SubjectController extends Controller{
                 'type' => 'nullable',
                 'code' => 'required',
                 'section' => 'required',
+                'score' => 'required',
             ]);
             $date = new \DateTime();
             $slug = \Hash::make($request->name.$date->format('Y-m-d H:i:s'));
@@ -56,6 +57,7 @@ class SubjectController extends Controller{
             $subject->name = $request->name;
             $subject->type = $request->type;
             $subject->code = $request->code;
+            $subject->score = $request->score;
             $subject->slug = $slug;
             $subject->section_id = $request->section;
             $subject->save();

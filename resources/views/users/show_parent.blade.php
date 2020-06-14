@@ -7,56 +7,49 @@
         <div class="card-body">
             <div class="single-info-details">
                 <div class="item-img">
-                    <img src="{{asset('assets/img')}}/figure/parents.jpg" alt="student">
+                    <img src="{{route('image.render', $user->photo?$user->photo:'')}}" alt="image">
                 </div>
                 <div class="item-content">
                     <div class="header-inline item-header">
-                        <h3 class="text-dark-medium font-medium">{{$user->first_name}} {{$user->last_name}}</h3>
+                        <h3 class="text-dark-medium font-medium">{{$user->name}}</h3>
                         <div class="header-elements">
                             <ul>
-                                @if(\Auth::user()->hasRole('admin'))
-                                    <li><a href="{{route('roles.assign')}}?user={{$user->slug}}"><i class="far fa-edit"></i></a></li>
+                                @if(\Auth::user()->hasRole('admin') && \Auth::user()->id != $user->id)
+                                    <li><a href="{{route('roles.assign')}}?user={{$user->slug}}">Edit Role</a></li>
+                                @endif
+
+                                @if(\Auth::user()->id == $user->id)
+                                    <li><a href="{{route('user.edit',$user->slug)}}?user={{$user->slug}}">Edit Profile</a></li>
                                 @endif
                             </ul>
                         </div>
                     </div>
-                    <p>Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-                        word moun taiery.Aliquam erat volutpaturabiene natis massa sedde  sodale
-                        word moun taiery.</p>
                     <div class="info-table table-responsive">
                         <table class="table text-nowrap">
                             <tbody>
                             <tr>
                                 <td>Name:</td>
-                                <td class="font-medium text-dark-medium">Steven Jones</td>
+                                <td class="font-medium text-dark-medium">{{$user->name}}</td>
                             </tr>
                             <tr>
                                 <td>Gender:</td>
-                                <td class="font-medium text-dark-medium">Male</td>
+                                <td class="font-medium text-dark-medium">{{$user->gender}}</td>
                             </tr>
                             <tr>
                                 <td>Occupation:</td>
-                                <td class="font-medium text-dark-medium">Business</td>
-                            </tr>
-                            <tr>
-                                <td>ID:</td>
-                                <td class="font-medium text-dark-medium">#15059</td>
+                                <td class="font-medium text-dark-medium">{{$user->roles->first()->name}}</td>
                             </tr>
                             <tr>
                                 <td>Address:</td>
-                                <td class="font-medium text-dark-medium">House #10, Road #6, Australia</td>
-                            </tr>
-                            <tr>
-                                <td>Religion:</td>
-                                <td class="font-medium text-dark-medium">Islam</td>
+                                <td class="font-medium text-dark-medium">{{$user->address}}</td>
                             </tr>
                             <tr>
                                 <td>Phone:</td>
-                                <td class="font-medium text-dark-medium">+ 88 98568888418</td>
+                                <td class="font-medium text-dark-medium">{{$user->phone}}</td>
                             </tr>
                             <tr>
                                 <td>E-mail:</td>
-                                <td class="font-medium text-dark-medium">jessiarose@gmail.com</td>
+                                <td class="font-medium text-dark-medium">{{$user->email}}</td>
                             </tr>
                             </tbody>
                         </table>
