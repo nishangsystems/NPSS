@@ -4,7 +4,7 @@
 
 @section('section')
     <div class="row">
-        <div class="col-4-xxxl col-12">
+        <div class=" col-12">
             <div class="card height-auto">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -21,16 +21,7 @@
                             </div>
                             <div class="col-12-xxxl col-lg-6 col-12 form-group">
                                 <label>Score *</label>
-                                <input type="text" name="score" placeholder="" class="form-control">
-                            </div>
-                            <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                <label>Subject Type *</label>
-                                <select name="type" class="select2">
-                                    <option value="">Please Select</option>
-                                    <option value="science">Science</option>
-                                    <option value="arts">Arts</option>
-                                    <option value="commercial">Commerce</option>
-                                </select>
+                                <input type="number" name="score" placeholder="" class="form-control">
                             </div>
                             <div class="col-12-xxxl col-lg-6 col-12 form-group">
                                 <label>Select Section *</label>

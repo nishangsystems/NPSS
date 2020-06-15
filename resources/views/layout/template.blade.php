@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" href="http://localhost/pss/public/assets/css/main.css">
-    <link rel="stylesheet" href="http://localhost/pss/public/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost/pss/public/assets/css/style.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/main.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css')}}/style.css">
     <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
 </head>
 

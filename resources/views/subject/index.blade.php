@@ -12,7 +12,7 @@
 
 @section('section')
     <div class="row">
-    <div class="col-8-xxxl col-12">
+    <div class="col-12">
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">

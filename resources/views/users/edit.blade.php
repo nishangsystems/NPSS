@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>E-Mail / Username</label>
-                        <input type="email" name="email"  value="{{old('email')?old('email'):$user->email}}" placeholder="" class="form-control">
+                        <input type="text" name="username"  value="{{old('username')?old('username'):$user->email}}" placeholder="" class="form-control">
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Address</label>

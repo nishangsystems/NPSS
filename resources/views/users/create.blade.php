@@ -44,7 +44,7 @@
 
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>E-Mail / Username</label>
-                        <input type="text" name="email"  value="{{old('email')}}" placeholder="" class="form-control">
+                        <input type="text" name="username"  value="{{old('username')}}" placeholder="" class="form-control">
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Address</label>

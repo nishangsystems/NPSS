@@ -52,8 +52,12 @@
                                         <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}?action=print">Print</a>
                                     @endif
 
-                                    @if(\Auth::user()->hasRole('admin'))
+                                    @if(\Auth::user()->hasRole('admin') && $id != 'mine')
                                            <a class="btn btn-danger text-white" href="{{route('result.edit',$student->slug)}}">Edit Result</a>
+                                   @endif
+
+                                   @if($id == 'mine')
+                                       <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}">View Result</a>
                                    @endif
                                 </td>
                             </tr>

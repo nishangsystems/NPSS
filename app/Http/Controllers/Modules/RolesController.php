@@ -117,7 +117,8 @@ class RolesController extends Controller{
     }
 
     public function rolesView(Request $request){
-        return view('roles.assign');
+        $data['user'] = \App\User::whereSlug(request('user'))->first();
+        return view('roles.assign')->with($data);
     }
 
     public function rolesStore(Request $request){
@@ -127,27 +128,31 @@ class RolesController extends Controller{
         ]);
 
         $user = \App\User::find($request->user_id);
-        $role = \App\Role::find($request->role_id);
-        \DB::beginTransaction();
-        try{
-            if($user == null || $role == null){
-                abort(404);
-            }
+        if(!$user->hasRole('admin')){
+            $role = \App\Role::find($request->role_id);
+            \DB::beginTransaction();
+            try{
+                if($user == null || $role == null){
+                    abort(404);
+                }
 
-            foreach ($user->roleR as $r){
-                $r->delete();
-            }
-            \DB::table('users_roles')->insert([
-                'role_id' => $role->id,
-                'user_id'=>$user->id,
-            ]);
-            \DB::commit();
-            $request->session()->flash('success', $request->role.' role saved successfully');
+                foreach ($user->roleR as $r){
+                    $r->delete();
+                }
+                \DB::table('users_roles')->insert([
+                    'role_id' => $role->id,
+                    'user_id'=>$user->id,
+                ]);
+                \DB::commit();
+                $request->session()->flash('success', $request->role.' Role saved successfully');
 
-        }catch(\Exception $e){
-            \DB::rollback();
-            $request->session()->flash('error', $e->getMessage());
+            }catch(\Exception $e){
+                \DB::rollback();
+                $request->session()->flash('error', $e->getMessage());
+            }
+        }else{
+            $request->session()->flash('error', 'Cant Edit this Role');
         }
-        return redirect()->to(route('roles.index'));
+        return redirect()->to(route('user.index'));
     }
 }

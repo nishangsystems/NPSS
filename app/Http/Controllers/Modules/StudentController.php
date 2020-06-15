@@ -14,7 +14,7 @@ class StudentController extends Controller{
     public function index(Request $request){
         $data['students'] =[];
         if(!$request->class){
-            $data['students'] = \App\Student::all();
+            $data['students'] = \App\Student::orderBy('created_at','DESC')->get();
         }else{
             $class = \App\ClassSection::find(\request('class'));
             $data['students'] = $class->students(getYear());
@@ -22,16 +22,73 @@ class StudentController extends Controller{
         return view('student.index')->with($data);
     }
     public function show(Request $request, $slug){
-        return view('student.show');
+        $data['student'] = \App\Student::whereSlug($slug)->first();
+        if($data['student'] == null){
+            abort(404);
+        }
+        return view('student.show')->with($data);
     }
     public function edit(Request $request, $slug){
-        return view('student.edit');
+        $data['student'] = \App\Student::whereSlug($slug)->first();
+        if($data['student'] == null){
+            abort(404);
+        }
+        return view('student.edit')->with($data);
     }
     public function create(Request $request){
         return view('student.create');
     }
     public function update(Request $request, $slug){
-        return view('welcome');
+        if (\Auth::user()->can('create_student')) {
+            $this->validate($request, [
+                'name' => 'required',
+                'gender' => 'required',
+                'dob' => 'nullable',
+                'address' => 'nullable',
+                'email' => 'nullable|email',
+                'class' => 'nullable',
+                'section' => 'nullable',
+                'admission_year' => 'required',
+                'phone' => 'nullable',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024'
+            ]);
+            $student = \App\Student::whereSlug($slug)->first();
+            $image = $student->photo;
+            if($request->file('image')!=null){
+                $image = explode('/', $request->image->store('files'))[1];
+            }
+
+            try{
+                \DB::beginTransaction();
+                $student->photo = $image;
+                $student->name = $request->name;
+                $student->gender = $request->gender;
+                $student->dob = $request->dob;
+                $student->address = $request->address;
+                $student->email = $request->email;
+                $student->phone = $request->phone;
+                $student->save();
+
+                $class = \App\Classes::find($student->class);
+                $classR = $student->classR($request->admission_year);
+                $classR->delete();
+                $studentClass = \App\StudentsClass::create([
+                    'student_id'=> $student->id,
+                    'class_id'=> $student->class,
+                    'year_id'=> $request->admission_year,
+                    'section_id'=> $class->subClass->first()->id,
+                ]);
+                \DB::commit();
+                $request->session()->flash('success', "Student updated successfully");
+            }catch(\Exception $e){
+                \DB::rollback();
+                $request->session()->flash('error', "Something went wrong");
+            }
+
+        }else{
+            $request->session()->flash('error', "Not allowed to perform this action");
+        }
+        return redirect()->to(route('student.index'));
     }
     public function store(Request $request)
     {

@@ -87,6 +87,8 @@
                                     <th>Name</th>
                                     <th>Gender</th>
                                     <th>Parents</th>
+                                    <th>Fee Bal</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -96,6 +98,8 @@
                                                <td>{{$student->name}}</td>
                                                <td>{{$student->gender}}</td>
                                                <td>{{$student->parent()?$student->parent()->name:''}}</td>
+                                               <td>{{$student->dept(getYear())}}</td>
+                                               <td> <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}">View Result</a></td>
                                            </tr>
                                        @endforeach
                                    @endif

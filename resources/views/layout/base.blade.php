@@ -185,36 +185,38 @@
                             </ul>
                         </li>
                     @endif
-                    <li class="nav-item sidebar-nav-item">
-                        <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="flaticon-couple"></i><span>Parents Center</span></a>
-                        <ul class="nav sub-group-menu">
+                    @if(\Auth::user()->hasRole('admin'))
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="flaticon-couple"></i><span>Parents Center</span></a>
+                            <ul class="nav sub-group-menu">
 
-                            @if (\Auth::user()->can('create_user'))
+                                @if (\Auth::user()->can('create_user'))
+                                    <li class="nav-item">
+                                        <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Create Parent</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('user.index')}}?type=assign_parent" class="nav-link"><i class="fas fa-angle-right"></i>Assign to Pupil</a>
+                                    </li>
+                                @endif
+
                                 <li class="nav-item">
-                                    <a href="{{route('user.create')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>Create Parent</a>
+                                    <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
                                 </li>
-
-                                <li class="nav-item">
-                                    <a href="{{route('user.index')}}?type=assign_parent" class="nav-link"><i class="fas fa-angle-right"></i>Assign to Pupil</a>
-                                </li>
-                            @endif
-
-                            <li class="nav-item">
-                                <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
-                            </li>
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                    @endif
 
                     @if (\Auth::user()->can('create_subject','see_class','delete_class'))
                         <li class="nav-item sidebar-nav-item">
                             <a href="{{route('subject.index')}}?type=parent" class="nav-link"><i class="flaticon-open-book"></i><span>Subjects</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="{{route('subject.index')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>Create Subject</span></a>
+                                    <a  href="{{route('subject.create')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>Create Subject</span></a>
                                 </li>
                                 @if (\Auth::user()->hasRole('admin'))
                                     <li class="nav-item">
-                                        <a href="{{route('subject.create')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>All Subjects</span></a>
+                                        <a href="{{route('subject.index')}}"  class="nav-link"><i class="fas fa-angle-right"></i><span>All Subjects</span></a>
                                     </li>
                                 @endif
                             </ul>
@@ -248,6 +250,12 @@
                                 <li class="nav-item">
                                     <a href="{{route('result.class.student','parent')}}" class="nav-link"><i class="fas fa-angle-right"></i>Student</a>
                                 </li>
+                           @endif
+
+                           @if(\Auth::user()->students->count() > 0)
+                               <li class="nav-item">
+                                   <a href="{{route('result.class.student','mine')}}" class="nav-link"><i class="fas fa-angle-right"></i>My Children</a>
+                               </li>
                            @endif
 
                         </ul>

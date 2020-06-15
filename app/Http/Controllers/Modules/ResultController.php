@@ -9,14 +9,15 @@ use Illuminate\Http\Request;
 class ResultController extends Controller{
     public function student(Request $request, $id){
         $data = [];
-        if(\Auth::user()->hasRole('parent')){
+        $data['id'] = $id;
+        if(\Auth::user()->hasRole('parent') || $id == 'mine'){
             $data['class'] = null;
             $data['students'] = \Auth::user()->students;
         }elseif(\Auth::user()->hasRole('teacher')){
             $subClass = \Auth::user()->class(getYear());
             if($subClass == null){
                 $request->session()->flash('error',"You have Being assigned to no class, contact admin");
-                return redirect()->back();
+                return redirect()->back()->with($data);
             }else{
                 $data['class'] = $subClass;
                 $data['students'] = $subClass->students(getYear());
@@ -34,6 +35,7 @@ class ResultController extends Controller{
 
     public function studentPost(Request $request, $id){
         $data['students'] = [];
+        $data['id'] = $id;
         $subClass = \App\ClassSection::find($id);
         $data['class'] = $subClass;
         $data['students'] = $subClass->students($request->get('year'));

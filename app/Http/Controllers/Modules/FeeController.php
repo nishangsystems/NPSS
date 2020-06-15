@@ -50,10 +50,18 @@ class FeeController extends Controller{
                 'reference' => 'required',
                 'method' =>'required',
                 'year'=>'required',
-                'type'=>'required'
+                'type'=>'required',
             ]);
-            \Auth::user()->collectFee($request);
-            $request->session()->flash('success',"Fee Collected Successfully");
+
+
+            $student = \App\Student::find($request->student);
+            if($request->amount > $student->dept(getYear())){
+                $request->session()->flash('error', "Negative Balance");
+            }else{
+                \Auth::user()->collectFee($request);
+                $request->session()->flash('success',"Fee Collected Successfully");
+            }
+
             return redirect(route('fee'));
         }else{
             return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
@@ -144,8 +152,9 @@ class FeeController extends Controller{
             $student = \App\Student::whereSlug($request->student)->first();
             $data['title'] = $student->name."'s Fee Reciept for ".\App\Session::find(getYear())->name;
             $data['student'] = $student;
-            $pdf = \PDF::loadView('template.fee', $data);
-            return $pdf->download($student->name.'_fee.pdf');
+            //$pdf = \PDF::loadView('template.fee', $data);
+          //  return $pdf->download($student->name.'_fee.pdf');
+            return view('template.fee')->with($data);
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $class){

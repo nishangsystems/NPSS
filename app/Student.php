@@ -18,6 +18,10 @@ class Student extends Model
         return $this->belongsToMany('App\Classes','students_classes','student_id','class_id')->where('year_id',$year)->first();
     }
 
+    public function classR($year){
+        return $this->hasMany('App\StudentsClass','student_id')->where('year_id',$year)->first();
+    }
+
     public function dept($year){
         $classFee = getClassTotalFee($this->class($year)->id,$year);
         return $classFee - $this->totalPaid($year)- $this->scholarship($year);

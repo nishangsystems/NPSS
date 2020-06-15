@@ -25,7 +25,10 @@
                 </div>
                 <div class="form-group col-12">
                     <label>Amount</label>
-                    <input type="text" name="amount" value="" required placeholder="Enter Amount" class="form-control">
+                   <div class="d-flex form-control justify-content-between align-items-center">
+                       <input type="text" onkeyup="updateBal()" id="amount" name="amount" class="border-0 bg-transparent" value="" max="{{$student->dept(getYear())}}" required placeholder="Enter Amount" >
+                       <span id="balance" class="font-bold text-nowrap">/ XAF {{$student->dept(getYear())}}</span>
+                   </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Reference</label>
@@ -67,4 +70,17 @@
 @endsection
 
 @section('script')
+    <script>
+        function updateBal(){
+            input = $('#amount');
+            balance = $('#balance');
+            amount = {{$student->dept(getYear())}} - input.val();
+            balance.html('/ XAF '+amount);
+            if(amount < 0){
+                balance.addClass('text-red')
+            }else{
+                balance.removeClass('text-red')
+            }
+        }
+    </script>
 @endsection

@@ -63,6 +63,7 @@ class UserController extends Controller{
             'gender' => 'required',
             'address' => 'nullable',
             'phone' => 'nullable',
+            'username'=>'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024',
         ]);
 
@@ -78,8 +79,7 @@ class UserController extends Controller{
         $user->name = $request->name;
         $user->gender = $request->gender;
         $user->address = $request->address;
-        $user->email = $request->email;
-
+        $user->email = $request->username;
         $user->phone = $request->phone;
         $user->save();
 
@@ -95,7 +95,7 @@ class UserController extends Controller{
                 'name' => 'required',
                 'gender' => 'required',
                 'address' => 'nullable',
-                'email' =>'required|unique:users,email',
+                'username' =>'required|unique:users,email',
                 'phone' => 'nullable',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024',
                 'type'=>'required'
@@ -114,6 +114,7 @@ class UserController extends Controller{
                 $slug = \Hash::make($request->name.$date->format('Y-m-d H:i:s'));
                 $input = $request->all();
                 $input['slug'] = str_replace("/","",$slug);
+                $input['email'] =$request->username;
 
                 $input['password'] = \Hash::make("12345678");
                 $user = \App\User::create($input);

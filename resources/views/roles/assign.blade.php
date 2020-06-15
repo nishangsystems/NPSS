@@ -19,12 +19,16 @@
                     <div class="col-12 form-group">
                         <label>Select User</label>
                         <select name="user_id" class="select2 form-control" required>
-                            <option value="">Please Select User</option>
-                            @foreach(\App\User::get() as $user)
-                                @if(!$user->hasRole('admin'))
-                                    <option {{($user->slug == request('user'))?'selected':''}} value="{{$user->id}}"> {{$user->name}}</option>
-                                @endif
-                            @endforeach
+                           @if($user != null)
+                                <option {{($user->slug == request('user'))?'selected':''}} value="{{$user->id}}"> {{$user->name}}</option>
+                            @else
+                                <option value="">Please Select User</option>
+                                @foreach(\App\User::get() as $user)
+                                    @if(!$user->hasRole('admin'))
+                                        <option {{($user->slug == request('user'))?'selected':''}} value="{{$user->id}}"> {{$user->name}}</option>
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="col-12 form-group">
@@ -32,7 +36,9 @@
                         <select name="role_id" class="select2 form-control" required>
                             <option>Please Select Role</option>
                             @foreach(\App\Role::get() as $role)
-                                <option value="{{$role->id}}">{{$role->name}}</option>
+                               @if($role->slug != 'admin')
+                                    <option value="{{$role->id}}">{{$role->name}}</option>
+                               @endif
                             @endforeach
                         </select>
                     </div>

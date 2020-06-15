@@ -22,7 +22,7 @@
             <form class="mg-b-20">
                 <div class="row gutters-8">
                     <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Name ..." class="form-control">
+                        <input type="text" id="searchInput" placeholder="Search by Name ..." class="form-control">
                     </div>
                     <div class="col-lg-3 col-12 form-group">
                         <select name="section" class="select2">
@@ -68,14 +68,14 @@
                                 <td>
 
                                      <a class="btn btn-primary" href="{{route('student.show', $student->slug)}}"><i
-                                                    class="fas fa-eye text-orange-peel"></i> View</a>
+                                                    class="fas fa-eye"></i> View</a>
                                     @if(\Auth::user()->hasRole('admin'))
                                         <a class="btn btn-success" href="{{route('student.edit', $student->slug)}}"><i
-                                                class="fas fa-edit text-dark-pastel-green"></i> Edit</a>
+                                                class="fas fa-edit"></i> Edit</a>
 
                                         <a onclick="event.preventDefault();
-												document.getElementById('delete').submit();" class=" btn btn-danger"><i
-                                                class="fas fa-trash"></i> Delete</a>
+												document.getElementById('delete').submit();" class=" btn text-white btn-danger"><i
+                                                class="fas"></i> Delete</a>
 
 
                                         <form id="delete" action="{{route('student.destroy', $student->slug)}}" method="POST" style="display: none;">

@@ -17,7 +17,7 @@ class ClassSection extends Model
     }
 
     public function students($year){
-        return $this->belongsToMany('App\Student','students_classes','section_id','student_id')->where('students_classes.year_id', $year)->get();
+        return $this->belongsToMany('App\Student','students_classes','section_id','student_id')->where('students_classes.year_id', $year)->orderBy('created_at')->get();
     }
     public function teachers($year){
         return $this->belongsToMany('App\User','teachers_classes','class_id','teacher_id')->where('teachers_classes.year_id', $year)->get();
