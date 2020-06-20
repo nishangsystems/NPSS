@@ -152,9 +152,8 @@ class FeeController extends Controller{
             $student = \App\Student::whereSlug($request->student)->first();
             $data['title'] = $student->name."'s Fee Reciept for ".\App\Session::find(getYear())->name;
             $data['student'] = $student;
-            //$pdf = \PDF::loadView('template.fee', $data);
-          //  return $pdf->download($student->name.'_fee.pdf');
-            return view('template.fee')->with($data);
+            $data['year'] = getYear();
+            return view('fees.studentpayment')->with($data);
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $class){
@@ -205,6 +204,18 @@ class FeeController extends Controller{
         }
     }
 
+    public function printAction(Request $request, $id){
+        $data['fee'] = \App\StudentFeePayment::find($id);
+        if($data['fee'] == null){
+            abort(404);
+        }
+        $data['year'] = getYear();
+//        $pdf = \PDF::loadView('template.fee', $data);
+//        return $pdf->download($data['fee']->student->name.'fee_receipt.pdf');
+//        return $pdf->stream($data['fee']->student->name.'fee_receipt.pdf');
+       return view('template.fee')->with($data);
+    }
+
     public function scholarshipReport (Request $request){
         $data['fees'] =   \App\StudentDiscount::where('year_id',getYear())->get();
         $data['title'] =   "Scholarships";
@@ -221,6 +232,7 @@ class FeeController extends Controller{
         if($request->action == 'print'){
             $pdf = \PDF::loadView('template.income', $data);
             return $pdf->download('Income_report.pdf');
+
         }else {
             return view('fees.income')->with($data);
         }

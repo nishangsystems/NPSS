@@ -38,7 +38,7 @@
                                 <td>{{$student->scholarship(getYear())}}</td>
                                 <td>
                                     @if(request('action')=='reciept')
-                                        <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> Print </a>
+                                        <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> View receipt </a>
                                     @elseif(request('action')=='scholarship')
                                         <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> Scholarship</a>
                                     @else

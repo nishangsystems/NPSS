@@ -25,7 +25,7 @@
     <div class="login-page-content">
         <div class="login-box">
             <div class="item-logo">
-                <img src="{{asset('assets/img')}}/logo2.png" alt="logo">
+                <img style="height:80px" src="{{asset('assets/img')}}/logo2.png" alt="logo">
             </div>
             <form action="{{route('login.submit')}}" method="post" class="login-form">
                 @csrf

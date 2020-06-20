@@ -16,6 +16,10 @@ class ClassController extends Controller{
         return view('class.class')->with($data);
     }
 
+    public function create(Request $request){
+        return view('class.create');
+    }
+
     public function section(Request $request, $id){
         $class = \App\Classes::find($id);
         if($class == null){
@@ -57,19 +61,33 @@ class ClassController extends Controller{
         if ($request->user()->can('create_class')) {
             $this->validate($request, [
                 'name' => 'required',
-                'class'=> 'required',
+                'class'=> 'nullable',
             ]);
 
-            $class = new \App\ClassSection();
-            $class->name = $request->name;
-            $class->class_id = $request->class;
-            $class->save();
+           if($request->class){
+               $class = new \App\ClassSection();
+               $class->name = $request->name;
+               $class->class_id = $request->class;
+               $class->save();
+               $request->session()->flash('success', "Class Created successfully");
+               return redirect()->to(route('class.section', $request->class));
+           }else{
+              $class = \App\Classes::create([
+                   'name' => $request->type,
+                   'section_id'=> 1,
+               ]);
 
-            $request->session()->flash('success', "Class Created successfully");
+               $section = \App\ClassSection::create([
+                   'name' => $class->name." A",
+                   'class_id'=> $class->id
+               ]);
+               $request->session()->flash('success', "Class Created successfully");
+               return redirect()->to(route('class.section', $class->id));
+           }
         }else{
             $request->session()->flash('error', "Not allowed to perform this action");
         }
-        return redirect()->to(route('class.section', $request->class));
+      return redirect()->back();
     }
 
     public function destroy(Request $request, $id)

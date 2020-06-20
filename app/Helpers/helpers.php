@@ -49,7 +49,6 @@ if (!function_exists('getTotalScholarship')) {
     }
 }
 
-
 if (!function_exists('getFeePayed')) {
     function getFeePayed( $year)
     {
@@ -60,6 +59,7 @@ if (!function_exists('getFeePayed')) {
         return $total;
     }
 }
+
 if (!function_exists('getExpenses')) {
     function getExpenses( $year)
     {
@@ -68,6 +68,18 @@ if (!function_exists('getExpenses')) {
             $total = $total + $type->amount;
         }
         return $total;
+    }
+}
+
+if (!function_exists('getBal')) {
+    function getBal(\App\StudentFeePayment $fee, $year){
+       $student = $fee->student;
+       $otherFee = $student->feePayment()->where('id','<',$fee->id)->where('year_id', $year)->get();
+       $total = 0;
+       foreach($otherFee as $fee){
+           $total = $total + $fee->amount;
+       }
+       return getClassTotalFee($student->class($year)->id,$year) - $total;
     }
 }
 

@@ -23,6 +23,10 @@ class StudentFeePayment extends Model
         return $this->belongsTo('App\Session', 'year_id');
     }
 
+    public function type(){
+        return $this->belongsTo('App\FeeType', 'type_id');
+    }
+
     public function user(){
         return $this->belongsTo('App\User', 'bursar_id');
     }

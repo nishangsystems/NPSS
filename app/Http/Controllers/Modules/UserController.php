@@ -162,4 +162,27 @@ class UserController extends Controller{
         $request->session()->flash('success', "Student Assign to parent Successfully");
         return redirect()->to(route('user.index'));
     }
+
+    public function password(Request $request){
+        return view('users.password');
+    }
+    public function passwordPost(Request $request){
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|confirmed|min:5',
+        ]);
+
+        if(\Hash::check($request->old_password, \Auth::user()->password)){
+            $user = \Auth::user();
+            $user->password = \Hash::make($request->password);
+            $user->save();
+
+            $request->session()->flash('success', "Password changed successfully");
+            return redirect(route('home'));
+        }else{
+            $request->session()->flash('error', "Invalid old password");
+            return redirect()->back()->withInput();
+        }
+
+    }
 }

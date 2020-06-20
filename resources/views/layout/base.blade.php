@@ -32,7 +32,7 @@
         <div class="nav-bar-header-one">
             <div class="header-logo">
                 <a href="{{route('home')}}">
-                    <img src="{{asset('assets/img')}}/logo.png" alt="logo">
+                    <img style="height :50px;" src="{{asset('assets/img')}}/logo.png" alt="logo">
                 </a>
             </div>
             <div class="toggle-button sidebar-toggle">
@@ -71,21 +71,22 @@
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                        aria-expanded="false">
                         <div class="admin-title">
-                            <h5 class="item-title">{{request()->user()->first_name}} {{request()->user()->last_name}}</h5>
+                            <h5 class="item-title">{{request()->user()->name}}</h5>
                             <span>{{request()->user()->roles()->first()->byLocale()->name}}</span>
                         </div>
                         <div class="admin-img">
-                            <img src="{{asset('assets/img')}}/figure/admin.jpg" alt="Admin">
+                            <img style="height: 60px;" src="{{route('image.render', Auth::user()->photo)}}" alt="Admin">
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="item-header">
-                            <h6 class="item-title">{{request()->user()->first_name}} {{request()->user()->last_name}}</h6>
+                            <h6 class="item-title">{{request()->user()->name}}</h6>
                         </div>
                         <div class="item-content">
                             <ul class="settings-list">
                                 <li><a href="{{route('user.show',\Auth::user()->slug)}}"><i class="flaticon-user"></i>My Profile</a></li>
                                 <li><a href="{{route('user.edit',\Auth::user()->slug)}}"><i class="flaticon-gear-loading"></i>Account Settings</a></li>
+                                <li><a href="{{route('user.password')}}"><i class="flaticon-gear-loading"></i>Change Password</a></li>
                                 <li><a href="{{route('logout')}}"><i class="flaticon-turn-off"></i>Log Out</a></li>
                             </ul>
                         </div>
@@ -116,7 +117,7 @@
         <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
             <div class="mobile-sidebar-header d-md-none">
                 <div class="header-logo">
-                    <a href="{{route('home')}}"><img src="{{asset('assets/img')}}/logo1.png" alt="logo"></a>
+                    <a href="{{route('home')}}"><img style="height: 45px;" src="{{asset('assets/img')}}/logo1.png" alt="logo"></a>
                 </div>
             </div>
             <div class="sidebar-menu-content">

@@ -35,6 +35,9 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('user/parent/assign/{id}','Modules\UserController@parentAssign')->name('parent.assign');
         Route::post('user/parent/assign{id}','Modules\UserController@parentAssignPost')->name('parent.assign.post');
+        Route::get('user/change_password','Modules\UserController@password')->name('user.password');
+        Route::post('user/change_password','Modules\UserController@passwordPost')->name('user.password.post');
+
         Route::resource('user','Modules\UserController');
         Route::resource('books','Modules\BookController');
 
@@ -61,6 +64,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('fee/owing','Modules\FeeController@owing')->name('fee.owing');
         Route::get('fee/student','Modules\FeeController@student')->name('fee.student');
         Route::get('fee/print','Modules\FeeController@print')->name('fee.print');
+        Route::get('fee/print/{id}','Modules\FeeController@printAction')->name('fee.print.action');
         Route::get('fee/report','Modules\FeeController@report')->name('fee.report');
         Route::get('fee/scholarship','Modules\FeeController@scholarship')->name('fee.scholarship');
         Route::post('fee/scholarship','Modules\FeeController@scholarshipSave')->name('fee.scholarship.post');
