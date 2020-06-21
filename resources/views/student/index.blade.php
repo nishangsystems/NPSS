@@ -16,27 +16,20 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All Students Data</h3>
+                   @if(request('class'))
+                        <h3>{{ "All Student in ". \App\Classes::find(request('class'))->byLocale()->name }}</h3>
+                    @else
+                        <h3>All Students Data</h3>
+                   @endif
                 </div>
             </div>
             <form class="mg-b-20">
                 <div class="row gutters-8">
-                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" id="searchInput" placeholder="Search by Name ..." class="form-control">
-                    </div>
-                    <div class="col-lg-3 col-12 form-group">
+                    <div class="col-lg-6 col-12 form-group">
                         <select name="section" class="select2">
                             <option value="0">Select by Section</option>
-                            @foreach(\App\Section::all() as $class)
-                                <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-lg-3 col-12 form-group">
-                        <select name="section" class="select2">
-                            <option value="0">Select by Class</option>
-                            @foreach(\App\Classes::all() as $class)
-                                <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
+                            @foreach(\App\Session::all() as $class)
+                                <option value="{{$class->id}}">{{$class->name}}</option>
                             @endforeach
                         </select>
                     </div>

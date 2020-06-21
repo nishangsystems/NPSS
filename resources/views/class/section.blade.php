@@ -66,19 +66,19 @@
                                                        class="fas fa-graduation-cap text-orange-red"></i>  Student</a>
                                             @endif
 
-                                           @if(\Auth::user()->hasRole('admin'))
-                                                    <a class="btn btn-primary" href="{{route('class.edit', $class->id)}}?class={{$class->id}}"><i
-                                                            class="fas fa-graduation-cap text-orange-red"></i>  Edit</a>
+{{--                                           @if(\Auth::user()->hasRole('admin'))--}}
+{{--                                                    <a class="btn btn-primary" href="{{route('class.edit', $class->id)}}?class={{$class->id}}"><i--}}
+{{--                                                            class="fas fa-graduation-cap text-orange-red"></i>  Edit</a>--}}
 
-                                               <a onclick="event.preventDefault();
-												document.getElementById('delete').submit();" class=" btn btn-danger text-white"><i
-                                                       class="fas fa-trash"></i> Delete</a>
+{{--                                               <a onclick="event.preventDefault();--}}
+{{--												document.getElementById('delete').submit();" class=" btn btn-danger text-white"><i--}}
+{{--                                                       class="fas fa-trash"></i> Delete</a>--}}
 
-                                               <form id="delete" action="{{route('class.destroy', $class->id)}}" method="POST" style="display: none;">
-                                                   @method('DELETE')
-                                                   {{ csrf_field() }}
-                                               </form>
-                                           @endif
+{{--                                               <form id="delete" action="{{route('class.destroy', $class->id)}}" method="POST" style="display: none;">--}}
+{{--                                                   @method('DELETE')--}}
+{{--                                                   {{ csrf_field() }}--}}
+{{--                                               </form>--}}
+{{--                                           @endif--}}
                                        </td>
                                    </tr>
 

@@ -183,6 +183,27 @@ class UserController extends Controller{
             $request->session()->flash('error', "Invalid old password");
             return redirect()->back()->withInput();
         }
+    }
 
+    public function passwordReset(Request $request, $id){
+        $data['user'] = \App\User::whereSlug($id)->first();
+        if($data['user'] == null){
+            abort(404);
+        }
+        return view('users.reset')->with($data);
+    }
+
+    public function passwordResetPost(Request $request, $id){
+        $this->validate($request, [
+            'user' => 'required',
+            'password' => 'required|confirmed|min:5',
+        ]);
+
+        $user = \App\User::find($request->user);
+        $user->password = \Hash::make($request->password);
+        $user->save();
+
+        $request->session()->flash('success', "Password changed successfully");
+        return redirect(route('home'));
     }
 }

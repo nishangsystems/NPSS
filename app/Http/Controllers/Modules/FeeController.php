@@ -174,6 +174,10 @@ class FeeController extends Controller{
             $data['fees'] = \App\StudentFeePayment::all();
             $pdf = \PDF::loadView('template.income', $data);
             return $pdf->download('_fee.pdf');
+        }else if($request->action == 'completed'){
+            $data['fees'] = \App\StudentFeePayment::all();
+        }else if($request->action == 'owing') {
+            $data['fees'] = \App\StudentFeePayment::all();
         }else{
             $data['fees'] = \App\StudentFeePayment::all();
             return view('fees.report')->with($data);
@@ -185,8 +189,7 @@ class FeeController extends Controller{
         if(!$data['student']){
             abort(404);
         }
-
-            return view('fees.scholarship')->with($data);
+        return view('fees.scholarship')->with($data);
 
     }
 

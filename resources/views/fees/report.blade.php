@@ -1,9 +1,4 @@
 @extends('layout.base')
-
-@section('title')
-    Fee
-@endsection
-
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
 @endsection
@@ -15,10 +10,25 @@
                 <div class="item-title">
                     <h3>All Fees Collection</h3>
                 </div>
-                <div class="dropdown">
-                    <a href="{{route('fee.report')}}?action=print" class="fw-btn-fill btn-gradient-yellow">Print</a>
-                </div>
             </div>
+            <form class="mg-b-20">
+                <div class="row gutters-8">
+                    <div class="col-9">
+                        <div class="dropdown">
+                            <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-18" href="#" role="button" data-toggle="dropdown"
+                               aria-expanded="false">{{ request('action')=="owing"?"UnCompleted Fee":request('action')=="completed"?"Completed Fee":'UnCompleted Fee' }}</a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{route('fee.report')}}?action=owing">UnCompleted Fee</a>
+                                <a class="dropdown-item" href="{{route('fee.student')}}?action=scholarship">Scholarships</a>
+                                <a class="dropdown-item" href="{{route('fee.report')}}?action=completed">Completed Fee</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <a href="{{route('fee.report')}}?action=print" class="float-right btn btn-gradient-yellow btn-fill-md text-white">Print</a>
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
                     <thead>

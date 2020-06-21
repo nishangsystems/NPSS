@@ -9,32 +9,13 @@
 @endsection
 
 @section('section')
-    <!-- Breadcubs Area End Here -->
-    <!-- Teacher Table Area Start Here -->
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
                     <h3>All System Users</h3>
                 </div>
-
             </div>
-            <form class="mg-b-20">
-                <div class="row gutters-8">
-                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by ID ..." class="form-control">
-                    </div>
-                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Name ..." class="form-control">
-                    </div>
-                    <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Phone ..." class="form-control">
-                    </div>
-                    <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                    </div>
-                </div>
-            </form>
             <div class="table-responsive">
                 <table class="table display data-table text-nowrap">
                     <thead>
@@ -63,7 +44,10 @@
                                 @if(request('type') == 'assign_parent')
                                     <a class="btn btn-primary" href="{{route('parent.assign',$user->slug)}}"><i
                                             class="fas fa-cogs"></i> Assign Student</a>
-                                 @else
+                                @elseif(request('action') == 'password')
+                                    <a class="btn btn-danger text-white" href="{{route('user.password.change',$user->slug)}}"><i
+                                            class="fas fa-lock"></i> Change Password</a>
+                                @else
                                     <a class="btn btn-primary" href="{{route('roles.assign')}}?user={{$user->slug}}"><i
                                             class="fas fa-cogs text-dark-pastel-green"></i> Edit</a>
                                     <a class="btn btn-success" href="{{route('user.show',$user->slug)}}"><i

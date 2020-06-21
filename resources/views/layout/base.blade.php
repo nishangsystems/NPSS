@@ -67,6 +67,14 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
+                @if(\Auth::user()->class(getYear()))
+                    <li class="navbar-item header-admin">
+                        <div class="input-group stylish-input-group">
+                            <a href="#">{{\Auth::user()->class(getYear())->name}}</a>
+                        </div>
+                    </li>
+                @endif
+
                 <li class="navbar-item dropdown header-admin">
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                        aria-expanded="false">
@@ -262,6 +270,8 @@
                         </ul>
                     </li>
                    @if(\Auth::user()->hasRole('admin'))
+
+
                         <li class="nav-item sidebar-nav-item">
                             <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Users & Accounts</span></a>
                             <ul class="nav sub-group-menu">
@@ -271,8 +281,12 @@
                                 <li class="nav-item">
                                     <a href="{{route('roles.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Roles</a>
                                 </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('roles.permissions')}}" class="nav-link"><i class="fas fa-angle-right"></i>Permissions</a>--}}
+{{--                                </li>--}}
+
                                 <li class="nav-item">
-                                    <a href="{{route('roles.permissions')}}" class="nav-link"><i class="fas fa-angle-right"></i>Permissions</a>
+                                    <a href="{{route('user.index')}}?action=password" class="nav-link"><i class="fas fa-angle-right"></i>Change User Password</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('user.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>View Users</a>

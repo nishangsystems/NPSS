@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Route;
         Route::post('user/parent/assign{id}','Modules\UserController@parentAssignPost')->name('parent.assign.post');
         Route::get('user/change_password','Modules\UserController@password')->name('user.password');
         Route::post('user/change_password','Modules\UserController@passwordPost')->name('user.password.post');
+        Route::get('user/password/{id}','Modules\UserController@passwordReset')->name('user.password.change');
+        Route::post('user/password/{id}','Modules\UserController@passwordResetPost')->name('user.password.reset');
 
         Route::resource('user','Modules\UserController');
         Route::resource('books','Modules\BookController');
