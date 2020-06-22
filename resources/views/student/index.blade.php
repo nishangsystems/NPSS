@@ -23,26 +23,11 @@
                    @endif
                 </div>
             </div>
-            <form class="mg-b-20">
-                <div class="row gutters-8">
-                    <div class="col-lg-6 col-12 form-group">
-                        <select name="section" class="select2">
-                            <option value="0">Select by Section</option>
-                            @foreach(\App\Session::all() as $class)
-                                <option value="{{$class->id}}">{{$class->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                    </div>
-                </div>
-            </form>
+
             <div class="table-responsive">
                 <table class="table display data-table text-nowrap">
                     <thead>
                     <tr>
-                        <th>Photo</th>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Class</th>
@@ -53,7 +38,6 @@
                     <tbody>
                         @foreach($students as $student)
                             <tr>
-                                <td class="text-center"><img src="{{route('image.render', $student->photo)}}" style="width: 30px;" alt=""></td>
                                 <td>{{$student->name}} </td>
                                 <td>{{$student->gender}}</td>
                                 <td>{{($student->class(getYear()) != null)?$student->class(getYear())->name:''}}</td>

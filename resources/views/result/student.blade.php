@@ -1,9 +1,5 @@
 @extends('layout.base')
 
-@section('title')
-    Student Result
-@endsection
-
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
 @endsection
@@ -11,7 +7,13 @@
 @section('section')
     <div class="card height-auto">
         <div class="card-body">
-           @if($class != null)
+            <div class="heading-layout1">
+                <div class="item-title">
+                    <h3>Student Result</h3>
+                </div>
+            </div>
+
+        @if($class != null)
                 <form class="mg-b-20" method="post" action="{{route('result.class.student.post',$class->id)}}">
                     @csrf
                     <div class="row gutters-8 justify-content-between">

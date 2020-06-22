@@ -18,25 +18,24 @@
                     <h3>All Expenses</h3>
                 </div>
                 <div class="dropdown">
-                    <a href="{{route('expenses.collect')}}" class="fw-btn-fill btn-gradient-yellow">Save Expense</a>
+                    <a href="{{route('expenses.collect')}}" class="fw-btn-fill btn-gradient-yellow">Add Expense</a>
                 </div>
             </div>
-            <form class="mg-b-20">
-                <div class="row gutters-8">
-                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by ID ..." class="form-control">
+            <form class="mg-b-20"  method="get" action="">
+                <input type="hidden" name="action" value="{{request('action')}}">
+                <div class="row gutters-8 form-group">
+                    <div class="col-lg-3  mt-1">
+                        <label class="text-sm-center">Select Date Range</label>
                     </div>
-                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Name ..." class="form-control">
+                    <div class="col-lg-7  mt-1">
+                        <input type="text" class="form-control" name="daterange" required value="{{request('daterange')}}" />
                     </div>
-                    <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                        <input type="text" placeholder="Search by Phone" class="form-control">
-                    </div>
-                    <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                    <div class="col-lg-2 mt-1">
+                        <button type="submit" class="text-white float-right btn-fill-md btn bg-success btn-success">Query</button>
                     </div>
                 </div>
             </form>
+
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
                     <thead>
@@ -71,4 +70,12 @@
 
 @section('script')
     <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script>
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left'
+            }, function(start, end, label) {
+            });
+        });
+    </script>
 @endsection

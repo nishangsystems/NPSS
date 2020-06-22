@@ -25,25 +25,6 @@
                        @endif
                     </div>
                 </div>
-                <form class="mg-b-20">
-                    <div class="row gutters-8">
-                        <div class="col-lg-4 col-12 form-group">
-                            <input type="text" placeholder="Search by Name..." class="form-control">
-                        </div>
-                        <div class="col-lg-3 col-12 form-group">
-                            <select name="section" class="select2">
-                                <option value="0">Select Section</option>
-                                @foreach(\App\Section::all() as $class)
-                                    <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-12 form-group">
-                            <button type="submit"
-                                    class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                        </div>
-                    </div>
-                </form>
                 <div class="table-responsive">
                     <table class="table display data-table text-nowrap">
                         <thead>

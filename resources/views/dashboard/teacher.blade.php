@@ -18,30 +18,23 @@
                         <div class="item-title">
                             <h3>Students</h3>
                         </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                    </div>
+                    @if(\Auth::user()->class(getYear()))
+                        <div class="doughnut-chart-wrap">
+                            <canvas id="student-doughnut-chart" width="100" height="270"></canvas>
+                        </div>
+                        <div class="student-report">
+                            <div class="student-count pseudo-bg-blue">
+                                <h4 class="item-title">Female Students</h4>
+                                <div class="item-number">{{\Auth::user()->class(getYear())->students(getYear())->where('gender','female')->count()}}</div>
+                            </div>
+                            <div class="student-count pseudo-bg-yellow">
+                                <h4 class="item-title">Male Students</h4>
+                                <div class="item-number">{{\Auth::user()->class(getYear())->students(getYear())->where('gender','male')->count()}}</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="doughnut-chart-wrap">
-                        <canvas id="student-doughnut-chart" width="100" height="270"></canvas>
-                    </div>
-                    <div class="student-report">
-                        <div class="student-count pseudo-bg-blue">
-                            <h4 class="item-title">Female Students</h4>
-                            <div class="item-number">10,500</div>
-                        </div>
-                        <div class="student-count pseudo-bg-yellow">
-                            <h4 class="item-title">Male Students</h4>
-                            <div class="item-number">24,500</div>
-                        </div>
-                    </div>
+                    @endif
+
                 </div>
             </div>
         </div>

@@ -83,7 +83,7 @@
                             <span>{{request()->user()->roles()->first()->byLocale()->name}}</span>
                         </div>
                         <div class="admin-img">
-                            <img style="height: 60px;" src="{{route('image.render', Auth::user()->photo)}}" alt="Admin">
+                            <img style="height: 60px;" src="{{route('image.render', Auth::user()->photo?Auth::user()->photo:'')}}" alt="User">
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -150,16 +150,16 @@
                                     <a href="{{route('expenses')}}" class="nav-link"><i class="fas fa-angle-right"></i>Record Expenses</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fee Reports</a>
+                                    <a href="{{route('fee.student')}}?action=completed" class="nav-link"><i class="fas fa-angle-right"></i>Fee Reports</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee.student')}}?action=scholarship" class="nav-link"><i class="fas fa-angle-right"></i>Give scholarship</a>
+                                    <a href="{{route('fee.student')}}?action=giftscholarship" class="nav-link"><i class="fas fa-angle-right"></i>Give scholarship</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Configure Class Fee</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('fee.scholarship.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Scholarship Reports</a>
+                                    <a href="{{route('fee.student')}}?action=scholarship" class="nav-link"><i class="fas fa-angle-right"></i>Scholarship Reports</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('fee.income')}}" class="nav-link"><i class="fas fa-angle-right"></i>Income Statement</a>
@@ -362,11 +362,13 @@
 <script src="{{asset('assets/js')}}/plugins.js"></script>
 <script src="{{asset('assets/js')}}/popper.min.js"></script>
 <script src="{{asset('assets/js')}}/bootstrap.min.js"></script>
+<script src="{{asset('assets/js')}}/moment.min.js"></script>
 <script src="{{asset('assets/js')}}/jquery.scrollUp.min.js"></script>
 <script src="{{asset('assets/js')}}/main.js"></script>
 <script src="{{asset('assets')}}/toastr/toastr.min.js"></script>
 <script src="{{asset('assets/js')}}/select2.min.js"></script>
 <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
+
 <script>
     @if(Session::has('success'))
         toastr.success('{{Session::get('success')}}');

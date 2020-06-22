@@ -78,8 +78,22 @@
       -------------------------------------*/
     if ($.fn.DataTable !== undefined) {
       $('.data-table').DataTable({
-        paging: true,
+        paging: false,
         searching: true,
+          dom: 'Bfrtip',
+          buttons: [
+              {
+                  extend: 'print',
+                  title: $('.heading-layout1 .item-title h3')[0].html,
+                  exportOptions: {
+                      columns: ':visible'
+                  },
+                  customize: function(win) {
+                      $(win.document.body).find( 'table' ).find('td:last-child, th:last-child').remove();
+                  }
+              },
+          ],
+
         info: false,
         lengthChange: false,
         lengthMenu: [20, 50, 75, 100],
@@ -87,6 +101,7 @@
           targets: [0, -1], // column or columns numbers
           orderable: false // set orderable for selected columns
         }],
+
       });
     }
     /*-------------------------------------

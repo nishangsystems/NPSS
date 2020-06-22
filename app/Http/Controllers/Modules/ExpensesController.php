@@ -8,11 +8,26 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DateTime;
+use \Carbon\Carbon;
 
 class ExpensesController extends Controller{
 
     public function index(Request $request){
-        $data['expenses'] = \App\Expenses::all();
+        $data = [];
+        if($request->daterange){
+            $daterange = str_replace(' ','',$request->daterange);
+            $daterange = explode('-', $daterange);
+            $start = $daterange[0];
+            $end = $daterange[1];
+            $start = Carbon::createFromFormat('d/m/Y',  $start)->toDateTimeString();
+            $end = Carbon::createFromFormat('d/m/Y',  $end)->toDateTimeString();
+            $data['expenses'] = \App\Expenses::where('created_at','>',$start)
+                                                ->where('created_at','<=',$end)->get();
+
+        }else{
+            $data['expenses'] = \App\Expenses::orderBY('created_at', 'DESC')->paginate(40);
+        }
+
         return view('expenses.index')->with($data);
     }
 

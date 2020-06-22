@@ -125,20 +125,110 @@ class FeeController extends Controller{
 
     public function student(Request $request){
         $student = [];
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
         if($request->action == 'scholarship'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $class){
-                foreach( $class->students(getYear()) as $student){
-                    $students->push($student);
+            foreach(\App\Classes::get() as $clas){
+                foreach ($clas->subClass as $class){
+                    if($request->class == 0){
+                        foreach( $class->students($year) as $student){
+                            if($student->scholarship($year) > 0){
+                                $students->push($student);
+                            }
+                        }
+                    }else{
+                        if($request->class == $class->id){
+                            foreach( $class->students($year) as $student){
+                                if($student->scholarship($year) > 0){
+                                    $students->push($student);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $data['students'] = $students;
+        }else if($request->action == 'completed'){
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $clas){
+                foreach ($clas->subClass as $class) {
+                    if ($request->class == 0) {
+                        foreach ($class->students($year) as $student) {
+                            if ($student->dept($year) == 0) {
+                                $students->push($student);
+                            }
+                        }
+                    } else {
+                        if ($request->class == $class->id) {
+                            foreach ($class->students($year) as $student) {
+                                if ($student->dept($year) == 0) {
+                                    $students->push($student);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $data['students'] = $students;
+        }elseif($request->action == 'owing') {
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $clas){
+                foreach ($clas->subClass as $class) {
+                    if ($request->class == 0) {
+                        foreach ($class->students($year) as $student) {
+                            if ($student->dept($year) > 0) {
+                                $students->push($student);
+                            }
+                        }
+                    } else {
+                        if ($request->class == $class->id) {
+                            foreach ($class->students($year) as $student) {
+                                if ($student->dept($year) > 0) {
+                                    $students->push($student);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $data['students'] = $students;
+        }elseif($request->action == 'giftscholarship'){
+            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            foreach(\App\Classes::get() as $clas){
+                foreach ($clas->subClass as $class) {
+                    if ($request->class == 0) {
+                        foreach ($class->students($year) as $student) {
+                            $students->push($student);
+                        }
+                    } else {
+                        if ($request->class == $class->id) {
+                            foreach ($class->students($year) as $student) {
+                                $students->push($student);
+                            }
+                        }
+                    }
                 }
             }
             $data['students'] = $students;
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $class){
-                foreach( $class->students(getYear()) as $student){
-                    if($student->dept(getYear()) > 0){
-                        $students->push($student);
+            foreach(\App\Classes::get() as $clas){
+                foreach ($clas->subClass as $class) {
+                    if ($request->class == 0) {
+                        foreach ($class->students($year) as $student) {
+                            if ($student->dept($year) > 0) {
+                                $students->push($student);
+                            }
+                        }
+                    } else {
+                        if ($request->class == $class->id) {
+                            foreach ($class->students($year) as $student) {
+                                if ($student->dept($year) > 0) {
+                                    $students->push($student);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -148,16 +238,18 @@ class FeeController extends Controller{
     }
 
     public function print(Request $request){
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
         if($request->action == 'print'){
             $student = \App\Student::whereSlug($request->student)->first();
-            $data['title'] = $student->name."'s Fee Reciept for ".\App\Session::find(getYear())->name;
+            $data['title'] = $student->name."'s Fee Reciept for ".\App\Session::find($year)->name;
             $data['student'] = $student;
-            $data['year'] = getYear();
+            $data['year'] = $year;
             return view('fees.studentpayment')->with($data);
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $class){
-                foreach( $class->students(getYear()) as $student){
+                foreach( $class->students($year) as $student){
                     if($student->feePayment->count() > 0){
                         $students->push($student);
                     }
@@ -173,11 +265,6 @@ class FeeController extends Controller{
             $data['title'] = "Fee Report";
             $data['fees'] = \App\StudentFeePayment::all();
             $pdf = \PDF::loadView('template.income', $data);
-            return $pdf->download('_fee.pdf');
-        }else if($request->action == 'completed'){
-            $data['fees'] = \App\StudentFeePayment::all();
-        }else if($request->action == 'owing') {
-            $data['fees'] = \App\StudentFeePayment::all();
         }else{
             $data['fees'] = \App\StudentFeePayment::all();
             return view('fees.report')->with($data);
@@ -207,20 +294,10 @@ class FeeController extends Controller{
         }
     }
 
-    public function printAction(Request $request, $id){
-        $data['fee'] = \App\StudentFeePayment::find($id);
-        if($data['fee'] == null){
-            abort(404);
-        }
-        $data['year'] = getYear();
-//        $pdf = \PDF::loadView('template.fee', $data);
-//        return $pdf->download($data['fee']->student->name.'fee_receipt.pdf');
-//        return $pdf->stream($data['fee']->student->name.'fee_receipt.pdf');
-       return view('template.fee')->with($data);
-    }
-
     public function scholarshipReport (Request $request){
-        $data['fees'] =   \App\StudentDiscount::where('year_id',getYear())->get();
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
+        $data['fees'] =   \App\StudentDiscount::where('year_id', $year)->get();
         $data['title'] =   "Scholarships";
         if($request->action == 'print'){
             $pdf = \PDF::loadView('template.scholarship', $data);
