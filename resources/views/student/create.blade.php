@@ -49,16 +49,6 @@
                         </select>
                     </div>
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>Section *</label>
-                        <select class="select2"  value="{{old('section')}}"  required name="section">
-                            <option  value="">Please Select Section *</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Admission Year</label>
                         <select class="select2"  value="{{old('admission_year')}}"  required name="admission_year">
                             <option>Please Select Admission Year</option>

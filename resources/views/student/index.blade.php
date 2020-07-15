@@ -40,7 +40,7 @@
                             <tr>
                                 <td>{{$student->name}} </td>
                                 <td>{{$student->gender}}</td>
-                                <td>{{($student->class(getYear()) != null)?$student->class(getYear())->name:''}}</td>
+                                <td>{{($student->class($year) != null)?$student->class($year)->name:$student->class($student->admission_year)->name." , ".\App\Session::find($student->admission_year)->name}}</td>
                                 <td>{{($student->parent() != null)?$student->parent()->first_name:''}} {{($student->parent() != null)?$student->parent()->last_name:''}}</td>
                                 <td>
 

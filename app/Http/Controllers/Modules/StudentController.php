@@ -11,18 +11,39 @@ use DateTime;
 
 class StudentController extends Controller{
 
+    public function genMat($class, $year){
+        $class = \App\Classes::find($class);
+        $count = $class->students($year)->count();
+        return $class->abbreviations.$count.$this->getSection($class->id, $year);
+    }
+
+    public function getSection($class, $year){
+        $class = \App\Classes::find($class);
+        $sections = ['A','B','C','D','E','F'];
+        $count = $class->students($year)->count();
+        $position = ($count - ($count % $class->limit))/$class->limit;
+        if($position > 5){
+            return $sections[5];
+        }else{
+            return $sections[$position];
+        }
+    }
+
     public function index(Request $request){
         $data['students'] =[];
+        $data['year'] = $request->year?$request->year:getYear();
         if(!$request->class){
             $data['students'] = \App\Student::orderBy('created_at','DESC')->get();
         }else{
             $class = \App\ClassSection::find(\request('class'));
-            $data['students'] = $class->students(getYear());
+            $data['students'] = $class->students($data['year']);
         }
         return view('student.index')->with($data);
     }
+
     public function show(Request $request, $slug){
         $data['student'] = \App\Student::whereSlug($slug)->first();
+        $data['year'] = $request->year?$request->year:getYear();
         if($data['student'] == null){
             abort(404);
         }
@@ -76,7 +97,7 @@ class StudentController extends Controller{
                     'student_id'=> $student->id,
                     'class_id'=> $student->class,
                     'year_id'=> $request->admission_year,
-                    'section_id'=> $class->subClass->first()->id,
+                    'section_id'=> $this->getSection($request->class, getYear()),
                 ]);
                 \DB::commit();
                 $request->session()->flash('success', "Student updated successfully");
@@ -90,6 +111,8 @@ class StudentController extends Controller{
         }
         return redirect()->to(route('student.index'));
     }
+
+
     public function store(Request $request)
     {
         if (\Auth::user()->can('create_student')) {
@@ -100,7 +123,6 @@ class StudentController extends Controller{
                 'address' => 'nullable',
                 'email' => 'nullable|email',
                 'class' => 'nullable',
-                'section' => 'nullable',
                 'admission_year' => 'required',
                 'phone' => 'nullable',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jpg|max:1024'
@@ -117,13 +139,14 @@ class StudentController extends Controller{
                 $input = $request->all();
                 $input['slug'] = str_replace("/","",$slug);
                 $input['photo'] = $image;
+                $input['matricule'] = $this->genMat($request->class, getYear());
                 $student = \App\Student::create($input);
                 $class = \App\Classes::find($student->class);
                 $studentClass = \App\StudentsClass::create([
                     'student_id'=> $student->id,
                     'class_id'=> $student->class,
                     'year_id'=> $request->admission_year,
-                    'section_id'=> $class->subClass->first()->id,
+                    'section_id'=> $this->getSection($request->class, getYear()),
                 ]);
                 \DB::commit();
                 $request->session()->flash('success', "Student Created successfully");
@@ -144,7 +167,7 @@ class StudentController extends Controller{
             if($student == null){
                 abort(404);
             }
-           if($student->feePayment == 0 ){
+           if($student->feePayment->count() == 0 ){
                $student->delete();
                $request->session()->flash('success', "Student Deleted successfully");
            }else{

@@ -44,7 +44,15 @@
                                 <td>{{$fee->session->name}}</td>
                                 <td>{{$fee->created_at->format('d/m/Y')}}</td>
                                 <td>
+                                    <a onclick="event.preventDefault();
+												document.getElementById('delete').submit();" class=" btn text-white btn-danger"><i
+                                            class="fas"></i> Delete</a>
 
+
+                                    <form id="delete" action="{{route('fee.delete', $fee->id)}}" method="POST" style="display: none;">
+                                        @method('DELETE')
+                                        {{ csrf_field() }}
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

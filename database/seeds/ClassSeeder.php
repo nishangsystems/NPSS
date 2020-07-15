@@ -14,24 +14,18 @@ class ClassSeeder extends Seeder{
                        'name' => $type,
                        'section_id'=> 1,
                        'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
+                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                       'abbreviations' => "N".$i,
                    ]);
                }else{
                    DB::table('classes')->insert([
                        'name' => $type,
                        'section_id'=> 2,
                        'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
+                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                       'abbreviations' => "P".$i,
                    ]);
                }
-
-
-              DB::table('class_sections')->insert([
-                  'name' => $type." A",
-                  'class_id'=> $i,
-                  'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                  'updated_at' => $faker->date('Y-m-d h:i:s', 'now')
-              ]);
               $i++;
           }
       }

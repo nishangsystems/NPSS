@@ -4,11 +4,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use DateTime;
-
 class ClassController extends Controller{
 
     public function index(Request $request){
@@ -22,12 +18,15 @@ class ClassController extends Controller{
 
     public function section(Request $request, $id){
         $class = \App\Classes::find($id);
+        $year = $request->year?$request->year:getYear();
+
         if($class == null){
             $request->session()->flash('error',"Invalid Class");
             return redirect()->back();
         }
-        $data['classes'] = $class->subClass;
-        $data['class'] = $class;
+
+        $data['classes'] = $class->subClass($year);
+        $data['clas'] = $class;
         return view('class.section')->with($data);
     }
 
@@ -44,10 +43,12 @@ class ClassController extends Controller{
         if ($request->user()->can('create_class')) {
             $this->validate($request, [
                 'name' => 'required',
+                'limit' => 'required',
             ]);
 
-            $class = \App\ClassSection::find($slug);
+            $class = \App\Classes::find($slug);
             $class->name = $request->name;
+             $class->limit = $request->limit;
             $class->save();
 
             $request->session()->flash('success', "Class Updated successfully");

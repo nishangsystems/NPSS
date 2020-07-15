@@ -32,6 +32,10 @@
                         <label>Phone</label>
                         <input type="text" name="phone"  value="{{old('phone')?old('phone'):$user->phone}}" placeholder="" class="form-control">
                     </div>
+                    <div class="col-xl-3 col-lg-6 col-12 form-group">
+                        <label>Password</label>
+                        <input type="text"  name="password"  value="" placeholder="" class="form-control">
+                    </div>
                     <div class="col-lg-6 col-12 form-group mg-t-30">
                         <label class="text-dark-medium">Upload Student Photo (150px X 150px)</label>
                         <input type="file" name="image" class="form-control-file">

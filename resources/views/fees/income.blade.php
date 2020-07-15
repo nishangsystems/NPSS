@@ -39,7 +39,7 @@
 
                         <tr>
                             <td><b>Payment Method</b></td>
-                            <td><b>Amount</b></td>
+                            <td></td>
                             <td></td>
                         </tr>
                         @foreach(\App\PaymentMethod::get() as $type)

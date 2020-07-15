@@ -19,6 +19,11 @@
                             </div>
 
                             <div class="col-12 form-group">
+                                <label>Maximum Per Class *</label>
+                                <input type="text" value="{{old('limit')?old('limit'):$class->limit}}" name="limit" placeholder="{{$class->limit}}" class="form-control">
+                            </div>
+
+                            <div class="col-12 form-group">
                                 <label>Select Section *</label>
                                 <select name="type" class="select2">
                                     <option value="0">Please Select Section</option>

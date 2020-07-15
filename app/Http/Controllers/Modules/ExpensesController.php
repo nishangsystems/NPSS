@@ -23,8 +23,9 @@ class ExpensesController extends Controller{
             $end = Carbon::createFromFormat('d/m/Y',  $end)->toDateTimeString();
             $data['expenses'] = \App\Expenses::where('created_at','>',$start)
                                                 ->where('created_at','<=',$end)->get();
-
+            $data['title'] = "All Expenses from ".$daterange[0]." to ".$daterange[1];
         }else{
+            $data['title'] = "All Expenses recent expenses";
             $data['expenses'] = \App\Expenses::orderBY('created_at', 'DESC')->paginate(40);
         }
 
@@ -35,8 +36,9 @@ class ExpensesController extends Controller{
         return view('expenses.show');
     }
 
-    public function edit(Request $request, $slug){
-        return view('expenses.edit');
+    public function edit(Request $request, $id){
+        $data['expense'] = \App\Expenses::findOrFail($id);
+        return view('expenses.edit')->with($data);
     }
 
     public function new(Request $request){
@@ -63,23 +65,39 @@ class ExpensesController extends Controller{
         return redirect()->to(route('expenses'));
     }
 
-    public function update(Request $request, $slug){
-        return view('welcome');
+    public function update(Request $request, $id){
+        if ($request->user()->can('update_fee')) {
+            $this->validate($request, [
+                'amount' => 'required',
+                'date' => 'required',
+                'motive' => 'required',
+                'status' => 'required',
+            ]);
+            $expense = \App\Expenses::findOrFail($id);
+            $expense->amount = $request->amount;
+            $expense->date = $request->date;
+            $expense->motive = $request->motive;
+            $expense->status = $request->status;
+            $expense->save();
+
+
+            $request->session()->flash('success', "Expense Updated successfully");
+        }else{
+            $request->session()->flash('error', "Cant perform this action");
+        }
+        return redirect()->to(route('expenses'));
     }
 
-    public function store(Request $request)
+    public function destroy(Request $request)
     {
-        if ($request->user()->can('create-tasks')) {
-            //Code goes here
-        }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
-    }
+        if ($request->user()->can('delete_fee')) {
+            $expense = \App\Expenses::findOrFail($request->id);
+            $expense->delete();
+                return redirect()->to(route('expenses'))->with(['success'=>'Expense Deleted Successfully']);
+        }else{
+            $request->session()->flash('error', "Cant perform this action");
+            return redirect()->to(route('expenses'));
+     }
 
-    public function destroy(Request $request, $id)
-    {
-        if ($request->user()->can('delete-tasks')) {
-            //Code goes here
-        }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
     }
 }

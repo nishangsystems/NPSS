@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Classes extends Model{
 
     protected $fillable = [
-        'name','section_id'
+        'name','section_id','limit','abbreviations'
     ];
     public function byLocale(){
         if (\App::getLocale() == "fr") {
@@ -75,7 +75,7 @@ class Classes extends Model{
         }
     }
 
-    public function subClass(){
-        return $this->hasMany('\App\ClassSection','class_id');
+    public function subClass($year){
+        return $this->hasMany('\App\StudentsClass','class_id')->where('year_id', $year)->get();
     }
 }

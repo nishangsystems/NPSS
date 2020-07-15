@@ -71,6 +71,11 @@ class UserController extends Controller{
         if(!$user){
             abort(404);
         }
+        $userE = \App\User::where('email', $request->username)->first();
+        if($userE != $user && $userE != null){
+            $request->session()->flash('error', "Username used already");
+           return redirect()->back();
+        }
 
         if($request->file('image')!=null){
             $image = explode('/', $request->image->store('files'))[1];
@@ -81,6 +86,9 @@ class UserController extends Controller{
         $user->address = $request->address;
         $user->email = $request->username;
         $user->phone = $request->phone;
+        if($request->password){
+            $user->password = \Hash::make($request->password);
+        }
         $user->save();
 
         $request->session()->flash('success', "Account Updated successfully");

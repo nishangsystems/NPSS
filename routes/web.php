@@ -75,10 +75,14 @@ use Illuminate\Support\Facades\Route;
         Route::get('income','Modules\FeeController@income')->name('fee.income');
 
         Route::get('expenses','Modules\ExpensesController@index')->name('expenses');
+        Route::post('expenses','Modules\ExpensesController@destroy')->name('expenses.destroy');
         Route::get('expenses/new','Modules\ExpensesController@new')->name('expenses.collect');
         Route::post('expenses/new','Modules\ExpensesController@newSubmit')->name('expenses.collect.submit');
+        Route::get('expenses/{id}','Modules\ExpensesController@edit')->name('expenses.edit');
+        Route::post('expenses/{id}','Modules\ExpensesController@update')->name('expenses.update');
 
         Route::get('setting/session', 'Modules\SettingController@session')->name('settings.session');
+
         Route::post('setting/session', 'Modules\SettingController@sessionPost')->name('settings.sessionPost');
         Route::get('setting/terms', 'Modules\SettingController@terms')->name('settings.terms');
         Route::get('setting/sequences', 'Modules\SettingController@sequences')->name('settings.sequences');

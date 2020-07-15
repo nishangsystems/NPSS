@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td>Class:</td>
-                                <td class="font-medium text-dark-medium">{{$student->class(getYear())->name}}</td>
+                                <td  class="font-medium text-dark-medium">{{($student->class($year) != null)?$student->class($year)->name:$student->class($student->admission_year)->name." , ".\App\Session::find($student->admission_year)->name}}</td>
                             </tr>
                             <tr>
                                 <td>Address:</td>

@@ -2,39 +2,14 @@
 
 @section('section')
     <div class="row">
-        @if(\Auth::user()->can('create_class'))
-            <div class="col-12">
-                <div class="card height-auto">
-                    <div class="card-body">
-                        <div class="heading-layout1">
-                            <div class="item-title">
-                                <h3>Add Class Section to {{$class->byLocale()->name}}</h3>
-                            </div>
-                        </div>
-                        <form class="new-added-form" method="post" action="{{route('class.store')}}">
-                            @csrf
-                            <input type="hidden" name="class" value="{{$class->id}}">
-                            <div class="row">
-                                <div class="col-12 form-group">
-                                    <label>Class Name *</label>
-                                    <input type="text" value="{{old('name')}}" name="name" placeholder="{{$class->byLocale()->name}} A" class="form-control">
-                                </div>
-                                <div class="col-12 form-group mg-t-8">
-                                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-         @endif
         <div class="col-12">
             <div class="card height-auto">
                 <div class="card-body">
-                    <div class="heading-layout1">
+                    <div class="heading-layout1 d-flex justify-content-between">
                         <div class="item-title">
                             <h3>Classes</h3>
                         </div>
+                        <button onclick="ShowClassModal()" class="btn btn-sm btn-success">Edit Class</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table display data-table text-nowrap">
@@ -50,10 +25,10 @@
                             <tbody>
                                @foreach($classes as $class)
                                    <tr>
-                                       <td>{{$class->name}}</td>
+                                       <td>{{$class->class->name}}</td>
                                        <td>{{$class->students(getYear())->count()}}</td>
                                        <td>{{$class->teachers(getYear())->count()}}</td>
-                                       <td>{{$class->subjects()->count()}}</td>
+                                       <td>{{$class->class->subjects()->count()}}</td>
                                        <td align="right">
 
                                             @if(!(request('action') == 'student'))
@@ -66,19 +41,6 @@
                                                        class="fas fa-graduation-cap text-orange-red"></i>  Student</a>
                                             @endif
 
-{{--                                           @if(\Auth::user()->hasRole('admin'))--}}
-{{--                                                    <a class="btn btn-primary" href="{{route('class.edit', $class->id)}}?class={{$class->id}}"><i--}}
-{{--                                                            class="fas fa-graduation-cap text-orange-red"></i>  Edit</a>--}}
-
-{{--                                               <a onclick="event.preventDefault();--}}
-{{--												document.getElementById('delete').submit();" class=" btn btn-danger text-white"><i--}}
-{{--                                                       class="fas fa-trash"></i> Delete</a>--}}
-
-{{--                                               <form id="delete" action="{{route('class.destroy', $class->id)}}" method="POST" style="display: none;">--}}
-{{--                                                   @method('DELETE')--}}
-{{--                                                   {{ csrf_field() }}--}}
-{{--                                               </form>--}}
-{{--                                           @endif--}}
                                        </td>
                                    </tr>
 
@@ -90,5 +52,42 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="classModal"  role="dialog" aria-labelledby="exampleModalLabel1">
+        <div class="modal-dialog" role="document">
+            <form method="post" class="modal-content" action="{{route('class.update', $clas->id)}}">
+                @csrf
+                <input type="hidden" name="_method" value="put">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Enter Class Details</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="col-12 form-group">
+                        <label>Class Name *</label>
+                        <input type="text" value="{{old('name')?old('name'):$clas->name}}" name="name" placeholder="{{$clas->name}}" class="form-control">
+                    </div>
+                    <div class="col-12 form-group">
+                        <label>Abbreviation *</label>
+                        <input type="text" value="{{old('abbreviations')?old('abbreviations'):$clas->abbreviations}}" name="abbreviations" placeholder="{{$clas->abbreviations}}" class="form-control">
+                    </div>
+                    <div class="col-12 form-group">
+                        <label>Class limit *</label>
+                        <input type="text" value="{{old('limit')?old('limit'):$clas->limit}}" name="limit" placeholder="{{$clas->limit}}" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-gradient-yellow text-white">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        function ShowClassModal(){
+            $('#classModal').modal().show()
+        }
+    </script>
 @endsection
 

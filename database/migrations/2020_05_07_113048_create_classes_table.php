@@ -18,6 +18,8 @@ class CreateClassesTable extends Migration
             $table->string('name');
             $table->string('name_fr')->nullable();
             $table->string('section_id');
+            $table->integer('limit')->default(50);
+            $table->string('abbreviations');
             $table->timestamps();
         });
     }

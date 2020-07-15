@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $fillable = [
-        'name','email','gender','phone','dob','address','class','section','admission_year','phone','slug','photo'
+        'name','email','gender','phone','dob','address','class','section','admission_year','phone','slug','photo','matricule'
     ];
 
     public function result($year, $sequence){
