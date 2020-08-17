@@ -16,10 +16,21 @@
             <form class="new-added-form" method="post" action="{{route('expenses.update', $expense->id)}}">
                 @csrf
                 <div class="row">
-                    <div class="col-6 form-group">
+                    <div class="col-3 form-group">
                         <label>Amount</label>
                         <input type="number"  value="{{old('amount', $expense->amount)}}"  name="amount" placeholder="" class="form-control">
                     </div>
+
+                    <div class="col-xl-3 col-lg-6 col-12 form-group">
+                        <label>Expense</label>
+                        <select name="expense_id" class="select2">
+                            <option value="">Please Select</option>
+                            @foreach( \App\ExpenceType::get() as $exp)
+                                <option {{(old('expense_id', $expense->expense_id)==$exp->id)?'selected':''}} value="{{$exp->id}}">{{$exp->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Status</label>
                         <select name="status" class="select2">

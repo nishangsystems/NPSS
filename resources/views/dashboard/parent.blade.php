@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
 @endsection
 
 @section('section')
@@ -82,7 +82,7 @@
     <!-- Dashboard summery End Here -->
     <!-- Dashboard Content Start Here -->
     <div class="row">
-        <div class="col-5-xxxl col-12">
+        <div class=" col-12">
             <div class="card dashboard-card-twelve">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -92,12 +92,9 @@
                     </div>
                     <div class="kids-details-wrap">
                         <div class="row">
-                            @foreach(\Auth::user()->students as $studend)
+                            @foreach(\Auth::user()->students as $student)
                                 <div class="col-12-xxxl col-xl-6 col-12">
                                     <div class="kids-details-box mb-5">
-                                        <div class="item-img">
-                                            <img src="{{route('image.render',$user->photo)}}" alt="kids">
-                                        </div>
                                         <div class="item-content table-responsive">
                                             <table class="table text-nowrap">
                                                 <tbody>
@@ -132,7 +129,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-7-xxxl col-12">
+        <div class=" col-12">
             <div class="card dashboard-card-eleven">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -141,22 +138,6 @@
                         </div>
                     </div>
                     <div class="table-box-wrap">
-                        <form class="search-form-box">
-                            <div class="row gutters-8">
-                                <div class="col-lg-4 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Exam ..." class="form-control">
-                                </div>
-                                <div class="col-lg-3 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Subject ..." class="form-control">
-                                </div>
-                                <div class="col-lg-3 col-md-3 form-group">
-                                    <input type="text" placeholder="dd/mm/yyyy" class="form-control">
-                                </div>
-                                <div class="col-lg-2 col-md-3 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                                </div>
-                            </div>
-                        </form>
                         <div class="table-responsive expenses-table-box">
                             <table class="table data-table text-nowrap">
                                 <thead>
@@ -174,9 +155,6 @@
                                         <td>$150.00</td>
                                         <td>Neba Emmanuel</td>
                                         <td>22/02/2019</td>
-                                        <td>
-                                            <a class="btn btn-success" href="#"><i class="fas fa-times"></i> Close</a>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -189,9 +167,9 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.counterup.min.js"></script>
-    <script src="{{asset('assets/js')}}/moment.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.waypoints.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.counterup.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/moment.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.waypoints.min.js"></script>
 @endsection
 

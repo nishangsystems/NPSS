@@ -1,13 +1,8 @@
 <?php
-
-
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use DateTime;
 
 class UserController extends Controller{
 
@@ -113,17 +108,15 @@ class UserController extends Controller{
             if($role == null){
                 $request->session()->flash('error', "Invalid Role");
             }else{
-
+                $input = $request->all();
                 if($request->file('image')!=null){
                     $image = explode('/', $request->image->store('files'))[1];
                     $input['photo'] = $image;
                 }
                 $date = new \DateTime();
                 $slug = \Hash::make($request->name.$date->format('Y-m-d H:i:s'));
-                $input = $request->all();
                 $input['slug'] = str_replace("/","",$slug);
                 $input['email'] =$request->username;
-
                 $input['password'] = \Hash::make("12345678");
                 $user = \App\User::create($input);
 
@@ -186,7 +179,7 @@ class UserController extends Controller{
             $user->save();
 
             $request->session()->flash('success', "Password changed successfully");
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         }else{
             $request->session()->flash('error', "Invalid old password");
             return redirect()->back()->withInput();
@@ -212,6 +205,6 @@ class UserController extends Controller{
         $user->save();
 
         $request->session()->flash('success', "Password changed successfully");
-        return redirect(route('home'));
+        return redirect(route('dashboard'));
     }
 }

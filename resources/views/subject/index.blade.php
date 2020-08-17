@@ -5,9 +5,9 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/select2.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/datepicker.min.css">
 @endsection
 
 @section('section')
@@ -29,6 +29,7 @@
                     <table class="table display data-table text-nowrap">
                         <thead>
                         <tr>
+                           <th>S/N</th>
                             <th>Subject Name</th>
                             <th>Subject Code</th>
                             <th>Section</th>
@@ -38,11 +39,21 @@
                         <tbody>
                             @foreach($subjects as $subject)
                                 <tr>
+                                    <td>{{$subject->i++}}</td>
                                     <td>{{$subject->byLocale()->name}}</td>
                                     <td>{{$subject->id}}</td>
                                     <td>{{$subject->section->byLocale()->name}}</td>
                                     <td>
+                                        <a class="btn btn-success" href="{{route('subject.edit', $subject->slug)}}"><i
+                                                class="fas fa-edit"></i> Edit</a>
 
+                                        <a onclick="event.preventDefault();
+                                            document.getElementById('delete{{$subject->id}}').submit();" class=" btn text-white btn-danger"><i
+                                                class="fas"></i> Delete</a>
+                                        <form id="delete{{$subject->id}}" action="{{route('subject.destroy', $subject->slug)}}" method="POST" style="display: none;">
+                                            @method('DELETE')
+                                            {{ csrf_field() }}
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -56,7 +67,7 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets/js')}}/select2.min.js"></script>
-    <script src="{{asset('assets/js')}}/datepicker.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/select2.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/datepicker.min.js"></script>
 @endsection

@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
     <style>
         th{
             border: 1px solid #ccc;
@@ -23,26 +23,31 @@
                     <h5 class="mb-0"> {{$student->class($year->id)->name}}</h5>
                     <form  method="get" action="{{route('result.edit',$student->slug)}}" class="mg-b-20 my-4" >
                         @csrf
-                        <div class="row gutters-8 justify-content-between">
-                            <div class="col-md-4 col-12 form-group">
+                        <div class="row gutters-8">
+                            <div class="form-group">
                                 <select name="year" class="select2">
                                     @foreach(\App\Session::all() as $session)
-                                        <option {{($student->class($year->id)->id == $session->id)?'selected':''}} value="{{$session->id}}">{{$session->name}}</option>
+                                        @if($session->id == getYear())
+                                            <option {{($student->class($year->id)->id == $session->id)?'selected':''}} value="{{$session->id}}">{{$session->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
-
-                            <div class="col-md-4 col-12 form-group">
+                            <div class="form-group mx-md-4">
                                 <select name="sequence" class="select2">
-                                    @foreach(\App\Sequence::all() as $term)
-                                        <option {{($seq->id == $term->id)?'selected':''}} value="{{$term->id}}">{{$term->byLocale()->name}}</option>
-                                    @endforeach
+                                    @if(\Auth::user()->hasRole('admin'))
+                                        @foreach(\App\Sequence::all() as $session)
+                                            <option {{(getYear() == $session->id)?'selected':''}}  value="{{$session->id}}">{{$session->name}}</option>
+                                        @endforeach
+                                    @else
+                                        @php
+                                            $term = \App\Sequence::find(getTerm())
+                                        @endphp
+                                        <option value="{{$term->id}}">{{$term->byLocale()->name}}</option>
+                                    @endif
                                 </select>
                             </div>
 
-                            <div class="col-md-4 form-group justify-content-end align-items-end">
-                                <button type="submit" class="fw-btn-fill btn-gradient-yellow">Refresh</button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -60,7 +65,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach(\App\Section::find(2)->subjects as $subject)
+                        @foreach(\App\Section::find($section)->subjects as $subject)
                             <tr class="form-group">
                                 <th class="px-3">{{$subject->byLocale()->name}}</th>
                                 <th><input type="text" required placeholder="Enter {{$subject->byLocale()->name}} mark" class="form-control" value="{{$student->mark($subject->id, $year->id, $seq->id)}}" name="mark{{$subject->id}}"></th>
@@ -77,5 +82,5 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection

@@ -17,6 +17,7 @@ class CreateExpensesTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('amount');
+            $table->string('expense_id');
             $table->string('date');
             $table->string('motive');
             $table->enum('status', config('constants.EXPENSE_STATUS'))->default('paid');

@@ -4,31 +4,51 @@
    Result
 @endsection
 
-@section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
-@endsection
 
 @section('section')
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>Choose Class</h3>
-                </div>
-            </div>
-            <div class="row px-2">
-                @foreach($classes as $class)
-                    <div class="col-md-3 card">
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <a class="text-dark" href="{{route('result.class.student',$class->id)}}">{{$class->name}}</a>
-                        </div>
+                <form method="post" action="" class="row w-100">
+                    @csrf
+                    <div class="col-md-4 form-group">
+                        <select class="select2"  value="{{old('admission_year')}}"  required name="year">
+                            <option>Change Academic year</option>
+                            @foreach(\App\Session::all() as $class)
+                                <option {{($class->id == $year)?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                @endforeach
+                    <div class="col-md-4">
+                        <label></label>
+                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Get</button>
+                    </div>
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table display data-table text-nowrap">
+                    <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Section</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr id="body">
+                        @foreach($classes as $class)
+                        <tr>
+                            <th>{{$class->class->name}}</th>
+                            <th>{{$class->section_id}}</th>
+                            <th>
+                                <a class="btn btn-primary float-right" href="{{route('result.class.student',$class->id)}}">
+                                    View Student
+                                </a>
+                            </th>
+                    </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection

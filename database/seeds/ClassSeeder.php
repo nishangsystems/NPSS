@@ -7,26 +7,32 @@ class ClassSeeder extends Seeder{
       public function run()
       {
           $faker = Faker\Factory::create();
-          $i = 1;
-          foreach(config('constants.CLASS') as $type){
-               if($i < 4){
-                   DB::table('classes')->insert([
-                       'name' => $type,
-                       'section_id'=> 1,
-                       'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'abbreviations' => "N".$i,
-                   ]);
-               }else{
-                   DB::table('classes')->insert([
-                       'name' => $type,
-                       'section_id'=> 2,
-                       'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
-                       'abbreviations' => "P".$i,
-                   ]);
-               }
-              $i++;
+          foreach(\App\Section::get() as $sec){
+              $name = explode(' ',$sec->name,2);
+              if($sec->id <= 2){
+                  for($i=0; $i<3; $i++){
+                      DB::table('classes')->insert([
+                          'name' => config('constants.CLASS')[$i],
+                          'section_id'=> $sec->id,
+                          'next_class'=> $sec->id,
+                          'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                          'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                          'abbreviations' => substr($name[0],0,1).substr($name[1],0,1),
+                      ]);
+                  }
+              }else{
+                  for($i=3; $i<9; $i++){
+                      DB::table('classes')->insert([
+                          'name' => config('constants.CLASS')[$i],
+                          'section_id'=> $sec->id,
+                          'next_class'=> $sec->id,
+                          'created_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                          'updated_at' => $faker->date('Y-m-d h:i:s', 'now'),
+                          'abbreviations' => substr($name[0],0,1).substr($name[1],0,1),
+                      ]);
+                  }
+              }
           }
+
       }
 }

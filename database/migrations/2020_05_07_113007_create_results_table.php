@@ -21,6 +21,7 @@ class CreateResultsTable extends Migration
             $table->integer('subject_id');
             $table->integer('mark');
             $table->string('remark');
+            $table->string('total');
             $table->integer('logged_by');
             $table->timestamps();
         });

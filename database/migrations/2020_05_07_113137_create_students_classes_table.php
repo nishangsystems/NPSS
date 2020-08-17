@@ -17,8 +17,6 @@ class CreateStudentsClassesTable extends Migration
             $table->id();
             $table->integer('student_id');
             $table->integer('class_id');
-            $table->integer('year_id');
-            $table->string('section_id');
             $table->timestamps();
         });
     }

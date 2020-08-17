@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Modules;
 
 use anlutro\LaravelSettings\ArrayUtil;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DateTime;
 
 class FeeController extends Controller{
+    protected $q = [
+        'action' => 'completed',
+        'student' => null,
+        'year' => 4
+    ];
 
     public function index(Request $request){
-        $data['fees'] = \App\StudentFeePayment::all();
+        $data['fees'] = \App\StudentFeePayment::whereDate('created_at', \Carbon\Carbon::today())->get();
         return view('fees.index')->with($data);
     }
 
@@ -27,6 +33,8 @@ class FeeController extends Controller{
 
     public function collect(Request $request){
         $data['student'] = \App\Student::whereSlug($request->student)->first();
+        $data['year'] = $data['student']->sClass()?$data['student']->sClass()->year_id:getYear();
+
         if(!$data['student']){
             abort(404);
         }
@@ -37,8 +45,16 @@ class FeeController extends Controller{
         return view('welcome');
     }
 
-    public function update(Request $request, $slug){
-        return view('welcome');
+    public function update(Request $request){
+        $fee = \App\StudentFeePayment::findOrFail($request->fee);
+        if ($request->user()->can('create_fee')) {
+            $fee->delete();
+            $request->session()->flash('success',"Fee Deleted Successfully");
+            return redirect(route('fee'));
+        }else{
+            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect(route('fee'));
+        }
     }
 
     public function store(Request $request)
@@ -57,6 +73,7 @@ class FeeController extends Controller{
             $student = \App\Student::find($request->student);
             if($request->amount > $student->dept(getYear())){
                 $request->session()->flash('error', "Negative Balance");
+                return redirect()->back()->withInput($request->all());
             }else{
                 \Auth::user()->collectFee($request);
                 $request->session()->flash('success',"Fee Collected Successfully");
@@ -68,19 +85,15 @@ class FeeController extends Controller{
         }
 
     }
-
     public function destroy(Request $request, $id)
     {
         if ($request->user()->can('delete-tasks')) {
-            //Code goes here
         }
         return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
     }
-
     public function classFee(Request $request){
         return view('fees.class');
     }
-
     public function classFeeUpdate(Request $request){
         $this->validate($request, [
             'class' => 'required',
@@ -95,7 +108,6 @@ class FeeController extends Controller{
         $request->session()->flash('success',"Successful");
         return redirect()->back();
     }
-
     public function type(){
         return view('fees.type');
     }
@@ -108,6 +120,24 @@ class FeeController extends Controller{
         $type = \App\FeeType::create($request->all());
         $request->session()->flash('success',"Successful");
         return redirect()->back();
+    }
+
+    public function monthlyReport(Request $request){
+    
+       $month = Carbon::now()->month;
+        $day = Carbon::now()->day;
+        $year = Carbon::now()->year;
+
+        if($request->month){
+            $month = $request->month;
+        }
+       
+        $data['day'] = $day;
+        $data['month'] = $month;
+        $data['year'] = $year;
+
+
+        return view('fees.month')->with($data);
     }
 
     public function owing(){
@@ -127,19 +157,29 @@ class FeeController extends Controller{
         $student = [];
         $year = $request->year?$request->year:getYear();
         $data['year'] = $year;
+
+        $q = $this->q;
+
+        if ($request->get('action')) {
+            $q['action'] = $request->get('action');
+        }
+
+        $q['year'] = $year;
+
+        $data['q'] = $q;
         if($request->action == 'scholarship'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $clas){
-                foreach ($clas->subClass as $class){
+                foreach ($clas->subClass($year) as $class){
                     if($request->class == 0){
-                        foreach( $class->students($year) as $student){
+                        foreach( $class->student as $student){
                             if($student->scholarship($year) > 0){
                                 $students->push($student);
                             }
                         }
                     }else{
                         if($request->class == $class->id){
-                            foreach( $class->students($year) as $student){
+                            foreach( $class->student as $student){
                                 if($student->scholarship($year) > 0){
                                     $students->push($student);
                                 }
@@ -152,9 +192,9 @@ class FeeController extends Controller{
         }else if($request->action == 'completed'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $clas){
-                foreach ($clas->subClass as $class) {
+                foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
-                        foreach ($class->students($year) as $student) {
+                        foreach ($class->student as $student) {
                             if ($student->dept($year) == 0) {
                                 $students->push($student);
                             }
@@ -174,9 +214,9 @@ class FeeController extends Controller{
         }elseif($request->action == 'owing') {
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $clas){
-                foreach ($clas->subClass as $class) {
+                foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
-                        foreach ($class->students($year) as $student) {
+                        foreach ($class->student as $student) {
                             if ($student->dept($year) > 0) {
                                 $students->push($student);
                             }
@@ -196,9 +236,9 @@ class FeeController extends Controller{
         }elseif($request->action == 'giftscholarship'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $clas){
-                foreach ($clas->subClass as $class) {
+                foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
-                        foreach ($class->students($year) as $student) {
+                        foreach ($class->student as $student) {
                             $students->push($student);
                         }
                     } else {
@@ -214,9 +254,9 @@ class FeeController extends Controller{
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $clas){
-                foreach ($clas->subClass as $class) {
+                foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
-                        foreach ($class->students($year) as $student) {
+                        foreach ($class->student as $student) {
                             if ($student->dept($year) > 0) {
                                 $students->push($student);
                             }
@@ -239,6 +279,20 @@ class FeeController extends Controller{
 
     public function print(Request $request){
         $year = $request->year?$request->year:getYear();
+        $q = $this->q;
+
+        if ($request->get('action')) {
+            $q['action'] = $request->get('action');
+        }
+
+        if ($request->get('student')) {
+            $q['student'] = $request->get('student');
+        }
+
+        $q['year'] = $year;
+
+        $data['q'] = $q;
+
         $data['year'] = $year;
         if($request->action == 'print'){
             $student = \App\Student::whereSlug($request->student)->first();
@@ -247,11 +301,13 @@ class FeeController extends Controller{
             $data['year'] = $year;
             return view('fees.studentpayment')->with($data);
         }else{
-            $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+            $students = \App\Student::orderBy('created_at','DESC')->get();
             foreach(\App\Classes::get() as $class){
-                foreach( $class->students($year) as $student){
+                foreach($class->students($year) as $student){
                     if($student->feePayment->count() > 0){
-                        $students->push($student);
+                       if(!$students->contains($student)){
+                           $students->push($student);
+                       }
                     }
                 }
             }
@@ -284,10 +340,15 @@ class FeeController extends Controller{
         if ($request->user()->can('create_fee')) {
             $this->validate($request, [
                 'student' => 'required',
+                'year' => 'required',
                 'amount' => 'required|integer',
             ]);
             \App\Student::find($request->student)->setScholarShip($request);
-            $request->session()->flash('success',"Scholarship Saved Successfully");
+           if($request->amount < 0){
+                $request->session()->flash('success',"Dept saved successfully");
+           }else{
+                $request->session()->flash('success',"Scholarship Saved Successfully");
+           }
             return redirect(route('fee.student')."?action=scholarship");
         }else{
             return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
@@ -306,7 +367,6 @@ class FeeController extends Controller{
             return view('fees.scholarship_report')->with($data);
         }
     }
-
     public function income(Request $request){
         $data['title'] =   "Income Statement";
         if($request->action == 'print'){

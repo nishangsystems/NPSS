@@ -78,43 +78,7 @@
     <!-- Dashboard summery End Here -->
     <!-- Dashboard Content Start Here -->
     <div class="row gutters-20">
-        <div class="col-12 col-xl-8 col-6-xxxl">
-            <div class="card dashboard-card-one pd-b-20">
-                <div class="card-body">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Earnings</h3>
-                        </div>
-
-                    </div>
-                    <div class="earning-report">
-                        <div class="item-content">
-                            <div class="single-item pseudo-bg-blue">
-                                <h4>Total Collections</h4>
-                                <span>75,000</span>
-                            </div>
-                            <div class="single-item pseudo-bg-red">
-                                <h4>Fees Collection</h4>
-                                <span>15,000</span>
-                            </div>
-                        </div>
-                        <div class="dropdown">
-                            <a class="date-dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">Jan 20, 2019</a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Jan 20, 2019</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2021</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2020</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="earning-chart-wrap">
-                        <canvas id="earning-line-chart" width="660" height="320"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-xl-4 col-3-xxxl">
+        <div class="col-12 col-lg-6">
             <div class="card dashboard-card-two pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -123,18 +87,16 @@
                         </div>
                     </div>
                     <div class="expense-report">
-                        <div class="monthly-expense pseudo-bg-Aquamarine">
-                            <div class="expense-date">Jan 2019</div>
-                            <div class="expense-amount"><span>$</span> 15,000</div>
-                        </div>
-                        <div class="monthly-expense pseudo-bg-blue">
-                            <div class="expense-date">Feb 2019</div>
-                            <div class="expense-amount"><span>$</span> 10,000</div>
-                        </div>
-                        <div class="monthly-expense pseudo-bg-yellow">
-                            <div class="expense-date">Mar 2019</div>
-                            <div class="expense-amount"><span>$</span> 8,000</div>
-                        </div>
+                        @php
+                            $colors = ['pseudo-bg-Aquamarine','pseudo-bg-blue','pseudo-bg-yellow'];
+                            $i = 0;
+                        @endphp
+                        @foreach($mFees as $fee)
+                            <div class="monthly-expense {{$colors[$i++]}}">
+                                <div class="expense-date">{{getMonthName($fee->month)}}</div>
+                                <div class="expense-amount"><span>XAF</span> {{$fee->amount}}</div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="expense-chart-wrap">
                         <canvas id="expense-bar-chart" width="100" height="300"></canvas>
@@ -166,7 +128,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-xl-6 col-4-xxxl">
+        <div class="col-lg-12">
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1 mg-b-17">
@@ -193,10 +155,10 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/Chart.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.counterup.min.js"></script>
-    <script src="{{asset('assets/js')}}/moment.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.waypoints.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/Chart.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.counterup.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/moment.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.waypoints.min.js"></script>
     <script>
         /*-------------------------------------
           Doughnut Chart
@@ -231,6 +193,94 @@
                 type: 'doughnut',
                 data: doughnutChartData,
                 options: doughnutChartOptions
+            });
+        }
+        if ($("#expense-bar-chart").length) {
+
+            var barChartData = {
+                labels: ["Jan", "Feb", "Mar"],
+                datasets: [{
+                    backgroundColor: ["#40dfcd", "#417dfc", "#ffaa01"],
+                    data: [@foreach($mFees as $fee) {{$fee->amount}}, @endforeach],
+                    label: "Total Fee Collected (XAF)"
+                }, ]
+            };
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 2000
+                },
+                scales: {
+
+                    xAxes: [{
+                        display: false,
+                        maxBarThickness: 100,
+                        ticks: {
+                            display: false,
+                            padding: 0,
+                            fontColor: "#646464",
+                            fontSize: 14,
+                        },
+                        gridLines: {
+                            display: true,
+                            color: '#e1e1e1',
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            display: true,
+                            autoSkip: false,
+                            fontColor: "#646464",
+                            fontSize: 14,
+                            stepSize: 25000,
+                            padding: 20,
+                            beginAtZero: true,
+                            callback: function (value) {
+                                var ranges = [{
+                                    divider: 1e6,
+                                    suffix: 'M'
+                                },
+                                    {
+                                        divider: 1e3,
+                                        suffix: 'k'
+                                    }
+                                ];
+
+                                function formatNumber(n) {
+                                    for (var i = 0; i < ranges.length; i++) {
+                                        if (n >= ranges[i].divider) {
+                                            return (n / ranges[i].divider).toString() + ranges[i].suffix;
+                                        }
+                                    }
+                                    return n;
+                                }
+                                return formatNumber(value);
+                            }
+                        },
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            color: '#e1e1e1',
+                            zeroLineColor: '#e1e1e1'
+
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: true
+                },
+                elements: {}
+            };
+            var expenseCanvas = $("#expense-bar-chart").get(0).getContext("2d");
+            var expenseChart = new Chart(expenseCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
             });
         }
     </script>

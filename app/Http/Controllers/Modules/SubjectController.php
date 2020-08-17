@@ -13,11 +13,13 @@ class SubjectController extends Controller{
 
     public function index(){
         $data['subjects'] = \App\Subject::all();
+        $data['i']=1;
         $data['title'] = "All Subjects";
         if(\request('class')){
             $class = \App\Classes::find(\request('class'));
             if($class != null){
                 $data['title'] = $class->name." Subjects";
+                $data['i']=1;
                 $data['subjects'] = $class->subjects();
             }
         }
@@ -29,7 +31,8 @@ class SubjectController extends Controller{
     }
 
     public function edit(Request $request, $slug){
-        return view('subject.edit');
+        $data['subject'] = \App\Subject::whereSlug($slug)->first();
+        return view('subject.edit')->with($data);
     }
 
     public function create(Request $request){
@@ -38,14 +41,33 @@ class SubjectController extends Controller{
 
 
     public function update(Request $request, $slug){
-        return view('welcome');
+        if ($request->user()->can('create_subject')) {
+            $this->validate($request, [
+                'name' => 'required',
+                'code' => 'required',
+                'section' => 'required',
+                'score' => 'required',
+            ]);
+
+            $subject = \App\Subject::whereSlug($slug)->first();
+            $subject->name = $request->name;
+            $subject->code = $request->code;
+            $subject->score = $request->score;
+            $subject->slug = str_replace('/','',$slug);
+            $subject->section_id = $request->section;
+            $subject->save();
+
+            $request->session()->flash('success', "Subject updated successfully");
+        }else{
+            $request->session()->flash('error', "Not allowed to perform this action");
+        }
+        return redirect()->to(route('subject.index'));
     }
 
     public function store(Request $request) {
         if ($request->user()->can('create_subject')) {
             $this->validate($request, [
                 'name' => 'required',
-                'type' => 'nullable',
                 'code' => 'required',
                 'section' => 'required',
                 'score' => 'required',
@@ -55,7 +77,6 @@ class SubjectController extends Controller{
 
             $subject = new \App\Subject();
             $subject->name = $request->name;
-            $subject->type = $request->type;
             $subject->code = $request->code;
             $subject->score = $request->score;
             $subject->slug = $slug;
@@ -69,11 +90,14 @@ class SubjectController extends Controller{
         return redirect()->to(route('subject.index'));
     }
 
-    public function destroy(Request $request, $id)
-    {
-        if ($request->user()->can('delete-tasks')) {
-            //Code goes here
+    public function destroy(Request $request, $slug){
+        if ($request->user()->can('create_subject')) {
+            $subject = \App\Subject::whereSlug($slug)->first();
+            $subject->delete();
+            $request->session()->flash('success', "Subject Deleted successfully");
+        }else{
+            $request->session()->flash('error', "Not allowed to perform this action");
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('subject.index'));
     }
 }

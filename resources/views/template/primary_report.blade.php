@@ -1,5 +1,7 @@
-@extends('layout.template')
-@section('content')
+<div style="height:120px; width:95% " >
+    <img src="{{asset('public/assets/img')}}/header.png" />
+</div>
+<h3>{{$title}}</h3>
 <div class="heading-layout1">
     <div class="item-title d-flex-column w-100">
         <h5 class="mb-0"> {{$student->name}}</h5>
@@ -53,7 +55,7 @@
             <th class="font-bold" style="width: 160px;">Average</th>
             @foreach(\App\Terms::get() as $term)
                 @foreach($term->sequence as $sequence)
-                    <th>-</th>
+                    <th>{{$student->average(getYear(), $term->id)}}</th>
                 @endforeach
                 <th>-</th>
                 <th>-</th>
@@ -73,4 +75,3 @@
         </tbody>
     </table>
 </div>
-@endsection

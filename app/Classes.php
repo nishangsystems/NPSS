@@ -9,6 +9,7 @@ class Classes extends Model{
     protected $fillable = [
         'name','section_id','limit','abbreviations'
     ];
+
     public function byLocale(){
         if (\App::getLocale() == "fr") {
             $this->name = $this->name_fr != null ? $this->name_fr : $this->name;
@@ -20,20 +21,26 @@ class Classes extends Model{
         return $this->section->subjects;
     }
 
-    public function student(){
-        return $this->belongsToMany('App\Student','students_classes','class_id','student_id');
-    }
 
     public function students($year){
-        return $this->student()->where('students_classes.year_id', $year)->get();
+        $student = [];
+        foreach($this->subClass($year) as $class){
+            $student = $class->student->union($student);
+        }
+        return $student;
     }
 
     public function teacher(){
         return $this->belongsToMany('App\User','teachers_classes','class_id','teacher_id');
     }
 
+    public function parent(){
+        return $this->belongsTo('App\Classes','next_class');
+    }
+
+
     public function teachers($year){
-        return $this->teacher()->where('teachers_classes.year_id', $year)->get();
+        return $this->teacher->where('teachers_classes.year_id', $year)->get();
     }
 
     public function section(){
@@ -76,6 +83,6 @@ class Classes extends Model{
     }
 
     public function subClass($year){
-        return $this->hasMany('\App\StudentsClass','class_id')->where('year_id', $year)->get();
+        return $this->hasMany('\App\AnnualClass','class_id')->where('year_id', $year)->get();
     }
 }

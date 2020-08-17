@@ -38,7 +38,7 @@
             <div class="border h-100 flex-grow-1"> </div>
         </div>
     </div>
-@elseif($value == 5 )
+@elseif($value >= 5 )
     <div class="d-flex w-100">
         <div class=" d-flex flex-nowrap w-100 justify-content-center text-center">
             <div class="border h-100 flex-grow-1"> </div>

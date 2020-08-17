@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
 @endsection
 
 @section('section')
@@ -15,10 +15,10 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All Fees Collection</h3>
+                    <h3>Today Fee Collected</h3>
                 </div>
                 <div class="dropdown">
-                    <a href="{{route('fee.collect')}}" class="fw-btn-fill btn-gradient-yellow">Collect Fee</a>
+                    <a href="{{route('fee.student')}}?action=fee" class="fw-btn-fill btn-gradient-yellow">Collect Fee</a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -40,7 +40,7 @@
                                 <td>{{$fee->student->name}}</td>
                                 <td>{{($fee->student->class($fee->session->id))?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
                                 <td>{{$fee->amount}}</td>
-                                <td>{{$fee->user->first_name}} {{$fee->user->last_name}}</td>
+                                <td>{{$fee->user->name}}</td>
                                 <td>{{$fee->session->name}}</td>
                                 <td>{{$fee->created_at->format('d/m/Y')}}</td>
                                 <td>
@@ -49,9 +49,9 @@
                                             class="fas"></i> Delete</a>
 
 
-                                    <form id="delete" action="{{route('fee.delete', $fee->id)}}" method="POST" style="display: none;">
-                                        @method('DELETE')
+                                    <form id="delete" action="{{route('fee.delete')}}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
+                                        <input type="hidden" name="fee" value="{{$fee->id}}">
                                     </form>
                                 </td>
                             </tr>
@@ -64,5 +64,5 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection

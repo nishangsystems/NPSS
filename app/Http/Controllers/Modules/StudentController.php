@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\AnnualClass;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -10,37 +11,18 @@ use Illuminate\Support\Facades\Hash;
 use DateTime;
 
 class StudentController extends Controller{
-
-    public function genMat($class, $year){
-        $class = \App\Classes::find($class);
-        $count = $class->students($year)->count();
-        return $class->abbreviations.$count.$this->getSection($class->id, $year);
-    }
-
-    public function getSection($class, $year){
-        $class = \App\Classes::find($class);
-        $sections = ['A','B','C','D','E','F'];
-        $count = $class->students($year)->count();
-        $position = ($count - ($count % $class->limit))/$class->limit;
-        if($position > 5){
-            return $sections[5];
-        }else{
-            return $sections[$position];
-        }
-    }
-
     public function index(Request $request){
         $data['students'] =[];
         $data['year'] = $request->year?$request->year:getYear();
         if(!$request->class){
             $data['students'] = \App\Student::orderBy('created_at','DESC')->get();
         }else{
-            $class = \App\ClassSection::find(\request('class'));
-            $data['students'] = $class->students($data['year']);
+            $class = \App\AnnualClass::find(\request('class'));
+            $data['students'] = $class->student;
         }
+        $data['class'] = \App\AnnualClass::find(\request('class'));
         return view('student.index')->with($data);
     }
-
     public function show(Request $request, $slug){
         $data['student'] = \App\Student::whereSlug($slug)->first();
         $data['year'] = $request->year?$request->year:getYear();
@@ -90,15 +72,6 @@ class StudentController extends Controller{
                 $student->phone = $request->phone;
                 $student->save();
 
-                $class = \App\Classes::find($student->class);
-                $classR = $student->classR($request->admission_year);
-                $classR->delete();
-                $studentClass = \App\StudentsClass::create([
-                    'student_id'=> $student->id,
-                    'class_id'=> $student->class,
-                    'year_id'=> $request->admission_year,
-                    'section_id'=> $this->getSection($request->class, getYear()),
-                ]);
                 \DB::commit();
                 $request->session()->flash('success', "Student updated successfully");
             }catch(\Exception $e){
@@ -111,8 +84,6 @@ class StudentController extends Controller{
         }
         return redirect()->to(route('student.index'));
     }
-
-
     public function store(Request $request)
     {
         if (\Auth::user()->can('create_student')) {
@@ -139,14 +110,12 @@ class StudentController extends Controller{
                 $input = $request->all();
                 $input['slug'] = str_replace("/","",$slug);
                 $input['photo'] = $image;
-                $input['matricule'] = $this->genMat($request->class, getYear());
+                $input['matricule'] = genMat($request->class, getYear());
                 $student = \App\Student::create($input);
-                $class = \App\Classes::find($student->class);
-                $studentClass = \App\StudentsClass::create([
+
+                 \App\StudentsClass::create([
                     'student_id'=> $student->id,
-                    'class_id'=> $student->class,
-                    'year_id'=> $request->admission_year,
-                    'section_id'=> $this->getSection($request->class, getYear()),
+                    'class_id'=> getSection($request->class, getYear())->id
                 ]);
                 \DB::commit();
                 $request->session()->flash('success', "Student Created successfully");
@@ -179,5 +148,106 @@ class StudentController extends Controller{
         }
 
         return redirect()->to(route('student.index'));
+    }
+
+    public function promote(Request $request){
+        $students = new \App\Student();
+        $year = getYear();
+        if($request->year){
+            $year = $request->year;
+        }
+
+        if($request->next_year){
+            if($request->next_year < $year){
+                $request->session()->flash('error', "Invalid promotion academic year");
+            }
+        }
+
+        if($request->class){
+            $students= \App\Classes::find($request->class)->students($year);
+        }
+
+        $data['students'] = $students;
+        return view('student.promote')->with($data);
+    }
+
+    public function promoteSubmit(Request $request){
+        $this->validate($request, [
+            'class' => 'required',
+            'students' => 'required',
+            'year' => 'required',
+            'next_year' => 'required',
+        ]);
+        try{
+           foreach ($request->students as $stud){
+               \DB::beginTransaction();
+               $student = \App\Student::find($stud);
+                $class = \App\Classes::find($request->class);
+
+                $newClass = $class->parent;
+
+               if(!$class->students($request->next_year)->contains($student)){
+                   $studentClass = \App\StudentsClass::create([
+                       'student_id'=> $student->id,
+                       'class_id'=> getSection($request->class, $request->next_year)->id
+                   ]);
+               }else{
+                   dd('here');
+               }
+
+
+               \DB::commit();
+            $request->session()->flash('success', "Student Promoted Successfully");
+           }
+        }catch(\Exception $e){
+            \DB::rollback();
+            //   echo $e;
+            $request->session()->flash('error', "Something went wrong");
+        }
+        return redirect()->back();
+    }
+
+    public function changeClass(Request $request){
+        return view('student.search');
+    }
+
+    public function changeClassForm(Request $request, $student){
+        $data['student'] = \App\Student::findOrFail($student);
+        return view('student.changeClass')->with($data);
+    }
+
+    public function changeClassFormPost(Request $request, $student){
+        $this->validate($request, [
+            'class' => 'required',
+            'student' => 'required',
+            'current_class' => 'required',
+        ]);
+
+        $student = \App\Student::findOrFail($student);
+
+        try{
+            \DB::beginTransaction();
+            $classR = $student->classR($student->sClass()->class->id);
+
+            if($classR){
+                $classR->delete();
+            }
+
+                $studentClass = \App\StudentsClass::create([
+                    'student_id'=> $student->id,
+                    'class_id'=> getSection($request->class, getYear())->id
+                ]);
+
+
+
+            \DB::commit();
+            $request->session()->flash('success', "Student Migrated Successfully");
+        }catch(\Exception $e){
+            \DB::rollback();
+            //echo $e;
+        $request->session()->flash('error', "Something went wrong");
+       }
+
+         return redirect()->back();
     }
 }

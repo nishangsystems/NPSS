@@ -3685,14 +3685,12 @@ ul {
     font-size: 18px;
   }
 }
-.dashboard-card-one .card-body .earning-report .item-content .single-item span:after {
-  content: "$";
-  font-size: 16px;
+.dashboard-card-one .card-body .earning-report .item-content .single-item span:before {
+  content: "XAF  ";
+  font-size: 18px;
   color: #646464;
   font-weight: 500;
-  position: absolute;
   top: 3px;
-  left: 0;
 }
 .dashboard-card-one .card-body .earning-report .dropdown {
   text-align: right;
@@ -5095,4 +5093,7 @@ ul {
 }
 .w-20{
     width: 20% !important;
+}
+@media print {
+    button {display: none ;}input {display: none; } .btn{display :none;}a{display: none;}
 }

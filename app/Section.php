@@ -17,4 +17,8 @@ class Section extends Model
         }
         return $this;
     }
+
+    public function class(){
+        return $this->hasMany('\App\Classes','section_id');
+    }
 }

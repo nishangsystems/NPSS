@@ -43,8 +43,10 @@
                         <label>Class *</label>
                         <select class="select2"  value="{{old('class')}}"  name="class" required>
                             <option  value="">Please Select Class *</option>
-                            @foreach(\App\Classes::all() as $class)
-                                <option value="{{$class->id}}">{{$class->byLocale()->name}}</option>
+                            @foreach(\App\Section::all() as $section)
+                                @foreach($section->class as $class)
+                                    <option value="{{$class->id}}">{{$section->name}} - {{$class->byLocale()->name}}</option>
+                                @endforeach
                             @endforeach
                         </select>
                     </div>

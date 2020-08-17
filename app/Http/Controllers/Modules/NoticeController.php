@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DateTime;
 
-class NoticeController extends Controller{
+class oticeController extends Controller{
 
     public function index(Request $request){
         return view('notice.index');
