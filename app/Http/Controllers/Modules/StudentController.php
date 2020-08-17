@@ -136,7 +136,7 @@ class StudentController extends Controller{
             if($student == null){
                 abort(404);
             }
-           if($student->feePayment->count() == 0 ){
+           if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
                $student->delete();
                $request->session()->flash('success', "Student Deleted successfully");
            }else{

@@ -1,9 +1,5 @@
 @extends('layout.base')
 
-@section('title')
-    Admin Dashboard
-@endsection
-
 @section('style')
     <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{asset('public/assets/css')}}/select2.min.css">

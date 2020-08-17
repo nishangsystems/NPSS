@@ -3579,6 +3579,7 @@ ul {
   -ms-flex-direction: column;
   flex-direction: column;
   padding: 0 30px;
+  min-height: 600px;
 }
 @media only screen and (max-width: 767px) {
   .dashboard-content-one {

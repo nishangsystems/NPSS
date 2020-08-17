@@ -94,7 +94,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('setting/terms', 'Modules\SettingController@terms')->name('settings.terms');
         Route::get('setting/sequences', 'Modules\SettingController@sequences')->name('settings.sequences');
 
-        Route::post('config','Modules\SettingController@config')->name('config.set');
+        Route::post('configure','Modules\SettingController@config')->name('config.set');
 
         Route::get('pupil/parent', 'Modules\SearchController@pupil')->name('pupil.parent');
 

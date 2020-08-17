@@ -52,12 +52,15 @@
         </div>
         <div class="header-main-menu collapse navbar-collapse" id="mobile-navbar">
             <ul class="navbar-nav">
+                <li class="navbar-item header-admin">
+                    Powered by Nishang System
+                </li>
             </ul>
             <ul class="navbar-nav">
                 @if(\Auth::user()->class(getYear()))
                     <li class="navbar-item header-admin">
                         <div class="input-group stylish-input-group">
-                            <a href="#">{{\Auth::user()->class(getYear())->name}}</a>
+                            <a href="{{route('student.index')}}?class={{\Auth::user()->class(getYear())->id}}">{{\Auth::user()->class(getYear())->class->name}} {{\Auth::user()->class(getYear())->section_id}}</a>
                         </div>
                     </li>
                 @endif
@@ -70,7 +73,7 @@
                             <span>{{request()->user()->roles()->first()->byLocale()->name}}</span>
                         </div>
                         <div class="admin-img">
-                            <img style="height: 50px;" src="{{route('image.render', Auth::user()->photo?Auth::user()->photo:'')}}" alt="User">
+                            <img style="height: 50px;" src="{{route('image.render', Auth::user()->photo?Auth::user()->photo:'')}}">
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -268,6 +271,11 @@
 
                         </ul>
                     </li>
+                    @if(\Auth::user()->class(getYear()))
+                        <li class="nav-item">
+                            <a href="{{route('student.index')}}?class={{\Auth::user()->class(getYear())->id}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Class List</span></a>
+                        </li>
+                    @endif
                    @if(\Auth::user()->hasRole('admin'))
 
 
@@ -366,6 +374,18 @@
         </div>
     </div>
 </div>
+
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+               Powered by Nishang System
+            </div><!-- .col-12 -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+</footer><!-- .site-footer -->
 
 <script src="{{asset('public/assets/js')}}/jquery-3.3.1.min.js"></script>
 <script src="{{asset('public/assets/js')}}/plugins.js"></script>

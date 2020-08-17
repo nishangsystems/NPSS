@@ -95,7 +95,7 @@
     w.document.write('</head><body>');
     w.document.write(printContents);
     w.document.write('</body>');
-    w.document.write('<scr' + 'ipt type="text/javascript">' + 'window.onload = function() { window.print(); window.close(); };' + '</sc' + 'ript>');
+   // w.document.write('<scr' + 'ipt type="text/javascript">' + 'window.onload = function() { window.print(); window.close(); };' + '</sc' + 'ript>');
     w.document.write('</html>');
     w.document.close();
     w.focus();

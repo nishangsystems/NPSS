@@ -37,9 +37,10 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php($i = 1)
                             @foreach($subjects as $subject)
                                 <tr>
-                                    <td>{{$subject->i++}}</td>
+                                    <td>{{$i++}}</td>
                                     <td>{{$subject->byLocale()->name}}</td>
                                     <td>{{$subject->id}}</td>
                                     <td>{{$subject->section->byLocale()->name}}</td>
