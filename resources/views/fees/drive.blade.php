@@ -9,26 +9,27 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>All @if(request('action')=='scholarship' || request('action') =='giftscholarship') {{"Scholarships"}}  @elseif(request('action')=='owing') {{"UnCompleted Fee"}}  @else  {{"Completed Fee"}}   @endif  for {{\App\Session::find($year)->name}}</h3>
+                    <h3>Fee drive</h3>
                 </div>
 
                 <button onclick="print()">print</button>
             </div>
 
             <form class="mg-b-20"  method="get" action="">
-                <input type="hidden" name="action" value="{{request('action')}}">
+                <input type="hidden" name="action" value="{{request('amount')}}">
                 <div class="row gutters-8">
                     <div class="col-lg-3  mt-1">
                         <div class="dropdown">
                             <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">@if(request('action')=='scholarship') {{"Scholarships"}}  @elseif(request('action')=='owing') {{"UnCompleted Fee"}}  @else  {{"Completed Fee"}}   @endif</a>
+                               aria-expanded="false">{{$q['amount'] == 40000 ?"First Installment":($q['amount'] == 15000 ? 'Second Installment':'Third Installment')}}</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'owing','year'=>$q['year'],'classr'=>$q['class']])}}">UnCompleted Fee</a>
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'scholarship','year'=>$q['year'],'classr'=>$q['class']])}}">Scholarships</a>
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'completed','year'=>$q['year'],'classr'=>$q['class']])}}">Completed Fee</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>40000,'year'=>$q['year'],'classr'=>$q['class']])}}">First Installment</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>15000,'year'=>$q['year'],'classr'=>$q['class']])}}">Second Installment</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>10000,'year'=>$q['year'],'classr'=>$q['class']])}}">Third Installment</a>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="col-lg-3  mt-1">
                         <div class="dropdown">
@@ -36,7 +37,7 @@
                                aria-expanded="false">{{\App\Session::find($q['year'])->name}}</a>
                             <div class="dropdown-menu dropdown-menu-right">
                                @foreach(\App\Session::get() as $session)
-                                    <a class="dropdown-item" href="{{route('fee.student' ,['action'=>$q['action'],'year'=>$session->id,'classr'=>$q['class']])}}">{{$session->name}}</a>
+                                    <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>$q['amount'],'year'=>$session->id,'classr'=>$q['class']])}}">{{$session->name}}</a>
                                @endforeach
                             </div>
                         </div>
@@ -48,7 +49,7 @@
                                aria-expanded="false">{{$q['class']?\App\Classes::find($q['class'])->name:'All Classes'}}</a>
                             <div class="dropdown-menu dropdown-menu-right">
                                @foreach(\App\Classes::get() as $session)
-                                    <a class="dropdown-item" href="{{route('fee.student' ,['action'=>$q['action'],'classr'=>$session->id,'year'=>$q['year']])}}">{{$session->name}}</a>
+                                    <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>$q['amount'],'classr'=>$session->id,'year'=>$q['year']])}}">{{$session->name}}</a>
                                @endforeach
                             </div>
                         </div>
@@ -80,12 +81,12 @@
                                 <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
                                 <td>{{\App\Session::find($student->sClass()->year_id)->name}}</td>
                                 <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
-                                <td class="{{$student->dept($year) >0?'text-red':''}}">{{$student->dept($year)}}</td>
+                                <td class="{{$student->dept($year) > 0?'text-red':''}}">{{$student->dept($year)}}</td>
                                 <td>{{$student->scholarship($year)}}</td>
                                 <td>
                                     <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> View receipt </a>
                                     <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> Collect Fee</a>
-                                    @if(request('action')=='scholarship' || request('action') =='giftscholarship')
+                                    @if(request('amount')=='scholarship' || request('amount') =='giftscholarship')
                                         <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> Scholarship</a>
                                     @endif
                                 </td>

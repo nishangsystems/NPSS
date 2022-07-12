@@ -55,6 +55,10 @@
                 <li class="navbar-item header-admin">
                     Powered by Nishang System
                 </li>
+
+                <li class="navbar-item header-admin">
+                  <h4 class="mb-0 text-danger font-weight-bold"> {{ \App\Session::find(getYear())->name}} Academic year</h4>
+                </li>
             </ul>
             <ul class="navbar-nav">
                 @if(\Auth::user()->class(getYear()))
@@ -152,6 +156,9 @@
                                     <a href="{{route('fee.student')}}?action=giftscholarship" class="nav-link"><i class="fas fa-angle-right"></i>Give scholarship</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{route('fee.drive')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fee Drive</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Configure Class Fee</a>
                                 </li>
                                 <li class="nav-item">
@@ -162,6 +169,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('fee.monthly.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Monthly Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.monthly.receipt')}}" class="nav-link"><i class="fas fa-angle-right"></i>Monthly Receipt</a>
                                 </li>
                             </ul>
                         </li>

@@ -18,22 +18,35 @@
                             <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
                                aria-expanded="false">{{getMonthName($month)}}</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'1'])}}">January</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'2'])}}">February</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'3'])}}">March</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'4'])}}">April</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'5'])}}">May</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'6'])}}">June</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'7'])}}">July</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'8'])}}">August</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'9'])}}">September</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'10'])}}">October</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'11'])}}">November</a>
-                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'12'])}}">December</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'1', 'year'=> $year])}}">January</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'2', 'year'=> $year])}}">February</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'3', 'year'=> $year])}}">March</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'4', 'year'=> $year])}}">April</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'5', 'year'=> $year])}}">May</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'6', 'year'=> $year])}}">June</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'7', 'year'=> $year])}}">July</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'8', 'year'=> $year])}}">August</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'9', 'year'=> $year])}}">September</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'10', 'year'=> $year])}}">October</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'11', 'year'=> $year])}}">November</a>
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>'12', 'year'=> $year])}}">December</a>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-3  mt-1">
+                    <div class="dropdown">
+                        <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">{{$year}}</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @for($y = \Carbon\Carbon::now()->year; $y >= 2016 ;  $y--)
+                                <a class="dropdown-item" href="{{route('fee.monthly.report',['month'=>$month, 'year'=> $y])}}">{{$y}}</a>
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+
                 <button onclick="print()">print</button>
             </div>
             <div class="table-responsive">
@@ -47,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @for($i = 1; $i <= $day; $i++)
+                        @for($i = 1; $i <= 31; $i++)
                            @if(getDailyTotalFee($i, $month, $year) > 0 || getDailyTotalExpenses($i, $month, $year) > 0)
                                 <tr>
                                     <td>{{$i}}/{{$month}}/{{$year}}</td>

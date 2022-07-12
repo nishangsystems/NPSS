@@ -179,37 +179,39 @@ class StudentController extends Controller{
             'next_year' => 'required',
         ]);
         try{
+            $class = \App\Classes::find($request->class);
+            $newClass = $class;
+            $students = $newClass->students($request->next_year);
            foreach ($request->students as $stud){
-               \DB::beginTransaction();
                $student = \App\Student::find($stud);
-                $class = \App\Classes::find($request->class);
-
-                $newClass = $class->parent;
-
-               if(!$class->students($request->next_year)->contains($student)){
-                   $studentClass = \App\StudentsClass::create([
+               if(!$this->isMember($student, $students)){
+                   $s =  \App\StudentsClass::create([
                        'student_id'=> $student->id,
-                       'class_id'=> getSection($request->class, $request->next_year)->id
+                       'class_id'=> getSection($newClass->id, $request->next_year)->id
                    ]);
-               }else{
-                   dd('here');
                }
-
-
-               \DB::commit();
-            $request->session()->flash('success', "Student Promoted Successfully");
            }
+           $request->session()->flash('success', "Student Promoted Successfully");
+           return redirect()->back();
         }catch(\Exception $e){
-            \DB::rollback();
-            //   echo $e;
+           
             $request->session()->flash('error', "Something went wrong");
         }
-        return redirect()->back();
     }
 
     public function changeClass(Request $request){
         return view('student.search');
     }
+
+    public function isMember( $student, $students){
+        $isMember = false;
+        foreach($students as $stud){
+            $isMember = ($stud->student_id == $student->id);
+        }
+           
+        return $isMember;
+    }
+
 
     public function changeClassForm(Request $request, $student){
         $data['student'] = \App\Student::findOrFail($student);
@@ -227,16 +229,16 @@ class StudentController extends Controller{
 
         try{
             \DB::beginTransaction();
-            $classR = $student->classR($student->sClass()->class->id);
+            $classR = $student->classR($student->sClass()->id);
 
             if($classR){
                 $classR->delete();
             }
 
-                $studentClass = \App\StudentsClass::create([
-                    'student_id'=> $student->id,
-                    'class_id'=> getSection($request->class, getYear())->id
-                ]);
+            $studentClass = \App\StudentsClass::create([
+                'student_id'=> $student->id,
+                'class_id'=> getSection($request->class, getYear())->id
+            ]);
 
 
 

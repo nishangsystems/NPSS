@@ -52,7 +52,14 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                    $sum = 0;
+                    @endphp
+
                     @foreach($expenses as $expense)
+                        @php
+                        $sum += $expense->amount;
+                        @endphp
                         <tr>
                             <td>{{$expense->created_at->format('d/m/Y')}}</td>
                             <td>{{$expense->user->name}}</td>
@@ -75,6 +82,12 @@
                             </td>
                         </tr>
                     @endforeach
+
+                    <tr>
+                            <td colspan="5">TOTAL</td>
+                            <td><b>XAF {{$sum}}</b></td>
+                        
+                        </tr>
                     </tbody>
                 </table>
             </div>

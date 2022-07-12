@@ -39,8 +39,8 @@ class ExpensesController extends Controller{
             $daterange = explode('-', $daterange);
             $start = $daterange[0];
             $end = $daterange[1];
-            $start = Carbon::createFromFormat('d/m/Y',  $start)->toDateTimeString();
-            $end = Carbon::createFromFormat('d/m/Y',  $end)->toDateTimeString();
+            $start = Carbon::createFromFormat('m/d/Y',  $start)->toDateTimeString();
+            $end = Carbon::createFromFormat('m/d/Y',  $end)->toDateTimeString();
             $data['expenses'] = \App\Expenses::where('created_at','>',$start)
                                                 ->where('created_at','<=',$end)->get();
             $data['title'] = "All Expenses from ".$daterange[0]." to ".$daterange[1];

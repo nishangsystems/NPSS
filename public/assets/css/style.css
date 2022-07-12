@@ -2288,6 +2288,7 @@ ul {
   color: #ffffff;
 }
 .sidebar-main {
+  MIN-HEIGHT: 100VH;
   left: -27rem;
 }
 @media only screen and (min-width: 768px) {

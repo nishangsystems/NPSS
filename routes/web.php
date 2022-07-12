@@ -70,11 +70,13 @@ use Illuminate\Support\Facades\Route;
         Route::post('fee/type','Modules\FeeController@typePost')->name('fee.type.post');
         Route::get('fee/owing','Modules\FeeController@owing')->name('fee.owing');
         Route::get('fee/student','Modules\FeeController@student')->name('fee.student');
+        Route::get('fee/drive','Modules\FeeController@drive')->name('fee.drive');
         Route::get('fee/print','Modules\FeeController@print')->name('fee.print');
         Route::get('fee/report','Modules\FeeController@report')->name('fee.report');
         Route::get('fee/scholarship','Modules\FeeController@scholarship')->name('fee.scholarship');
         Route::post('fee/scholarship','Modules\FeeController@scholarshipSave')->name('fee.scholarship.post');
         Route::get('fee/monthly/report','Modules\FeeController@monthlyReport')->name('fee.monthly.report');
+        Route::get('fee/monthly/receipt','Modules\FeeController@monthlyReceipt')->name('fee.monthly.receipt');
 
         Route::get('fee/scholarship/report','Modules\FeeController@scholarshipReport')->name('fee.scholarship.report');
         Route::get('income','Modules\FeeController@income')->name('fee.income');

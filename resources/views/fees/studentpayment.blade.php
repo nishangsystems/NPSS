@@ -104,7 +104,7 @@
                                                         </div>
                                                         <div style=" float:left; width:700px;margin-top:3px;TEXT-ALIGN:CENTER; font-family:arial; height:30px; BORDER-BOTTOM:none; font-size:13px; ">
                                                             <div style=" float:left; width:170px; height:25px;font-size:17px;"> <i>Balance Due</i></div>
-                                                            <div style=" float:left; width:500px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>{{getBal($fee, $year)}}</i></div>
+                                                            <div style=" float:left; width:500px; height:25px; border-bottom:none; font-size:16px; font-family:Chaparral Pro Light; border-bottom:1PX dashed#000"><i>{{$fee->student->dept($year)}}</i></div>
                                                         </div>
                                                         <div style=" clear:both; height:30px"></div>
 

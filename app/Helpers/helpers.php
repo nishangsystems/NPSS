@@ -211,8 +211,12 @@ if (!function_exists('getFeePayed')) {
 if (!function_exists('getExpenses')) {
     function getExpenses( $year)
     {
-        $total = 0;
-        foreach(\App\Expenses::get() as $type){
+       $year = \App\Session::find($year)->name;
+       $yearr = explode('/',$year);
+       $total = 0;
+        foreach(\App\Expenses::whereDate('created_at','>', $yearr[0]."-08/01" )->whereDate('created_at','<', $yearr[1]."-08/01")
+        
+        ->get() as $type){
             $total = $total + $type->amount;
         }
         return $total;

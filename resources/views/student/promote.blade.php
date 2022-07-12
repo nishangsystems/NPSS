@@ -71,16 +71,18 @@
                         <thead>
                         <tr>
                             <th></th>
+                            <th>#</th>
                             <th>Student Matricule</th>
                             <th>Student Name</th>
                         </tr>
                         </thead>
                         <tr id="body">
-                        @foreach($students as $student)
+                        @foreach($students as $k=>$student)
                             <tr>
                                 <th>
-                                    <input type="checkbox" value="{{$student->id}}" id="student{{$student->id}}" name="students[]">
+                                    <input type="checkbox" value="{{$student->student_id}}" id="student{{$student->student_id}}" name="students[]">
                                 </th>
+                                <th>{{$k + 1}}</th>
                                 <th>{{$student->matricule}}</th>
                                 <th>{{$student->name}}</th>
                             </tr>

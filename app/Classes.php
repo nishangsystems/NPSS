@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\ID;
 
 class Classes extends Model{
 
@@ -23,11 +24,21 @@ class Classes extends Model{
 
 
     public function students($year){
-        $student = [];
-        foreach($this->subClass($year) as $class){
-            $student = $class->student->union($student);
+       
+        $students = Student::
+        join('students_classes', ['students.id'=>'students_classes.student_id'])
+        ->join('annual_classes', ['students_classes.class_id'=>'annual_classes.id'])
+        ->whereIn('annual_classes.id',$this->getId($this->subClass($year)))
+        ->get();
+        return $students;
+    }
+
+    public function getId($items){
+        $classes = [];
+        foreach($items as $item){
+            array_push($classes , $item->id );
         }
-        return $student;
+        return $classes;
     }
 
     public function teacher(){

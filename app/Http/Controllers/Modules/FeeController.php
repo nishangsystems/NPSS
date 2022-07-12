@@ -14,7 +14,9 @@ use DateTime;
 class FeeController extends Controller{
     protected $q = [
         'action' => 'completed',
+        'amount' => 40000,
         'student' => null,
+        'class' => null,
         'year' => 4
     ];
 
@@ -123,21 +125,21 @@ class FeeController extends Controller{
     }
 
     public function monthlyReport(Request $request){
-    
-       $month = Carbon::now()->month;
-        $day = Carbon::now()->day;
-        $year = Carbon::now()->year;
+
+       $q = [
+            'month' => Carbon::now()->month,
+            'year' => Carbon::now()->year,
+        ];
+
 
         if($request->month){
-            $month = $request->month;
+            $q['month'] = $request->month;
         }
-       
-        $data['day'] = $day;
-        $data['month'] = $month;
-        $data['year'] = $year;
-
-
-        return view('fees.month')->with($data);
+        if($request->year){
+            $q['year'] = $request->year;
+        }
+    
+        return view('fees.month')->with($q);
     }
 
     public function owing(){
@@ -163,13 +165,23 @@ class FeeController extends Controller{
         if ($request->get('action')) {
             $q['action'] = $request->get('action');
         }
+        $classess = \App\Classes::get();
+
+        if ($request->get('classr')) {
+            $q['class'] = $request->get('classr');
+            $classess =  \App\Classes::where('id', $q['class'])->get();
+        }else{
+            $q['class'] = 1;
+            $classess =  \App\Classes::where('id', $q['class'])->get();
+        }
 
         $q['year'] = $year;
 
         $data['q'] = $q;
+        
         if($request->action == 'scholarship'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $clas){
+            foreach($classess as $clas){
                 foreach ($clas->subClass($year) as $class){
                     if($request->class == 0){
                         foreach( $class->student as $student){
@@ -191,9 +203,11 @@ class FeeController extends Controller{
             $data['students'] = $students;
         }else if($request->action == 'completed'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $clas){
+            foreach($classess as $clas){
+               
                 foreach ($clas->subClass($year) as $class) {
-                    if ($request->class == 0) {
+                
+                   if ($request->class == 0) {
                         foreach ($class->student as $student) {
                             if ($student->dept($year) == 0) {
                                 $students->push($student);
@@ -213,7 +227,7 @@ class FeeController extends Controller{
             $data['students'] = $students;
         }elseif($request->action == 'owing') {
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $clas){
+            foreach($classess as $clas){
                 foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
                         foreach ($class->student as $student) {
@@ -235,7 +249,7 @@ class FeeController extends Controller{
             $data['students'] = $students;
         }elseif($request->action == 'giftscholarship'){
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $clas){
+            foreach($classess as $clas){
                 foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
                         foreach ($class->student as $student) {
@@ -253,7 +267,7 @@ class FeeController extends Controller{
             $data['students'] = $students;
         }else{
             $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $clas){
+            foreach($classess as $clas){
                 foreach ($clas->subClass($year) as $class) {
                     if ($request->class == 0) {
                         foreach ($class->student as $student) {
@@ -277,6 +291,56 @@ class FeeController extends Controller{
         return view('fees.student')->with($data);
     }
 
+    public function drive(Request $request){
+        $student = [];
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
+
+        $q = $this->q;
+
+        if ($request->get('amount')) {
+            $q['amount'] = $request->get('amount');
+        }
+        $classess = \App\Classes::get();
+
+        if ($request->get('classr')) {
+            $q['class'] = $request->get('classr');
+            $classess =  \App\Classes::where('id', $q['class'])->get();
+        }else{
+            $q['class'] = 1;
+            $classess =  \App\Classes::where('id', $q['class'])->get();
+        }
+
+        $q['year'] = $year;
+
+        $data['q'] = $q;
+        
+        $students = \App\Student::where('admission_year',0)->orderBy('created_at','DESC')->get();
+        
+        foreach($classess as $clas){
+            foreach ($clas->subClass($year) as $class) {
+                if ($request->class == 0) {
+                    foreach ($class->student as $student) {
+                        if ($student->dept($year) > $q['amount']) {
+                            $students->push($student);
+                        }
+                    }
+                } else {
+                    if ($request->class == $class->id) {
+                        foreach ($class->students($year) as $student) {
+                            if ($student->dept($year) >= $q['amount']) {
+                                $students->push($student);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        $data['students'] = $students;
+        return view('fees.drive')->with($data);
+    }
+
     public function print(Request $request){
         $year = $request->year?$request->year:getYear();
         $q = $this->q;
@@ -290,6 +354,7 @@ class FeeController extends Controller{
         }
 
         $q['year'] = $year;
+        $q['class'] = 1;
 
         $data['q'] = $q;
 
@@ -301,14 +366,11 @@ class FeeController extends Controller{
             $data['year'] = $year;
             return view('fees.studentpayment')->with($data);
         }else{
-            $students = \App\Student::orderBy('created_at','DESC')->get();
-            foreach(\App\Classes::get() as $class){
-                foreach($class->students($year) as $student){
-                    if($student->feePayment->count() > 0){
-                       if(!$students->contains($student)){
-                           $students->push($student);
-                       }
-                    }
+            $students = [];
+            $class = \App\Classes::find(1);
+            foreach($class->students($year) as $student){
+                if($student->feePayment->count() > 0){
+                    array_push($students, $student);
                 }
             }
             $data['students'] = $students;
@@ -376,6 +438,29 @@ class FeeController extends Controller{
         }else {
             return view('fees.income')->with($data);
         }
+    }
+
+    public function monthlyReceipt(Request $request){
+
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+
+        if($request->month){
+            $month = $request->month;
+        }
+
+        if($request->year){
+            $year = $request->year;
+        }
+
+        $data['month'] = $month;
+        $data['year'] = $year;
+
+
+        $data['fees'] = \App\StudentFeePayment::whereMonth('created_at', '=', $month)->whereYear('created_at','=', $year)->get();
+
+       // dd($data['fees']);
+        return view('fees.month_report')->with($data);
     }
 
 }

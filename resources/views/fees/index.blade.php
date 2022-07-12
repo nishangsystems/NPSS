@@ -26,7 +26,6 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Class</th>
                         <th>Amount</th>
                         <th>Collected By</th>
                         <th>Academic Year</th>
@@ -38,7 +37,7 @@
                         @foreach($fees as $fee)
                             <tr>
                                 <td>{{$fee->student->name}}</td>
-                                <td>{{($fee->student->class($fee->session->id))?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
+                               
                                 <td>{{$fee->amount}}</td>
                                 <td>{{$fee->user->name}}</td>
                                 <td>{{$fee->session->name}}</td>
