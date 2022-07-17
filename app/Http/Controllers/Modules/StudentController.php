@@ -181,13 +181,13 @@ class StudentController extends Controller{
         try{
             $class = \App\Classes::find($request->class);
             $newClass = $class;
-            $students = $newClass->students($request->next_year);
+            $students = $newClass->parent->students($request->next_year);
            foreach ($request->students as $stud){
                $student = \App\Student::find($stud);
                if(!$this->isMember($student, $students)){
                    $s =  \App\StudentsClass::create([
                        'student_id'=> $student->id,
-                       'class_id'=> getSection($newClass->id, $request->next_year)->id
+                       'class_id'=> getSection($newClass->next_class, $request->next_year)->id
                    ]);
                }
            }
@@ -206,7 +206,7 @@ class StudentController extends Controller{
     public function isMember( $student, $students){
         $isMember = false;
         foreach($students as $stud){
-            $isMember = ($stud->student_id == $student->id);
+            $isMember = $isMember || ($stud->student_id === $student->id);
         }
            
         return $isMember;

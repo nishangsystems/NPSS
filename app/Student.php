@@ -22,6 +22,10 @@ class Student extends Model
         return $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->orderBy('id','DESC')->first();
     }
 
+    public function classes(){
+        return $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->orderBy('id','DESC');
+    }
+
     public function class($year){
         return $this->aClass($year)->class;
     }

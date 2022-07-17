@@ -77,11 +77,15 @@
                     <div class="student-report">
                         <div class="student-count pseudo-bg-blue">
                             <h4 class="item-title">Female Students</h4>
-                            <div class="item-number">{{\App\Student::where('gender','female')->get()->count()}}</div>
+                            <div class="item-number">{{\App\Student::whereHas('classes', function($q){
+                                $q->where('year_id',getYear());
+                            })->where('gender','female')->count()}}</div>
                         </div>
                         <div class="student-count pseudo-bg-yellow">
                             <h4 class="item-title">Male Students</h4>
-                            <div class="item-number">{{\App\Student::where('gender','male')->get()->count()}}</div>
+                            <div class="item-number">{{\App\Student::whereHas('classes', function($q){
+                                $q->where('year_id',getYear());
+                            })->where('gender','male')->count()}}</div>
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{asset('public/assets/css')}}/select2.min.css">
     <link rel="stylesheet" href="{{asset('public/assets/css')}}/datepicker.min.css">
+    <style>
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 10px;
+            border-bottom: 1px solid #111;
+        }
+    </style>
 @endsection
 
 @section('section')
@@ -70,7 +76,9 @@
                     <table class="table display data-table text-nowrap">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>
+                                 <input type="checkbox" onClick="toggle(this)"  id="students" >
+                            </th>
                             <th>#</th>
                             <th>Student Matricule</th>
                             <th>Student Name</th>
@@ -78,16 +86,18 @@
                         </thead>
                         <tr id="body">
                         @foreach($students as $k=>$student)
-                            <tr>
-                                <th>
-                                    <input type="checkbox" value="{{$student->student_id}}" id="student{{$student->student_id}}" name="students[]">
-                                </th>
-                                <th>{{$k + 1}}</th>
-                                <th>{{$student->matricule}}</th>
-                                <th>{{$student->name}}</th>
-                            </tr>
-                            @endforeach
-                            </tbody>
+                           @if(!isMember($student, \App\Classes::find(request('class'))->parent->students(request('next_year'))))
+                                <tr>
+                                    <td>
+                                        <input type="checkbox"  value="{{$student->student_id}}" id="student{{$student->student_id}}" name="students[]">
+                                    </td>
+                                    <td>{{$k + 1}}</td>
+                                    <td>{{$student->matricule}}</td>
+                                    <td>{{$student->name}}</td>
+                                </tr>
+                           @endif
+                        @endforeach
+                        </tbody>
                     </table>
 
                     <div class="col-12 form-group mg-t-8">
@@ -105,4 +115,12 @@
     <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
     <script src="{{asset('public/assets/js')}}/select2.min.js"></script>
     <script src="{{asset('public/assets/js')}}/datepicker.min.js"></script>
+    <script>
+        function toggle(source) {
+            checkboxes = document.getElementsByName('students[]');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
 @endsection

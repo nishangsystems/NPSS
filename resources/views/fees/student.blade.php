@@ -60,7 +60,6 @@
                 <table  class="table data-table text-nowrap">
                     <thead>
                     <tr>
-                        @php($i =1)
                         <th>#</th>
                         <th>Name</th>
                          <th>Class</th>
@@ -73,7 +72,20 @@
                     </thead>
 
                     <tbody>
+                        @php
+                            $totalPaid = 0;
+                            $scholarship = 0;
+                            $dept= 0;
+                            $i =1;
+                        @endphp
+
                         @foreach($students as $student)
+
+                            @php
+                                $totalPaid =   $totalPaid + ($student->totalPaid($year) < 0?0:$student->totalPaid($year));
+                                $scholarship += $student->scholarship($year);
+                                $dept += $student->dept($year);
+                            @endphp
                             <tr>
                                 <td>{{$i++}} </td>
                                 <td>{{$student->name}}</td>
@@ -91,6 +103,13 @@
                                 </td>
                             </tr>
                         @endforeach
+                         <tr class="font-weight-bold">
+                            <td colspan="4" > Total</td>
+                            <td>{{number_format($totalPaid)}}</td>
+                            <td>{{number_format($dept)}}</td>
+                            <td>{{number_format($scholarship)}}</td>
+                            <td> </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
