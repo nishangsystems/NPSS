@@ -7,32 +7,29 @@
     <title>{{env('APP_NAME','Laravel')}}  @yield('title')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img')}}/favicon.png">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/normalize.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/main.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/bootstrap.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/all.min.css">
-    <link rel="stylesheet" href="{{asset('assets/fonts')}}/flaticon.css">
-    <link rel="stylesheet" href="{{asset('assets')}}/toastr/toastr.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/animate.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/select2.min.css">
-    <link rel="stylesheet" href="{{asset('assets/css')}}/datepicker.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('public/assets/img')}}/favicon.png">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/normalize.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/main.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/all.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/fonts')}}/flaticon.css">
+    <link rel="stylesheet" href="{{asset('public/assets')}}/toastr/toastr.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/animate.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/select2.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/datepicker.min.css">
     @yield('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/style.css">
-    <script src="{{asset('assets/js')}}/modernizr-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/style.css">
+    <script src="{{asset('public/assets/js')}}/modernizr-3.6.0.min.js"></script>
 </head>
 
 <body>
-<!-- Preloader Start Here -->
 <div id="preloader"></div>
-<!-- Preloader End Here -->
 <div id="wrapper" class="wrapper bg-ash">
-    <!-- Header Menu Area Start Here -->
     <div class="navbar navbar-expand-md header-menu-one bg-light">
         <div class="nav-bar-header-one">
             <div class="header-logo">
-                <a href="{{route('home')}}">
-                    <img style="height :50px;" src="{{asset('assets/img')}}/logo.png" alt="logo">
+                <a href="{{route('dashboard')}}">
+                    <img style="height :50px;" src="{{asset('public/assets/img')}}/logo.png" alt="logo">
                 </a>
             </div>
             <div class="toggle-button sidebar-toggle">
@@ -55,22 +52,19 @@
         </div>
         <div class="header-main-menu collapse navbar-collapse" id="mobile-navbar">
             <ul class="navbar-nav">
-                <li class="navbar-item header-search-bar">
-                    <div class="input-group stylish-input-group">
-                            <span class="input-group-addon">
-                                <button type="submit">
-                                    <span class="flaticon-search" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                        <input type="text" class="form-control" placeholder="Find Something . . .">
-                    </div>
+                <li class="navbar-item header-admin">
+                    Powered by Nishang System
+                </li>
+
+                <li class="navbar-item header-admin">
+                  <h4 class="mb-0 text-danger font-weight-bold"> {{ \App\Session::find(getYear())->name}} Academic year</h4>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 @if(\Auth::user()->class(getYear()))
                     <li class="navbar-item header-admin">
                         <div class="input-group stylish-input-group">
-                            <a href="#">{{\Auth::user()->class(getYear())->name}}</a>
+                            <a href="{{route('student.index')}}?class={{\Auth::user()->class(getYear())->id}}">{{\Auth::user()->class(getYear())->class->name}} {{\Auth::user()->class(getYear())->section_id}}</a>
                         </div>
                     </li>
                 @endif
@@ -83,7 +77,7 @@
                             <span>{{request()->user()->roles()->first()->byLocale()->name}}</span>
                         </div>
                         <div class="admin-img">
-                            <img style="height: 60px;" src="{{route('image.render', Auth::user()->photo?Auth::user()->photo:'')}}" alt="User">
+                            <img style="height: 50px;" src="{{route('image.render', Auth::user()->photo?Auth::user()->photo:'')}}">
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -125,23 +119,29 @@
         <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
             <div class="mobile-sidebar-header d-md-none">
                 <div class="header-logo">
-                    <a href="{{route('home')}}"><img style="height: 45px;" src="{{asset('assets/img')}}/logo1.png" alt="logo"></a>
+                    <a href="{{route('dashboard')}}"><img style="height: 45px;" src="{{asset('public/assets/img')}}/logo1.png" alt="logo"></a>
                 </div>
             </div>
             <div class="sidebar-menu-content">
                 <ul class="nav nav-sidebar-menu sidebar-toggle-view">
                     <li class="nav-item">
-                        <a href="{{route('home')}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                        <a href="{{route('dashboard')}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
                     </li>
                     @if(\Auth::user()->can('select_fee','update_fee','create_fee') )
                         <li class="nav-item sidebar-nav-item">
                             <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>Fees & Expenses</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
+                                    <a href="{{route('expenses.type.post')}}" class="nav-link"><i class="fas fa-angle-right"></i>Expense Type</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('fee.type')}}" class="nav-link"><i class="fas fa-angle-right"></i>Create Income Type</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('fee.student')}}?action=fee" class="nav-link"><i class="fas fa-angle-right"></i>Receive Fees</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Undo Fee</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('fee.print')}}?action=reciept" class="nav-link"><i class="fas fa-angle-right"></i>Print Receipts</a>
@@ -156,6 +156,9 @@
                                     <a href="{{route('fee.student')}}?action=giftscholarship" class="nav-link"><i class="fas fa-angle-right"></i>Give scholarship</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{route('fee.drive')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fee Drive</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{route('class.fee')}}" class="nav-link"><i class="fas fa-angle-right"></i>Configure Class Fee</a>
                                 </li>
                                 <li class="nav-item">
@@ -163,6 +166,12 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('fee.income')}}" class="nav-link"><i class="fas fa-angle-right"></i>Income Statement</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.monthly.report')}}" class="nav-link"><i class="fas fa-angle-right"></i>Monthly Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('fee.monthly.receipt')}}" class="nav-link"><i class="fas fa-angle-right"></i>Monthly Receipt</a>
                                 </li>
                             </ul>
                         </li>
@@ -176,7 +185,6 @@
                         <li class="nav-item sidebar-nav-item">
                             <a href="{{route('student.index')}}" class="nav-link"><i class="flaticon-classmates"></i><span>Pupils Center</span></a>
                             <ul class="nav sub-group-menu">
-
                                 @if (\Auth::user()->can('create_student'))
                                     <li class="nav-item">
                                         <a href="{{route('student.create')}}" class="nav-link"><i class="fas fa-angle-right"></i>Enroll Pupil</a>
@@ -194,6 +202,7 @@
                             </ul>
                         </li>
                     @endif
+
                     @if(\Auth::user()->hasRole('admin'))
                         <li class="nav-item sidebar-nav-item">
                             <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="flaticon-couple"></i><span>Parents Center</span></a>
@@ -212,6 +221,9 @@
                                 <li class="nav-item">
                                     <a href="{{route('user.index')}}?type=parent" class="nav-link"><i class="fas fa-angle-right"></i>All Parents</a>
                                 </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('pupil.parent')}}" class="nav-link"><i class="fas fa-angle-right"></i>Pupil Parent</a>
+                                    </li>
                             </ul>
                         </li>
                     @endif
@@ -239,21 +251,21 @@
                                 <li class="nav-item">
                                     <a href="{{route('result.class')}}" class="nav-link"><i class="fas fa-angle-right"></i>Class</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{route('result.fee_control')}}" class="nav-link"><i class="fas fa-angle-right"></i>Fee Control Print</a>
+                                </li>
                            @elseif(\Auth::user()->hasRole('teacher'))
                                 <li class="nav-item">
                                     <a href="{{route('result.class.student','teacher')}}?action=recordmarks" class="nav-link"><i class="fas fa-angle-right"></i>Record Marks</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('result.class.student','teacher')}}?action=rank" class="nav-link"><i class="fas fa-angle-right"></i>Rank Students</a>
+                                    <a href="{{route('result.ranksheet')}}" class="nav-link"><i class="fas fa-angle-right"></i>Rank Students</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('result.class.student','teacher')}}?action=print" class="nav-link"><i class="fas fa-angle-right"></i>Print Results</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('result.class.student','parent')}}?action=print_rank" class="nav-link"><i class="fas fa-angle-right"></i>Print Rank Sheets</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('result.class.student','parent')}}?action=deptors" class="nav-link"><i class="fas fa-angle-right"></i>Fee Controlled Print</a>
+                                    <a href="{{route('result.fee_control')}}?year={{getYear()}}&class=0" class="nav-link"><i class="fas fa-angle-right"></i>Fee Controlled Print</a>
                                 </li>
                            @else
                                 <li class="nav-item">
@@ -269,6 +281,11 @@
 
                         </ul>
                     </li>
+                    @if(\Auth::user()->class(getYear()))
+                        <li class="nav-item">
+                            <a href="{{route('student.index')}}?class={{\Auth::user()->class(getYear())->id}}" class="nav-link"><i class="flaticon-dashboard"></i><span>Class List</span></a>
+                        </li>
+                    @endif
                    @if(\Auth::user()->hasRole('admin'))
 
 
@@ -281,10 +298,6 @@
                                 <li class="nav-item">
                                     <a href="{{route('roles.index')}}" class="nav-link"><i class="fas fa-angle-right"></i>Roles</a>
                                 </li>
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('roles.permissions')}}" class="nav-link"><i class="fas fa-angle-right"></i>Permissions</a>--}}
-{{--                                </li>--}}
-
                                 <li class="nav-item">
                                     <a href="{{route('user.index')}}?action=password" class="nav-link"><i class="fas fa-angle-right"></i>Change User Password</a>
                                 </li>
@@ -310,6 +323,20 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="#" class="nav-link"><i class="fas fa-inbox"></i><span>SMS</span></a>
+                            <ul class="nav sub-group-menu">
+                                <li class="nav-item">
+                                    <a href="{{route('message.index')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>SMS Center</span></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('message.create')}}" class="nav-link"><i class="fas fa-angle-right"></i><span>New SMS</span></a>
+                                </li>
+                            </ul>
+                        </li>
+
                    @endif
                 </ul>
             </div>
@@ -358,17 +385,28 @@
     </div>
 </div>
 
-<script src="{{asset('assets/js')}}/jquery-3.3.1.min.js"></script>
-<script src="{{asset('assets/js')}}/plugins.js"></script>
-<script src="{{asset('assets/js')}}/popper.min.js"></script>
-<script src="{{asset('assets/js')}}/bootstrap.min.js"></script>
-<script src="{{asset('assets/js')}}/moment.min.js"></script>
-<script src="{{asset('assets/js')}}/jquery.scrollUp.min.js"></script>
-<script src="{{asset('assets/js')}}/main.js"></script>
-<script src="{{asset('assets')}}/toastr/toastr.min.js"></script>
-<script src="{{asset('assets/js')}}/select2.min.js"></script>
-<script src="{{asset('assets/js')}}/datepicker.min.js"></script>
 
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+               Powered by Nishang System
+            </div><!-- .col-12 -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+</footer><!-- .site-footer -->
+
+<script src="{{asset('public/assets/js')}}/jquery-3.3.1.min.js"></script>
+<script src="{{asset('public/assets/js')}}/plugins.js"></script>
+<script src="{{asset('public/assets/js')}}/popper.min.js"></script>
+<script src="{{asset('public/assets/js')}}/bootstrap.min.js"></script>
+<script src="{{asset('public/assets/js')}}/moment.min.js"></script>
+<script src="{{asset('public/assets/js')}}/jquery.scrollUp.min.js"></script>
+<script src="{{asset('public/assets/js')}}/main.js"></script>
+<script src="{{asset('public/assets')}}/toastr/toastr.min.js"></script>
+<script src="{{asset('public/assets/js')}}/select2.min.js"></script>
+<script src="{{asset('public/assets/js')}}/datepicker.min.js"></script>
 <script>
     @if(Session::has('success'))
         toastr.success('{{Session::get('success')}}');

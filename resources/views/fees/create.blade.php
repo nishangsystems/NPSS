@@ -4,10 +4,7 @@
     Fee
 @endsection
 
-
 @section('section')
-    <!-- Breadcubs Area End Here -->
-    <!-- Fees Table Area Start Here -->
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
@@ -26,13 +23,13 @@
                 <div class="form-group col-12">
                     <label>Amount</label>
                    <div class="d-flex form-control justify-content-between align-items-center">
-                       <input type="text" onkeyup="updateBal()" id="amount" name="amount" class="border-0 bg-transparent" value="" max="{{$student->dept(getYear())}}" required placeholder="Enter Amount" >
-                       <span id="balance" class="font-bold text-nowrap">/ XAF {{$student->dept(getYear())}}</span>
+                       <input type="text" onkeyup="updateBal()" id="amount" name="amount" class="border-0 bg-transparent" value="{{old('amount')}}" max="{{$student->dept($year)}}" required placeholder="Enter Amount" >
+                       <span id="balance" class="font-bold text-nowrap">/ XAF {{$student->dept($year)}}</span>
                    </div>
                 </div>
                 <div class="form-group col-6">
                     <label>Reference</label>
-                    <input type="text" name="reference" required placeholder="Enter Payment Reference" class="form-control">
+                    <input type="text" value="{{old('reference')}}"  name="reference" required placeholder="Enter Payment Reference" class="form-control">
                 </div>
 
                 <div class="form-group col-6">
@@ -40,7 +37,7 @@
                     <select class=" select2" name="type" required>
                         <option value="">Type *</option>
                         @foreach(\App\FeeType::get() as $type)
-                            <option value="{{$type->id}}">{{$type->name}}</option>
+                            <option  {{(old('type') == $type->id)?'selected':''}} value="{{$type->id}}">{{$type->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -49,15 +46,15 @@
                         <select class=" select2" name="method" required>
                             <option value="">Payment Method *</option>
                             @foreach(\App\PaymentMethod::get() as $method)
-                                <option value="{{$method->id}}">{{$method->name}}</option>
+                                <option {{(old('method') == $method->id)?'selected':''}} value="{{$method->id}}">{{$method->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group col-6">
                         <select class="select2" name="year" required>
                             <option value="">Select Academic Year*</option>
-                            @foreach(\App\Session::get() as $year)
-                                <option {{($year->id == getYear())?'selected':''}} value="{{$year->id}}">{{$year->name}}</option>
+                            @foreach(\App\Session::get() as $y)
+                                <option {{($y->id == $year)?'selected':''}} value="{{$y->id}}">{{$y->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -74,7 +71,7 @@
         function updateBal(){
             input = $('#amount');
             balance = $('#balance');
-            amount = {{$student->dept(getYear())}} - input.val();
+            amount = {{$student->dept($year)}} - input.val();
             balance.html('/ XAF '+amount);
             if(amount < 0){
                 balance.addClass('text-red')

@@ -27,6 +27,7 @@ class ClassController extends Controller{
 
         $data['classes'] = $class->subClass($year);
         $data['clas'] = $class;
+        $data['year'] =  $year;
         return view('class.section')->with($data);
     }
 
@@ -62,29 +63,19 @@ class ClassController extends Controller{
         if ($request->user()->can('create_class')) {
             $this->validate($request, [
                 'name' => 'required',
-                'class'=> 'nullable',
+                'section_id'=> 'nullable',
+                'limit' => 'required',
+                'abbreviations' => 'required',
             ]);
-
-           if($request->class){
-               $class = new \App\ClassSection();
-               $class->name = $request->name;
-               $class->class_id = $request->class;
-               $class->save();
-               $request->session()->flash('success', "Class Created successfully");
-               return redirect()->to(route('class.section', $request->class));
-           }else{
               $class = \App\Classes::create([
-                   'name' => $request->type,
-                   'section_id'=> 1,
+                   'name' => $request->name,
+                    'section_id'=> $request->section_id,
+                    'limit' => $request->limit,
+                    'abbreviations' => $request->abbreviations,
                ]);
 
-               $section = \App\ClassSection::create([
-                   'name' => $class->name." A",
-                   'class_id'=> $class->id
-               ]);
                $request->session()->flash('success', "Class Created successfully");
                return redirect()->to(route('class.section', $class->id));
-           }
         }else{
             $request->session()->flash('error', "Not allowed to perform this action");
         }
@@ -102,8 +93,8 @@ class ClassController extends Controller{
     }
 
     public  function teacher($id){
-        $data['users'] = \App\ClassSection::find($id)->teachers(getYear());
-        $data['class'] = \App\ClassSection::find($id);
+        $data['users'] = \App\AnnualClass::find($id)->teacher;
+        $data['class'] = \App\AnnualClass::find($id);
         return view('class.teacher')->with($data);
     }
 

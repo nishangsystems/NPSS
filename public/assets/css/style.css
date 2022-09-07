@@ -2288,6 +2288,7 @@ ul {
   color: #ffffff;
 }
 .sidebar-main {
+  MIN-HEIGHT: 100VH;
   left: -27rem;
 }
 @media only screen and (min-width: 768px) {
@@ -3579,6 +3580,7 @@ ul {
   -ms-flex-direction: column;
   flex-direction: column;
   padding: 0 30px;
+  min-height: 600px;
 }
 @media only screen and (max-width: 767px) {
   .dashboard-content-one {
@@ -3685,14 +3687,12 @@ ul {
     font-size: 18px;
   }
 }
-.dashboard-card-one .card-body .earning-report .item-content .single-item span:after {
-  content: "$";
-  font-size: 16px;
+.dashboard-card-one .card-body .earning-report .item-content .single-item span:before {
+  content: "XAF  ";
+  font-size: 18px;
   color: #646464;
   font-weight: 500;
-  position: absolute;
   top: 3px;
-  left: 0;
 }
 .dashboard-card-one .card-body .earning-report .dropdown {
   text-align: right;
@@ -5095,4 +5095,7 @@ ul {
 }
 .w-20{
     width: 20% !important;
+}
+@media print {
+    button {display: none ;}input {display: none; } .btn{display :none;}a{display: none;}
 }

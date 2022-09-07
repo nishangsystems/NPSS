@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
 @endsection
 
 @section('section')
@@ -33,7 +33,7 @@
                     <tbody>
                     @foreach(\App\Classes::get() as $class)
                         <tr>
-                            <td>{{$class->byLocale()->name}}</td>
+                            <td>{{$class->section->name}} {{$class->byLocale()->name}}</td>
                             @foreach(\App\FeeType::get() as $type)
                                 <th>{{getClassFee($class->id, getYear(), $type->id)}}</th>
                             @endforeach
@@ -67,7 +67,7 @@
                                 @foreach(\App\Classes::get() as $class)
                                     <tr>
                                         <input type="hidden" name="class[]" value="{{$class->id}}"/>
-                                        <td>{{$class->byLocale()->name}}</td>
+                                        <td>{{$class->section->name}} {{$class->byLocale()->name}}</td>
                                         @foreach(\App\FeeType::get() as $type)
                                             <th><input name="fee_{{$class->id}}_{{$type->id}}"  class="form-control" value="{{getClassFee($class->id, getYear(), $type->id)}}"/></th>
                                         @endforeach
@@ -88,7 +88,7 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
     <script>
         function  showEditModal() {
             $('#editModal').modal().show()

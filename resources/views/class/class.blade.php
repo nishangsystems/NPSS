@@ -4,35 +4,25 @@
         <div class="col-12">
             <div class="card height-auto">
                 <div class="card-body">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Nursery School</h3>
-                        </div>
-                    </div>
-                    <div class="row my-5">
-                        @foreach(\App\Classes::where('section_id',1)->get() as $class)
-                            <div class="col-md-3 card">
-                                <div class="card-body d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="{{route('class.section',$class->id)}}?action={{request('action')}}">{{$class->byLocale()->name}}</a>
-                                </div>
+                    @foreach(\App\Section::get() as $val)
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>{{$val->name}}</h3>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                        <div class="row my-5">
+                            @foreach(\App\Classes::where('section_id',$val->id)->get() as $class)
+                                <div class="col-md-3 card">
+                                    <a class="text-dark" href="{{route('class.section',$class->id)}}?action={{request('action')}}">
+                                        <div class="card-body d-flex justify-content-center align-items-center">
+                                            {{$class->byLocale()->name}}
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
 
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Primary School</h3>
-                        </div>
-                    </div>
-                    <div class="row my-5">
-                        @foreach(\App\Classes::where('section_id',2)->get() as $class)
-                            <div class="col-md-3 card">
-                                <div class="card-body d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="{{route('class.section',$class->id)}}?action={{request('action')}}">{{$class->byLocale()->name}}</a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
             </div>
         </div>

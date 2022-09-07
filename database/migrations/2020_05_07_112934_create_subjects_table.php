@@ -19,7 +19,6 @@ class CreateSubjectsTable extends Migration
             $table->integer('section_id');
             $table->integer('score')->default(20);
             $table->string('name_fr')->nullable();
-            $table->enum('type', config('constants.SUBJECT_TYPE'))->default('science');
             $table->string('code')->nullable();
             $table->string('slug');
             $table->timestamps();

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+
     public function __construct(){
         $this->middleware('guest:user', ['except'=>['logout']]);
     }
@@ -22,7 +23,7 @@ class LoginController extends Controller
     public function login(Request $request){
         //validate the form data
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required|min:8'
         ]);
 
@@ -36,6 +37,6 @@ class LoginController extends Controller
 
     public function logout(Request $request){
         Auth::guard('user')->logout();
-        return redirect(route('home'));
+        return redirect(route('login'));
     }
 }

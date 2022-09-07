@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
 @endsection
 
 @section('section')
@@ -9,28 +9,9 @@
         <div class="card-body">
             <div class="heading-layout1">
                 <div class="item-title">
-                    <h3>Student Result</h3>
+                    <h3>{{$class?$class->class->name:''}}  {{$class?$class->section_id:''}} Student Result</h3>
                 </div>
             </div>
-
-        @if($class != null)
-                <form class="mg-b-20" method="post" action="{{route('result.class.student.post',$class->id)}}">
-                    @csrf
-                    <div class="row gutters-8 justify-content-between">
-                        <div class="col-lg-6 col-12 form-group">
-                            <select name="year" class="select2">
-                                <option value="0">Select Session</option>
-                                @foreach(\App\Session::all() as $session)
-                                    <option value="{{$session->id}}">{{$session->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                            <button type="submit" class="fw-btn-fill btn-gradient-yellow">Get</button>
-                        </div>
-                    </div>
-                </form>
-           @endif
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
                     <thead>
@@ -53,9 +34,9 @@
                                     @elseif(request('action') == 'print')
                                         <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}?action=print">Print</a>
                                     @endif
-
                                     @if(\Auth::user()->hasRole('admin') && $id != 'mine')
                                            <a class="btn btn-danger text-white" href="{{route('result.edit',$student->slug)}}">Edit Result</a>
+                                           <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}">View Result</a>
                                    @endif
 
                                    @if($id == 'mine')
@@ -72,5 +53,5 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection

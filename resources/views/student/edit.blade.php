@@ -39,15 +39,7 @@
                         <label>E-Mail</label>
                         <input type="email" name="email"  value="{{old('email')?old('email'):$student->email}}"  class="form-control">
                     </div>
-                    <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>Class *</label>
-                        <select class="select2"  value="{{old('class')}}"  name="class" required>
-                            <option  value="">Please Select Class *</option>
-                            @foreach(\App\Classes::all() as $class)
-                                <option {{($class->id == $student->admission_year)?'selected':''}} value="{{$class->id}}">{{$class->byLocale()->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>Admission Year</label>
                         <select class="select2"  value="{{old('admission_year')}}"  required name="admission_year">

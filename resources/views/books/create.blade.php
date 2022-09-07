@@ -36,19 +36,7 @@
                         <label>Writter Name *</label>
                         <input type="text" placeholder="" class="form-control">
                     </div>
-                    <div class="col-xl-3 col-lg-6 col-12 form-group">
-                        <label>Class *</label>
-                        <select class="select2">
-                            <option value="">Please Select Class *</option>
-                            <option value="1">Play</option>
-                            <option value="2">Nursery</option>
-                            <option value="3">One</option>
-                            <option value="3">Two</option>
-                            <option value="3">Three</option>
-                            <option value="3">Four</option>
-                            <option value="3">Five</option>
-                        </select>
-                    </div>
+
                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                         <label>ID No</label>
                         <input type="text" placeholder="" class="form-control">

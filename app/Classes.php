@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\ID;
 
 class Classes extends Model{
 
     protected $fillable = [
         'name','section_id','limit','abbreviations'
     ];
+
     public function byLocale(){
         if (\App::getLocale() == "fr") {
             $this->name = $this->name_fr != null ? $this->name_fr : $this->name;
@@ -20,20 +22,36 @@ class Classes extends Model{
         return $this->section->subjects;
     }
 
-    public function student(){
-        return $this->belongsToMany('App\Student','students_classes','class_id','student_id');
-    }
 
     public function students($year){
-        return $this->student()->where('students_classes.year_id', $year)->get();
+       
+        $students = Student::
+        join('students_classes', ['students.id'=>'students_classes.student_id'])
+        ->join('annual_classes', ['students_classes.class_id'=>'annual_classes.id'])
+        ->whereIn('annual_classes.id',$this->getId($this->subClass($year)))
+        ->get();
+        return $students;
+    }
+
+    public function getId($items){
+        $classes = [];
+        foreach($items as $item){
+            array_push($classes , $item->id );
+        }
+        return $classes;
     }
 
     public function teacher(){
         return $this->belongsToMany('App\User','teachers_classes','class_id','teacher_id');
     }
 
+    public function parent(){
+        return $this->belongsTo('App\Classes','next_class');
+    }
+
+
     public function teachers($year){
-        return $this->teacher()->where('teachers_classes.year_id', $year)->get();
+        return $this->teacher->where('teachers_classes.year_id', $year)->get();
     }
 
     public function section(){
@@ -76,6 +94,6 @@ class Classes extends Model{
     }
 
     public function subClass($year){
-        return $this->hasMany('\App\StudentsClass','class_id')->where('year_id', $year)->get();
+        return $this->hasMany('\App\AnnualClass','class_id')->where('year_id', $year)->get();
     }
 }

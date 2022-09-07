@@ -14,22 +14,46 @@ class Student extends Model
         return $this->hasMany('App\Result','student_id')->where('sequence_id', $sequence)->where('year_id', $year);
     }
 
-    public function class($year){
-        return $this->belongsToMany('App\Classes','students_classes','student_id','class_id')->where('year_id',$year)->first();
+    public function aClass($year){
+        return $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->where('year_id',$year)->first();
     }
 
-    public function classR($year){
-        return $this->hasMany('App\StudentsClass','student_id')->where('year_id',$year)->first();
+    public function sClass(){
+        return $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->orderBy('id','DESC')->first();
+    }
+
+    public function classes(){
+        return $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->orderBy('id','DESC');
+    }
+
+    public function class($year){
+        return $this->aClass($year)->class;
+    }
+
+    public function classR($class){
+        return $this->hasMany('App\StudentsClass','student_id')->where('class_id',$class)->first();
     }
 
     public function dept($year){
-        $classFee = getClassTotalFee($this->class($year)->id,$year);
-        return $classFee - $this->totalPaid($year)- $this->scholarship($year);
+        $classes = $this->belongsToMany('App\AnnualClass','students_classes','student_id','class_id')->get();
+        $total = 0;
+        foreach($classes as $class){
+            $total = $total + getClassTotalFee($class->class->id,$class->year_id);
+        }
+        return $total - $this->totalPaidFee() - $this->tScholarship();
     }
 
     public function totalPaid($year){
         $total = 0;
         foreach($this->feePayment()->where('year_id', $year)->get() as $payment){
+            $total = $payment->amount + $total;
+        }
+        return $total;
+    }
+
+    public function totalPaidFee(){
+        $total = 0;
+        foreach($this->feePayment as $payment){
             $total = $payment->amount + $total;
         }
         return $total;
@@ -69,6 +93,8 @@ class Student extends Model
        return $total;
     }
 
+
+
     public function total($year, $sequence){
         $results = $this->result($year, $sequence)->get();
         $total = 0;
@@ -76,6 +102,25 @@ class Student extends Model
             $total = $total + $result->mark;
         }
         return $total;
+    }
+
+    public function totalG($year, $sequence){
+        $results = $this->result($year, $sequence)->get();
+        $total = 0;
+        foreach($results  as $result){
+            $total = $total + $result->total;
+        }
+        return $total;
+    }
+
+    public function average($year, $sequence){
+        $totalMark = $this->total($year, $sequence);
+        $totalG = $this->totalG($year, $sequence);
+        if($totalG == 0){
+            return "undefined";
+        }else{
+            return ($totalMark/$totalG)*20;
+        }
     }
 
     public function termTotal($year, $term_id){
@@ -87,7 +132,7 @@ class Student extends Model
         return $total;
     }
 
-    public function saveResult($year, $sequence, $subject, $mark){
+    public function saveResult($year, $sequence, $subject, $mark, $total){
        $result = $this->result($year, $sequence)->where('subject_id', $subject)->first();
        if($result != null){
            $result->mark = $mark;
@@ -99,6 +144,7 @@ class Student extends Model
                'sequence_id' => $sequence,
                'subject_id' => $subject,
                'mark' => $mark,
+               'total' => $total,
                'remark' => "Passed",
                'logged_by' => \Auth::user()->id
            ]);
@@ -108,6 +154,14 @@ class Student extends Model
     public function scholarship($year){
         $total = 0;
         foreach($this->discount()->where('year_id', $year)->get() as $payment){
+            $total = $payment->amount + $total;
+        }
+        return $total;
+    }
+
+    public function tScholarship(){
+        $total = 0;
+        foreach($this->discount as $payment){
             $total = $payment->amount + $total;
         }
         return $total;
@@ -126,7 +180,7 @@ class Student extends Model
             \App\StudentDiscount::create([
                 'student_id' => $this->id,
                 'amount' => $request->amount,
-                'year_id' => getYear(),
+                'year_id' => $request->year,
             ]);
         }
     }

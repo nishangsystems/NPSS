@@ -7,9 +7,24 @@
                 <div class="card-body">
                     <div class="heading-layout1 d-flex justify-content-between">
                         <div class="item-title">
-                            <h3>Classes</h3>
+                            <h3>{{$clas->section->name}} - {{$clas->name}}</h3>
                         </div>
-                        <button onclick="ShowClassModal()" class="btn btn-sm btn-success">Edit Class</button>
+                        <form  action="" class="row w-100">
+                            @csrf
+                            <div class="col-md-4 form-group">
+                                <select class="select2"  value="{{old('admission_year')}}"  required name="year">
+                                    <option>Change Academic year</option>
+                                    @foreach(\App\Session::all() as $class)
+                                        <option {{($class->id == $year)?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label></label>
+                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Get</button>
+                            </div>
+                        </form>
+                        <button onclick="ShowClassModal()" class="btn btn-lg btn-success">Edit Class</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table display data-table text-nowrap">
@@ -25,12 +40,11 @@
                             <tbody>
                                @foreach($classes as $class)
                                    <tr>
-                                       <td>{{$class->class->name}}</td>
-                                       <td>{{$class->students(getYear())->count()}}</td>
-                                       <td>{{$class->teachers(getYear())->count()}}</td>
+                                       <td>{{$class->class->name}} {{$class->section_id}}</td>
+                                       <td>{{$class->student->count()}}</td>
+                                       <td>{{$class->teacher->count()}}</td>
                                        <td>{{$class->class->subjects()->count()}}</td>
                                        <td align="right">
-
                                             @if(!(request('action') == 'student'))
                                                <a class="btn btn-secondary" href="{{route('class.teacher',$class->id)}}"><i
                                                        class="fas fa-user text-dark-pastel-green"></i>  Teachers</a>
@@ -40,10 +54,8 @@
                                                <a class="btn btn-primary" href="{{route('student.index')}}?class={{$class->id}}"><i
                                                        class="fas fa-graduation-cap text-orange-red"></i>  Student</a>
                                             @endif
-
                                        </td>
                                    </tr>
-
                                @endforeach
                             </tbody>
                         </table>

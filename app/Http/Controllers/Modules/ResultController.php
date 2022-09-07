@@ -20,62 +20,54 @@ class ResultController extends Controller{
                 return redirect()->back()->with($data);
             }else{
                 $data['class'] = $subClass;
-                $data['students'] = $subClass->students(getYear());
+                $data['students'] = $subClass->student;
             }
         }else{
-            $subClass = \App\ClassSection::find($id);
+            $subClass = \App\AnnualClass::find($id);
             if($subClass == null){
                 abort(404);
             }
             $data['class'] = $subClass;
-            $data['students'] = $subClass->students(getYear());
+            $data['students'] = $subClass->student;
         }
         return view('result.student')->with($data);
     }
-
-    public function studentPost(Request $request, $id){
-        $data['students'] = [];
-        $data['id'] = $id;
-        $subClass = \App\ClassSection::find($id);
-        $data['class'] = $subClass;
-        $data['students'] = $subClass->students($request->get('year'));
-        return view('result.student')->with($data);
-    }
-
     public function class(Request $request){
         $data['classes'] = \App\Classes::all();
         return view('result.class')->with($data);
     }
-
     public function subClass(Request $request, $id){
         $data = [];
-
         if(\Auth::user()->hasRole('teacher')){
             $data['classes'] = \Auth::user()->class(getYear());
         }else{
             $class = \App\Classes::find($id);
-            $data['classes'] = $class->subClass;
+            $data['classes'] = $class->subClass($request->year?$request->year:getYear());
         }
+        $data['year'] = $request->year?$request->year:getYear();
         return view('result.subclass')->with($data);
     }
-
     public function result(Request $request, $slug){
         $student = \App\Student::whereSlug($slug)->first();
         if($student == null){
             $request->session()->flash('error',"Invalid URL");
             return redirect()->back();
         }
-        $class = $student->class(getYear());
+
+        $class = $student->aClass(getYear());
         if($class == null){
             $request->session()->flash('error',"Student was not part of this session");
             return redirect()->back();
         }
+        $class = $class->class;
         $data['student'] = $student;
+        $data['section'] = $class->section->id;
         $data['year'] = \App\Session::find(getYear());
         $data['class'] = $class;
         if($request->action == 'print'){
             $data['title'] = $student->name.' Result';
-            if($class->section->id == 1){
+            $data['section'] = $class->section->id;
+            if($class->section->id <= 2){
                 $pdf = \PDF::loadView('template.nusery_report', $data);
                // return view('template.nusery_report')->with($data);
                 return $pdf->download($student->name.'_result.pdf');
@@ -85,7 +77,8 @@ class ResultController extends Controller{
               // return $pdf->download($student->name.'_result.pdf');
             }
         }else{
-            if($class->section->id == 1){
+            $data['section'] = $class->section->id;
+            if($class->section->id <= 2){
                 return view('result.nusery_report_card')->with($data);
             }else{
                 return view('result.primary_report_card')->with($data);
@@ -99,21 +92,25 @@ class ResultController extends Controller{
             $request->session()->flash('error',"Invalid URL");
             return redirect()->back();
         }
-        $class = $student->class($request->get('session'));
+
+        $class = $student->aClass($request->get('year'));
+
         if($class == null){
             $request->session()->flash('error',"Student was not part of this session");
             return redirect()->back();
         }
+
         $data['student'] = $student;
-        $data['year'] = \App\Session::find($request->get('session'));
-        $data['class'] = $class;
-        if($class->section->id == 1){
+        $data['section'] = $class->class->section->id;
+        $data['year'] = \App\Session::find($request->get('year'));
+        $data['class'] = $class->class;
+
+        if($class->class->section->id <= 2){
             return view('result.nusery_report_card')->with($data);
         }else{
             return view('result.primary_report_card')->with($data);
         }
     }
-
 
     public function edit(Request $request, $slug){
         $student = \App\Student::whereSlug($slug)->first();
@@ -142,13 +139,13 @@ class ResultController extends Controller{
             $data['seq'] = \App\Sequence::get()->first();
             $data['class'] = $class;
         }
-        if($class->section->id == 1){
+        $data['section'] = $class->section->id;
+        if($class->section->id <= 2){
             return view('result.edit_nusery')->with($data);
         }else{
             return view('result.edit_primary')->with($data);
         }
     }
-
     public function editPost(Request $request, $slug){
         $this->validate($request, [
             'year' => 'required',
@@ -168,18 +165,84 @@ class ResultController extends Controller{
             return redirect()->back();
         }
 
-        if($class->section->id == 1){
-            foreach(\App\Section::find(1)->subjects as $subject) {
-                $student->saveResult($request->year, $request->sequence,$subject->id, $request->get('mark'.$subject->id));
-            }
-        }else{
-            foreach(\App\Section::find(2)->subjects as $subject) {
-                $student->saveResult($request->year, $request->sequence,$subject->id, $request->get('mark'.$subject->id));
-            }
+        foreach(\App\Section::find($class->section->id)->subjects as $subject) {
+            $student->saveResult($request->year, $request->sequence,$subject->id, $request->get('mark'.$subject->id), $subject->score);
         }
+
 
         $request->session()->flash('success',"Result Inserted Successfully");
         return redirect(route('result.session', $student->slug));
     }
+    public function feeControl(Request $request){
+        $sections = [];
+        if($request->year != null && $request->class  != null){
+           if($request->class == "0"){
+               $sections = \Auth::user()->classes(getYear());
+               if($sections->count() == 0){
+                   $request->session()->flash('error',"No class assign to you");
+                   return redirect(route('dashboard'));
+               }
+           }else{
+               $sections = \App\Classes::find($request->class)->subClass($request->year);
+               if($sections->count() == 0){
+                   $request->session()->flash('error',"No sub section found for this class");
+               }
+           }
+        }
+        $data['students'] = [];
+        $data['sections'] = $sections;
+        return view('result.fee_controle')->with($data);
+    }
+    public function feeControlPost(Request $request){
+        $this->validate($request, [
+            'year' => 'required',
+            'class' => 'required',
+            'section' => 'required',
+            'amount' => 'required',
+        ]);
 
+
+        $sections = [];
+        if($request->year && $request->class){
+            $sections = \App\Classes::find($request->class)->subClass($request->year);
+            if($sections->count() == 0){
+                $request->session()->flash('error',"No sub section found for this class");
+            }
+        }
+        $sec = \App\AnnualClass::find($request->section);
+        $students = [];
+        foreach ($sec->student as $student){
+            if($student->dept($request->year) < $request->amount){
+                $content['student'] = $student;
+                $content['section'] = $sec->class->section->id;
+                $content['year'] = \App\Session::find($request->get('year'));
+                $content['class'] = $sec->class;
+                $content['title'] = $student->name.' '.$content['year']->name.' Report Card';
+                if($sec->class->section->id <= 2){
+                    array_push($students, view('template.nusery_report')->with($content));
+                }else{
+                    array_push($students, view('template.primary_report')->with($content));
+                }
+            }
+        }
+        $data['students'] = $students;
+        $data['sections'] = $sections;
+        return view('result.fee_controle')->with($data);
+    }
+
+    public function ranksheet(Request $request){
+        $student = \Auth::user()->class(request('year',getYear()))->student()->Join('results',['students.id'=>'results.student_id'])
+            ->selectRaw('students.id, students.name, COALESCE(sum(results.mark),0) total_mark, COALESCE(sum(results.total),0) total')
+            ->where(['results.year_id'=>request('year',getYear()), 'results.sequence_id'=>request('sequence',1)])
+            ->groupBy('students.id', 'students.name','students_classes.class_id','students_classes.student_id')
+            ->orderBy('total_mark', 'DESC')
+            ->get();
+
+        if($student->count() > 0){
+            $data['students'] = $student;
+        }else{
+            $data['students'] = [];
+        }
+        return view('result.ranksheet')->with($data);
+    }
 }

@@ -12,6 +12,26 @@ use \Carbon\Carbon;
 
 class ExpensesController extends Controller{
 
+
+    public function typePost(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
+        $type = \App\ExpenceType::create($request->all());
+        $request->session()->flash('success',"Successful");
+        return redirect()->back();
+    }
+
+    public function type(){
+        return view('expenses.type');
+    }
+
+    public function deleteType(Request $request){
+        $request->session()->flash('success',"Successful");
+        return redirect()->back();
+    }
+
     public function index(Request $request){
         $data = [];
         if($request->daterange){
@@ -19,8 +39,8 @@ class ExpensesController extends Controller{
             $daterange = explode('-', $daterange);
             $start = $daterange[0];
             $end = $daterange[1];
-            $start = Carbon::createFromFormat('d/m/Y',  $start)->toDateTimeString();
-            $end = Carbon::createFromFormat('d/m/Y',  $end)->toDateTimeString();
+            $start = Carbon::createFromFormat('m/d/Y',  $start)->toDateTimeString();
+            $end = Carbon::createFromFormat('m/d/Y',  $end)->toDateTimeString();
             $data['expenses'] = \App\Expenses::where('created_at','>',$start)
                                                 ->where('created_at','<=',$end)->get();
             $data['title'] = "All Expenses from ".$daterange[0]." to ".$daterange[1];
@@ -52,6 +72,7 @@ class ExpensesController extends Controller{
                 'date' => 'required',
                 'motive' => 'required',
                 'status' => 'required',
+                'expense_id' => 'required',
             ]);
 
             $input = $request->all();
@@ -72,12 +93,14 @@ class ExpensesController extends Controller{
                 'date' => 'required',
                 'motive' => 'required',
                 'status' => 'required',
+                'expense_id' => 'required',
             ]);
             $expense = \App\Expenses::findOrFail($id);
             $expense->amount = $request->amount;
             $expense->date = $request->date;
             $expense->motive = $request->motive;
             $expense->status = $request->status;
+            $expense->expense_id = $request->expense_id;
             $expense->save();
 
 

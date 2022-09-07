@@ -5,7 +5,7 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
     <style>
         th{
             border: 1px solid #ccc;
@@ -15,7 +15,7 @@
 
 @section('section')
     <div class="card height-auto">
-        <div class="card-body">
+        <div  class="card-body">
             <div class="heading-layout1">
                 <div class="item-title d-flex-column w-100">
                     <h5 class="mb-0"> {{$student->name}} </h5>
@@ -26,18 +26,23 @@
                             <div class="col-lg-6 col-12 form-group">
                                 <select name="year" class="select2">
                                     @foreach(\App\Session::all() as $session)
-                                        <option {{($student->class($year->id)->id == $session->id)?'selected':''}} value="{{$session->id}}">{{$session->name}}</option>
+                                        <option {{($year->id == $session->id)?'selected':''}} value="{{$session->id}}">{{$session->name}}</option>
                                     @endforeach
                                 </select>
+
                             </div>
                             <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
                                 <button type="submit" class="fw-btn-fill btn-gradient-yellow">Get</button>
+                            </div>
+
+                            <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                <button onclick="print()"  class="fw-btn-fill btn-gradient-yellow">Print</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="table-responsive pb-5">
+            <div id="layout" class="table-responsive pb-5">
                 <table class="table my-3">
                     <thead>
                     <tr>
@@ -63,7 +68,7 @@
                                 </div></th>
                         @endforeach
                     </tr>
-                    @foreach(\App\Section::find(1)->subjects as $subject)
+                    @foreach(\App\Section::find($section)->subjects as $subject)
                        <tr>
                            <th style="width: 160px;">{{$subject->byLocale()->name}}</th>
                            @foreach(\App\Sequence::get() as $sequence)
@@ -79,5 +84,26 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
+    <script>
+        function print() {
+            var printContents = $('#layout').html();
+            w = window.open();
+            w.document.write('<html><head>');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/css')}}/normalize.css" type="text/css" />');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/css')}}/main.css" type="text/css" />');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/css')}}/bootstrap.min.css" type="text/css" />');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/css')}}/all.min.css" type="text/css" />');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/fonts')}}/flaticon.css" type="text/css" />');
+            w.document.write('<link rel="stylesheet" href="{{asset('public/assets/css')}}/style.css" type="text/css" />');
+            w.document.write('</head><body>');
+            w.document.write(printContents);
+            w.document.write('</body>');
+            w.document.write('<scr' + 'ipt type="text/javascript">' + 'window.onload = function() { window.print(); window.close(); };' + '</sc' + 'ript>');
+            w.document.write('</html>');
+            w.document.close();
+            w.focus();
+            return true;
+        }
+    </script>
 @endsection

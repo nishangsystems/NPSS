@@ -5,7 +5,7 @@ return [
     'GENDER' => ['male','female'],
     'FEE_TYPE' => ['PTA','FEE'],
     'TERM' => ['First Term','Second Term','Third Term'],
-    'SECTION' => ['Nursery','Primary'],
+    'SECTION' => ['English Nursery','French Nursery','English Primary','French Primary'],
     'CLASS' => ['Nursery 1','Nursery 2','Nursery 3','Class 1','Class 2','Class 3','Class 4','Class 5','Class 6'],
     'SEQUENCE' => [
                     ['t_id' => '1','name' => '1st Sequence'],

@@ -101,18 +101,19 @@ class User extends Authenticatable
         }
     }
 
-
-
     public function class($year)
     {
-        return $this->belongsToMany('App\ClassSection', 'teachers_classes', 'teacher_id', 'class_id')->where('year_id', $year)->first();
+        return $this->belongsToMany('App\AnnualClass', 'teachers_classes', 'teacher_id', 'class_id')->where('teachers_classes.year_id', $year)->first();
+    }
+
+    public function classes($year)
+    {
+        return $this->belongsToMany('App\AnnualClass', 'teachers_classes', 'teacher_id', 'class_id')->where('teachers_classes.year_id', $year)->get();
     }
 
     public function students(){
         return $this->belongsToMany('App\Student','students_guardients','parent_id','student_id');
     }
-
-
 
 }
 

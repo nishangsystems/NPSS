@@ -5,64 +5,11 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{asset('assets/css')}}/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/css')}}/jquery.dataTables.min.css">
 @endsection
 
 @section('section')
-    <!-- Breadcubs Area End Here -->
-    <div class="row">
-        <div class="col-lg-6 col-4-xxxl col-xl-6">
-            <div class="card dashboard-card-three">
-                <div class="card-body">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Students</h3>
-                        </div>
-                    </div>
-                    @if(\Auth::user()->class(getYear()))
-                        <div class="doughnut-chart-wrap">
-                            <canvas id="student-doughnut-chart" width="100" height="270"></canvas>
-                        </div>
-                        <div class="student-report">
-                            <div class="student-count pseudo-bg-blue">
-                                <h4 class="item-title">Female Students</h4>
-                                <div class="item-number">{{\Auth::user()->class(getYear())->students(getYear())->where('gender','female')->count()}}</div>
-                            </div>
-                            <div class="student-count pseudo-bg-yellow">
-                                <h4 class="item-title">Male Students</h4>
-                                <div class="item-number">{{\Auth::user()->class(getYear())->students(getYear())->where('gender','male')->count()}}</div>
-                            </div>
-                        </div>
-                    @endif
 
-                </div>
-            </div>
-        </div>
-        <!-- Students Chart End Here -->
-        <!-- Notice Board Start Here -->
-        <div class="col-lg-6 col-4-xxxl col-xl-6">
-            <div class="card dashboard-card-six">
-                <div class="card-body">
-                    <div class="heading-layout1 mg-b-17">
-                        <div class="item-title">
-                            <h3>Notifications</h3>
-                        </div>
-                    </div>
-                    <div class="notice-box-wrap">
-                        <div class="notice-list">
-                            <div class="post-date bg-skyblue">16 June, 2019</div>
-                            <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend lectus
-                                    sed maximus mi faucibusnting.</a></h6>
-                            <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Notice Board End Here -->
-    </div>
-    <!-- Student Table Area Start Here -->
     <div class="row">
         <div class="col-lg-12">
             <div class="card dashboard-card-eleven">
@@ -86,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                    @if(\Auth::user()->class(getYear()))
-                                       @foreach(\Auth::user()->class(getYear())->students(getYear()) as $student )
+                                       @foreach(\Auth::user()->class(getYear())->student as $student )
                                            <tr>
                                                <td>{{$student->name}}</td>
                                                <td>{{$student->gender}}</td>
@@ -107,10 +54,6 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js')}}/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets/js')}}/Chart.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.counterup.min.js"></script>
-    <script src="{{asset('assets/js')}}/moment.min.js"></script>
-    <script src="{{asset('assets/js')}}/jquery.waypoints.min.js"></script>
+    <script src="{{asset('public/assets/js')}}/jquery.dataTables.min.js"></script>
 @endsection
 
