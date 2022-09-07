@@ -25,6 +25,13 @@
                         <select class="select2" readonly name="current_class" required>
                             <option value="{{$student->sClass()->class->id}}">{{$student->sClass()->class->section->name}} - {{$student->sClass()->class->byLocale()->name}}</option>
                         </select>
+
+                        <div class="form-check">
+                            <input type="checkbox" value="1" name="remove" id="remove" class="form-check-input">
+                            <label for="remove" class="form-check-label">Remove Student from current class</label>
+                        </div>
+
+
                     </div>
 
                     <div class="col-lg-6 col-12 form-group">

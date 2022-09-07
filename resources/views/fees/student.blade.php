@@ -53,26 +53,29 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </form>
             <div class="table-responsive">
-                <table  class="table data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                         <th>Class</th>
-                        <th>year</th>
-                        <th>Amount<br/>Paid</th>
-                        <th>Amount<br/>Owing</th>
-                        <th>Scholarship</th>
-                        <th></th>
-                    </tr>
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+               
+            <table class="table data-table text-nowrap dataTable no-footer" id="DataTables_Table_0" role="grid">
+                    
+            <thead>
+                 <tr role="row">
+                    <th class="sorting_asc" rowspan="1" colspan="1" aria-label="#" style="width: 16.1719px;">#</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">Name</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">Class</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">year</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">Amount<br>Paid</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">Amount<br>Owing</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">Scholarship</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 164.625px;">Action</th>
+                    
+                </tr>
                     </thead>
 
                     <tbody>
-                        @php
+                    @php
                             $totalPaid = 0;
                             $scholarship = 0;
                             $dept= 0;
@@ -86,7 +89,7 @@
                                 $scholarship += $student->scholarship($year);
                                 $dept += $student->dept($year);
                             @endphp
-                            <tr>
+                                <tr role="row" class="odd">
                                 <td>{{$i++}} </td>
                                 <td>{{$student->name}}</td>
                                 <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
@@ -102,16 +105,18 @@
                                     @endif
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                          <tr class="font-weight-bold">
-                            <td colspan="4" > Total</td>
+                            <td > Total</td>
+                            <td ></td>
+                            <td ></td>
+                            <td ></td>
                             <td>{{number_format($totalPaid)}}</td>
                             <td>{{number_format($dept)}}</td>
                             <td>{{number_format($scholarship)}}</td>
                             <td> </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </tr></tbody>
+                </table></div>
             </div>
         </div>
     </div>

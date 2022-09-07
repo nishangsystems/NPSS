@@ -220,7 +220,7 @@ class StudentController extends Controller{
 
     public function changeClassFormPost(Request $request, $student){
         $this->validate($request, [
-            'class' => 'required',
+            'class' => 'required_without:remove',
             'student' => 'required',
             'current_class' => 'required',
         ]);
@@ -231,14 +231,33 @@ class StudentController extends Controller{
             \DB::beginTransaction();
             $classR = $student->classR($student->sClass()->id);
 
-            if($classR){
+            if($classR && $student->hasMany('App\StudentsClass','student_id')->count() > 1){
                 $classR->delete();
+            }elseif(isset($request->remove)){
+                $classR->delete();
+                if ($request->user()->can('delete_student')) {
+                    $student = \App\Student::whereSlug($id)->first();
+                    if($student == null){
+                        abort(404);
+                    }
+                   if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
+                       $student->delete();
+                       $request->session()->flash('success', "Student Deleted successfully");
+                   }else{
+                       $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
+                   }
+        
+                }else{
+                    $request->session()->flash('error', "Not allowed to perform this action");
+                }
             }
 
+          if(!isset($request->remove)){
             $studentClass = \App\StudentsClass::create([
                 'student_id'=> $student->id,
                 'class_id'=> getSection($request->class, getYear())->id
             ]);
+          }
 
 
 
