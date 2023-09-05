@@ -8,24 +8,24 @@
     <div id="layout" class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>All @if(request('action')=='scholarship' || request('action') =='giftscholarship') {{"Scholarships"}}  @elseif(request('action')=='owing') {{"UnCompleted Fee"}}  @else  {{"Completed Fee"}}   @endif  for {{\App\Session::find($year)->name}}</h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.word_all') }} @if(request('action')=='scholarship' || request('action') =='giftscholarship') {{"Scholarships"}}  @elseif(request('action')=='owing') {{"UnCompleted Fee"}}  @else  {{"Completed Fee"}}   @endif  {{ __('text.word_for') }} {{\App\Session::find($year)->name}}</h3>
                 </div>
 
-                <button onclick="print()">print</button>
+                <button onclick="print()">{{ __('text.word_print') }}</button>
             </div>
 
             <form class="mg-b-20"  method="get" action="">
                 <input type="hidden" name="action" value="{{request('action')}}">
                 <div class="row gutters-8">
                     <div class="col-lg-3  mt-1">
-                        <div class="dropdown">
+                        <div class="dropdown text-capitalize">
                             <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">@if(request('action')=='scholarship') {{"Scholarships"}}  @elseif(request('action')=='owing') {{"UnCompleted Fee"}}  @else  {{"Completed Fee"}}   @endif</a>
+                               aria-expanded="false">@if(request('action')=='scholarship') {{__('text.word_scholarships')}}  @elseif(request('action')=='owing') {{__('text.uncompleted_fee')}}  @else  {{__('text.completed_fee')}}   @endif</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'owing','year'=>$q['year'],'classr'=>$q['class']])}}">UnCompleted Fee</a>
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'scholarship','year'=>$q['year'],'classr'=>$q['class']])}}">Scholarships</a>
-                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'completed','year'=>$q['year'],'classr'=>$q['class']])}}">Completed Fee</a>
+                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'owing','year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.uncompleted_fee') }}</a>
+                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'scholarship','year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.word_scholarships') }}</a>
+                                <a class="dropdown-item" href="{{route('fee.student',['action'=>'completed','year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.completed_fee') }}</a>
                             </div>
                         </div>
                     </div>
@@ -61,15 +61,15 @@
             <table class="table data-table text-nowrap dataTable no-footer" id="DataTables_Table_0" role="grid">
                     
             <thead>
-                 <tr role="row">
+                 <tr role="row text-capitalize">
                     <th class="sorting_asc" rowspan="1" colspan="1" aria-label="#" style="width: 16.1719px;">#</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">Name</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">Class</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">year</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">Amount<br>Paid</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">Amount<br>Owing</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">Scholarship</th>
-                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 164.625px;">Action</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">{{ __('text.word_name') }}</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">{{ __('text.word_class') }}</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">{{ __('text.word_year') }}</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_paid') }}</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_owing') }}</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">{{ __('text.word_scholarship') }}</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 164.625px;">{{ __('text.word_action') }}</th>
                     
                 </tr>
                     </thead>
@@ -97,17 +97,17 @@
                                 <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
                                 <td class="{{$student->dept($year) >0?'text-red':''}}">{{$student->dept($year)}}</td>
                                 <td>{{$student->scholarship($year)}}</td>
-                                <td>
-                                    <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> View receipt </a>
-                                    <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> Collect Fee</a>
+                                <td class="text-capitalize">
+                                    <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> {{ __('text.view_receipt') }} </a>
+                                    <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> {{ __('text.collect_fee') }}</a>
                                     @if(request('action')=='scholarship' || request('action') =='giftscholarship')
-                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> Scholarship</a>
+                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> {{ __('text.word_scholarship') }}</a>
                                     @endif
                                 </td>
                             </tr>
                             @endforeach
                          <tr class="font-weight-bold">
-                            <td > Total</td>
+                            <td class="text-capitalize"> {{ __('text.word_total') }}</td>
                             <td ></td>
                             <td ></td>
                             <td ></td>

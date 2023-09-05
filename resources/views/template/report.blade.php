@@ -4,26 +4,26 @@
     <!-- Fees Table Area Start Here -->
     <div class="card">
         <div class="card-body">
-            <table class="table text-nowrap">
+            <table class="table text-nowrap text-capitalize">
                 <thead>
                 <tr>
-                    <th>Module</th>
-                    <th>Amount</th>
+                    <th>{{ __('text.word_module') }}</th>
+                    <th>{{__('text.word_amount')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Fee Collection</td>
+                        <td>{{ __('text.fee_collection') }}</td>
                         <td></td>
                     </tr>
 
                     <tr>
-                        <td>Fee Collection</td>
+                        <td>{{ __('text.fee_collection') }}</td>
                         <td></td>
                     </tr>
 
                     <tr>
-                        <td>Scholarships</td>
+                        <td>{{ __('text.word_scholarships') }}</td>
                         <td></td>
                     </tr>
 

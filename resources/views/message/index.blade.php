@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('style')
@@ -14,20 +14,20 @@
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>All Messages</h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.all_messages') }}</h3>
                 </div>
             </div>
             <div class="table-responsive">
                 <table class="table display data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        <th>SN</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
+                    <thead class="text-capitalize">
+                        <tr>
+                            <th>{{ __('text.sn') }}</th>
+                            <th>{{ __('text.word_title') }}</th>
+                            <th>{{ __('text.word_author') }}</th>
+                            <th>{{ __('text.word_date') }}</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                     @php($i = 1)
@@ -38,7 +38,7 @@
                                 <td>{{$message->sender->name}}</td>
                                 <td>{{$message->created_at->diffForHumans()}}</td>
                                 <td>
-                                    <a class="btn btn-outline-primary" href="#">View</a>
+                                    <a class="btn btn-outline-primary text-capitalize" href="#">{{ __('text.word_view') }}</a>
                                 </td>
                             </tr>
                             @endforeach

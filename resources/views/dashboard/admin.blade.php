@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('section')
@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Teachers</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_teachers') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::whereSlug('teacher')->first()->users()->count()}}">{{\App\Role::whereSlug('teacher')->first()->users()->count()}}</span></div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Parents</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_parent') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::whereSlug('parent')->first()->users()->count()}}">{{\App\Role::whereSlug('parent')->first()->users()->count()}}</span></div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Roles</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_roles') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::count()}}">{{\App\Role::count()}}</span></div>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
             <div class="card dashboard-card-three pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Students</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.word_students') }}</h3>
                         </div>
                     </div>
                     <div class="doughnut-chart-wrap">
@@ -76,13 +76,13 @@
                     </div>
                     <div class="student-report">
                         <div class="student-count pseudo-bg-blue">
-                            <h4 class="item-title">Female Students</h4>
+                            <h4 class="item-title text-capitalize">{{ __('text.female_students') }}</h4>
                             <div class="item-number">{{\App\Student::whereHas('classes', function($q){
                                 $q->where('year_id',getYear());
                             })->where('gender','female')->count()}}</div>
                         </div>
                         <div class="student-count pseudo-bg-yellow">
-                            <h4 class="item-title">Male Students</h4>
+                            <h4 class="item-title text-capitalize">{{ __('text.male_students') }}</h4>
                             <div class="item-number">{{\App\Student::whereHas('classes', function($q){
                                 $q->where('year_id',getYear());
                             })->where('gender','male')->count()}}</div>
@@ -95,8 +95,8 @@
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1 mg-b-17">
-                        <div class="item-title">
-                            <h3>Notice Board</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.notice_board') }}</h3>
                         </div>
                     </div>
                     <div class="notice-box-wrap">

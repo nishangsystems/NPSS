@@ -23,7 +23,7 @@ class SettingController extends Controller{
         $session->name = $request->name;
         $session->save();
 
-        $request->session()->flash('success',"Session created successfully");
+        $request->session()->flash('success',__('text.session_created_successfully'));
         return redirect()->to(route('settings.session'));
     }
 
@@ -44,7 +44,7 @@ class SettingController extends Controller{
         setting(['current_year' => $request->year])->save();
         setting(['current_term' => $request->sequence])->save();
 
-        $request->session()->flash('success',"Current Academic Year and Sequence Set Successfully");
+        $request->session()->flash('success', __('text.current_ay_set_successfully'));
         return redirect()->back();
     }
 

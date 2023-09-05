@@ -51,10 +51,10 @@ class FeeController extends Controller{
         $fee = \App\StudentFeePayment::findOrFail($request->fee);
         if ($request->user()->can('create_fee')) {
             $fee->delete();
-            $request->session()->flash('success',"Fee Deleted Successfully");
+            $request->session()->flash('success', __('text.fee_deleted_successfully'));
             return redirect(route('fee'));
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=> __('text.action_not_allowed')]);
             return redirect(route('fee'));
         }
     }
@@ -74,16 +74,16 @@ class FeeController extends Controller{
 
             $student = \App\Student::find($request->student);
             if($request->amount > $student->dept(getYear())){
-                $request->session()->flash('error', "Negative Balance");
+                $request->session()->flash('error', __('text.negative_balance'));
                 return redirect()->back()->withInput($request->all());
             }else{
                 \Auth::user()->collectFee($request);
-                $request->session()->flash('success',"Fee Collected Successfully");
+                $request->session()->flash('success', __('text.fee_collected_successfully'));
             }
 
             return redirect(route('fee'));
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=>__('text.action_not_allowed')]);
         }
 
     }
@@ -91,7 +91,7 @@ class FeeController extends Controller{
     {
         if ($request->user()->can('delete-tasks')) {
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('roles.index'))->with(['success'=> __('text.roles_created_successfully')]);
     }
     public function classFee(Request $request){
         return view('fees.class');
@@ -107,7 +107,7 @@ class FeeController extends Controller{
                 $class->setFee($amount, $t->id);
             }
         }
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success',__('text.word_successful'));
         return redirect()->back();
     }
     public function type(){
@@ -120,7 +120,7 @@ class FeeController extends Controller{
         ]);
 
         $type = \App\FeeType::create($request->all());
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success',__('text.word_successful'));
         return redirect()->back();
     }
 
@@ -407,13 +407,13 @@ class FeeController extends Controller{
             ]);
             \App\Student::find($request->student)->setScholarShip($request);
            if($request->amount < 0){
-                $request->session()->flash('success',"Dept saved successfully");
+                $request->session()->flash('success',__('text.debt_saved_successfully'));
            }else{
-                $request->session()->flash('success',"Scholarship Saved Successfully");
+                $request->session()->flash('success',__('text.scholarship_saved_successfully'));
            }
             return redirect(route('fee.student')."?action=scholarship");
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=>__('text.action_not_allowed')]);
         }
     }
 
@@ -430,7 +430,7 @@ class FeeController extends Controller{
         }
     }
     public function income(Request $request){
-        $data['title'] =   "Income Statement";
+        $data['title'] =   __('text.income_statement');
         if($request->action == 'print'){
             $pdf = \PDF::loadView('template.income', $data);
             return $pdf->download('Income_report.pdf');

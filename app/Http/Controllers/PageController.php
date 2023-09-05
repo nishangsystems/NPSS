@@ -76,7 +76,7 @@ class PageController extends Controller{
 
                     echo ($importData[0]." Inserted Successfully<br>");
                   }else{
-                    echo ($importData[0]."  <b style='color:#ff0000;'> Exist already on DB and wont be added. Please verify <br></b>");
+                    echo ($importData[0]."  <b style='color:#ff0000;'>" .__('text.exists_in_db_not_added')." <br></b>");
                   }
               }
 
@@ -86,13 +86,13 @@ class PageController extends Controller{
             \DB::rollback();
             echo ($e);
             }
-          Session::flash('message','Import Successful.');
-          echo("<h3 style='color:#0000ff;'>Import Successful.</h3>");
+          Session::flash('message', __('text.import_successful'));
+          echo("<h3 style='color:#0000ff;'>". __('text.import_successful')."</h3>");
 
       }else{
-        echo("<h3 style='color:#ff0000;'>Invalid File Extension.</h3>");
+        echo("<h3 style='color:#ff0000;'>".__('text.invalid_file_extension')."</h3>");
 
-         Session::flash('message','Invalid File Extension.');
+         Session::flash('message', __('text.invalid_file_extension'));
       }
     }
 
@@ -152,13 +152,13 @@ class PageController extends Controller{
              \DB::rollback();
              echo ($e);
              }
-           Session::flash('message','Import Successful.');
-           echo("<h3 style='color:#0000ff;'>Import Successful.</h3>");
+           Session::flash('message',__('text.import_successful'));
+           echo("<h3 style='color:#0000ff;'>". __('text.import_successful')."</h3>");
 
        }else{
-         echo("<h3 style='color:#ff0000;'>Invalid File Extension.</h3>");
+         echo("<h3 style='color:#ff0000;'>".__('text.invalid_file_extension')."</h3>");
 
-          Session::flash('message','Invalid File Extension.');
+          Session::flash('message', __('text.invalid_file_extension'));
        }
      }
 
@@ -201,7 +201,6 @@ class PageController extends Controller{
             fclose($file);
 
 
-
          \DB::beginTransaction();
            try{
 
@@ -227,13 +226,13 @@ class PageController extends Controller{
              \DB::rollback();
              echo ($e);
              }
-           Session::flash('message','Import Successful.');
-           echo("<h3 style='color:#0000ff;'>Import Successful.</h3>");
+           Session::flash('message',__('text.import_successful'));
+           echo("<h3 style='color:#0000ff;'>".__('text.import_successful')."</h3>");
 
        }else{
-         echo("<h3 style='color:#ff0000;'>Invalid File Extension.</h3>");
+         echo("<h3 style='color:#ff0000;'>".__('text.invalid_file_extension')."</h3>");
 
-          Session::flash('message','Invalid File Extension.');
+          Session::flash('message',__('text.invalid_file_extension'));
        }
      }
 
@@ -289,11 +288,11 @@ class PageController extends Controller{
                             $newResult->earned = "";
                             $newResult->save();
 
-                            echo ($importData[2]." Inserted Successfully<br>");
+                            echo ($importData[2]." ".__('text.inserted_successfully')."<br>");
                        }
                    }
                  }else{
-                   echo ($importData[2]."  <b style='color:#ff0000;'>Does not exist on DB and wont be added. Please verify <br></b>");
+                   echo ($importData[2]."  <b style='color:#ff0000;'>".__('text.exists_in_db_not_added') ."<br></b>");
                  }
              }
 
@@ -303,13 +302,13 @@ class PageController extends Controller{
            \DB::rollback();
            echo ($e);
            }
-         Session::flash('message','Import Successful.');
-         echo("<h3 style='color:#0000ff;'>Import Successful.</h3>");
+         Session::flash('message',__('text.import_successful'));
+         echo("<h3 style='color:#0000ff;'>".__('text.import_successful')."</h3>");
 
      }else{
-       echo("<h3 style='color:#ff0000;'>Invalid File Extension.</h3>");
+       echo("<h3 style='color:#ff0000;'>".__('text.invalid_file_extension')."</h3>");
 
-        Session::flash('message','Invalid File Extension.');
+        Session::flash('message',__('text.invalid_file_extension'));
      }
    }
   }

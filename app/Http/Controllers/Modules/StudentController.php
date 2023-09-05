@@ -73,14 +73,14 @@ class StudentController extends Controller{
                 $student->save();
 
                 \DB::commit();
-                $request->session()->flash('success', "Student updated successfully");
+                $request->session()->flash('success', __('text.student_saved_successfully'));
             }catch(\Exception $e){
                 \DB::rollback();
-                $request->session()->flash('error', "Something went wrong");
+                $request->session()->flash('error', __('text.something_went_wrong'));
             }
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('student.index'));
     }
@@ -118,14 +118,14 @@ class StudentController extends Controller{
                     'class_id'=> getSection($request->class, getYear())->id
                 ]);
                 \DB::commit();
-                $request->session()->flash('success', "Student Created successfully");
+                $request->session()->flash('success', __('text.student_saved_successfully'));
             }catch(\Exception $e){
                 \DB::rollback();
-                $request->session()->flash('error', "Something went wrong");
+                $request->session()->flash('error', __('text.something_went_wrong'));
             }
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('student.index'));
     }
@@ -138,13 +138,13 @@ class StudentController extends Controller{
             }
            if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
                $student->delete();
-               $request->session()->flash('success', "Student Deleted successfully");
+               $request->session()->flash('success', __('text.student_deleted_successfully'));
            }else{
-               $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
+               $request->session()->flash('error', __('text.cant_del_stud_with_trans'));
            }
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
 
         return redirect()->to(route('student.index'));
@@ -159,7 +159,7 @@ class StudentController extends Controller{
 
         if($request->next_year){
             if($request->next_year < $year){
-                $request->session()->flash('error', "Invalid promotion academic year");
+                $request->session()->flash('error', __('text.invalid_promotion_ay'));
             }
         }
 
@@ -191,11 +191,11 @@ class StudentController extends Controller{
                    ]);
                }
            }
-           $request->session()->flash('success', "Student Promoted Successfully");
+           $request->session()->flash('success', __('text.student_promoted_successfully'));
            return redirect()->back();
         }catch(\Exception $e){
            
-            $request->session()->flash('error', "Something went wrong");
+            $request->session()->flash('error', __('text.something_went_wrong'));
         }
     }
 
@@ -242,13 +242,13 @@ class StudentController extends Controller{
                     }
                    if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
                        $student->delete();
-                       $request->session()->flash('success', "Student Deleted successfully");
+                       $request->session()->flash('success', __('text.student_deleted_successfully'));
                    }else{
-                       $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
+                       $request->session()->flash('error', __('text.cant_del_stud_with_trans'));
                    }
         
                 }else{
-                    $request->session()->flash('error', "Not allowed to perform this action");
+                    $request->session()->flash('error', __('text.action_not_allowed'));
                 }
             }
 
@@ -262,11 +262,11 @@ class StudentController extends Controller{
 
 
             \DB::commit();
-            $request->session()->flash('success', "Student Migrated Successfully");
+            $request->session()->flash('success', __('text.student_migrated_successfully'));
         }catch(\Exception $e){
             \DB::rollback();
             //echo $e;
-        $request->session()->flash('error', "Something went wrong");
+        $request->session()->flash('error', __('text.something_went_wrong'));
        }
 
          return redirect()->back();
