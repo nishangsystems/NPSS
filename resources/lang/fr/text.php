@@ -4,7 +4,7 @@ return [
     'word_password'=>'mot de passe',
     'remember_me'=>' souviens-toi de moi ',
     'forgot_password'=>'mot de passe oublier?',
-    'word_login'=>' Mot de connexion ',
+    'word_login'=>'se connecter',
     'enter_username_slash_email'=>'entrée nom d’utilisateur/email',
     'enter_password'=>'entrer mot de passe',
     'add_new_book'=>'ajouter un livre',

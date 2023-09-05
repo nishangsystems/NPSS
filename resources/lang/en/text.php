@@ -4,7 +4,7 @@ return [
     'word_password'=>'password',
     'remember_me'=>'remember me',
     'forgot_password'=>'forgot password?',
-    'word_login'=>'word login',
+    'word_login'=>'login',
     'enter_username_slash_email'=>'enter username/email',
     'enter_password'=>'enter password',
     'add_new_book'=>'add new book',
