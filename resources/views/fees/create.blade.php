@@ -1,15 +1,15 @@
 @extends('layout.base')
 
 @section('title')
-    Fee
+    {{ __('text.word_fee') }}
 @endsection
 
 @section('section')
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>Collect Fee</h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.collect_fee') }}</h3>
                 </div>
             </div>
 
@@ -21,21 +21,21 @@
                     </select>
                 </div>
                 <div class="form-group col-12">
-                    <label>Amount</label>
+                    <label class="text-capitalize">{{ __('text.word_amount') }}</label>
                    <div class="d-flex form-control justify-content-between align-items-center">
                        <input type="text" onkeyup="updateBal()" id="amount" name="amount" class="border-0 bg-transparent" value="{{old('amount')}}" max="{{$student->dept($year)}}" required placeholder="Enter Amount" >
                        <span id="balance" class="font-bold text-nowrap">/ XAF {{$student->dept($year)}}</span>
                    </div>
                 </div>
                 <div class="form-group col-6">
-                    <label>Reference</label>
+                    <label class="text-capitalize">{{ __('text.word_reference') }}</label>
                     <input type="text" value="{{old('reference')}}"  name="reference" required placeholder="Enter Payment Reference" class="form-control">
                 </div>
 
                 <div class="form-group col-6">
-                    <label>Fee Type</label>
+                    <label class="text-capitalize">{{ __('text.fee_type') }}</label>
                     <select class=" select2" name="type" required>
-                        <option value="">Type *</option>
+                        <option value="">{{ __('text.word_type') }} *</option>
                         @foreach(\App\FeeType::get() as $type)
                             <option  {{(old('type') == $type->id)?'selected':''}} value="{{$type->id}}">{{$type->name}}</option>
                         @endforeach
@@ -44,7 +44,7 @@
 
                 <div class="form-group col-6">
                         <select class=" select2" name="method" required>
-                            <option value="">Payment Method *</option>
+                            <option value="">{{ __('text.payment_method') }} *</option>
                             @foreach(\App\PaymentMethod::get() as $method)
                                 <option {{(old('method') == $method->id)?'selected':''}} value="{{$method->id}}">{{$method->name}}</option>
                             @endforeach
@@ -52,14 +52,14 @@
                     </div>
                     <div class="form-group col-6">
                         <select class="select2" name="year" required>
-                            <option value="">Select Academic Year*</option>
+                            <option value="">{{ __('text.select_academic_year') }}*</option>
                             @foreach(\App\Session::get() as $y)
                                 <option {{($y->id == $year)?'selected':''}} value="{{$y->id}}">{{$y->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-12 pull-right mt-4">
-                        <button type="submit" class="btn-fill-md btn-gradient-yellow text-white">Save</button>
+                        <button type="submit" class="btn-fill-md btn-gradient-yellow text-white text-capitalize">{{ __('text.word_save') }}</button>
                     </div>
             </form>
         </div>

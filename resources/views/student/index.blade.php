@@ -11,28 +11,28 @@
     <div id="layout" class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
+                <div class="item-title text-capitalize">
                    @if(request('class'))
                         <h3 id="title">{{ "All Student in ". \App\AnnualClass::find(request('class'))->class->byLocale()->name }} {{$class?$class->section_id:''}}</h3>
                     @else
-                        <h3 id="title">All Students Data</h3>
+                        <h3 id="title">{{ __('text.all_students_data') }}</h3>
                    @endif
                 </div>
-                <button onclick="print()">print</button>
+                <button onclick="print()">{{ __('text.word_print') }}</button>
             </div>
 
             <div  class="table-responsive">
                 <table  class="table display data-table text-nowrap">
-                    <thead>
+                    <thead class="text-capitalize">
                     @php($i =1)
                     <tr>
                         <th>#</th>
-                        <th>Matricule</th>
-                        <th>Name</th>
-                        <th>Gender</th>
-                        <th>Section</th>
-                        <th>Class</th>
-                        <th>Parents</th>
+                        <th>{{ __('text.word_matricule') }}</th>
+                        <th>{{ __('text.word_name') }}</th>
+                        <th>{{ __('text.word_gender') }}</th>
+                        <th>{{ __('text.word_section') }}</th>
+                        <th>{{ __('text.word_class') }}</th>
+                        <th>{{ __('text.word_parents') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -46,16 +46,16 @@
                                 <td>{{($student->sClass())?$student->sClass()->class->section->name:''}}</td>
                                 <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
                                 <td>{{($student->parent() != null)?$student->parent()->name:''}} {{($student->parent() != null)?$student->parent()->last_name:''}}</td>
-                                <td>
+                                <td class="text-capitalize">
                                      <a class="btn btn-primary" href="{{route('student.show', $student->slug)}}"><i
-                                                    class="fas fa-eye"></i> View</a>
+                                                    class="fas fa-eye"></i> {{ __('text.word_view') }}</a>
                                     @if(\Auth::user()->hasRole('admin'))
                                         <a class="btn btn-success" href="{{route('student.edit', $student->slug)}}"><i
-                                                class="fas fa-edit"></i> Edit</a>
+                                                class="fas fa-edit"></i> {{ __('text.word_edit') }}</a>
 
                                         <a onclick="event.preventDefault();
 												document.getElementById('delete{{$student->id}}').submit();" class=" btn text-white btn-danger"><i
-                                                class="fas"></i> Delete</a>
+                                                class="fas"></i> {{ __('text.word_delete') }}</a>
                                         <form id="delete{{$student->id}}" action="{{route('student.destroy', $student->slug)}}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             {{ csrf_field() }}

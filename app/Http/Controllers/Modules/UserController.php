@@ -68,7 +68,7 @@ class UserController extends Controller{
         }
         $userE = \App\User::where('email', $request->username)->first();
         if($userE != $user && $userE != null){
-            $request->session()->flash('error', "Username used already");
+            $request->session()->flash('error', __('text.username_already_used'));
            return redirect()->back();
         }
 
@@ -86,7 +86,7 @@ class UserController extends Controller{
         }
         $user->save();
 
-        $request->session()->flash('success', "Account Updated successfully");
+        $request->session()->flash('success', __('text.account_updated_successfully'));
         $data['user'] = $user;
         return view('users.show_parent')->with($data);
     }
@@ -126,9 +126,9 @@ class UserController extends Controller{
                 ]);
             }
 
-            $request->session()->flash('success', "User Created successfully");
+            $request->session()->flash('success', __('text.user_created_successfully'));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('user.index')."?type=".$request->type);
     }
@@ -138,7 +138,7 @@ class UserController extends Controller{
         if ($request->user()->can('delete-tasks')) {
             //Code goes here
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('roles.index'))->with(['success'=>__('text.roles_created_successfully')]);
     }
 
     public function parentAssign(Request $request, $slug){
@@ -160,7 +160,7 @@ class UserController extends Controller{
             'student_id'=>$request->student_id,
             'parent_id'=>$request->parent_id
         ]);
-        $request->session()->flash('success', "Student Assign to parent Successfully");
+        $request->session()->flash('success', __('text.student_assigned_to_parent_successfully'));
         return redirect()->to(route('user.index'));
     }
 
@@ -178,10 +178,10 @@ class UserController extends Controller{
             $user->password = \Hash::make($request->password);
             $user->save();
 
-            $request->session()->flash('success', "Password changed successfully");
+            $request->session()->flash('success', __('text.password_changed_successfully'));
             return redirect(route('dashboard'));
         }else{
-            $request->session()->flash('error', "Invalid old password");
+            $request->session()->flash('error', __('text.invalid_old_password'));
             return redirect()->back()->withInput();
         }
     }
@@ -204,7 +204,7 @@ class UserController extends Controller{
         $user->password = \Hash::make($request->password);
         $user->save();
 
-        $request->session()->flash('success', "Password changed successfully");
+        $request->session()->flash('success', __('text.password_changed_successfully'));
         return redirect(route('dashboard'));
     }
 }

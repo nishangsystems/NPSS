@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Rank Sheet
+    {{ __('text.rank_sheet') }}
 @endsection
 
 @section('style')
@@ -35,7 +35,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4  form-group">
-                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">Get</button>
+                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow text-capitalize">{{ __('text.word_get') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -45,10 +45,10 @@
                         <div class="table-responsive student-table-box">
                             <table class="table display data-table text-nowrap">
                                 <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Name</th>
-                                    <th>Average</th>
+                                <tr class="text-capitalize">
+                                    <th>{{ __('text.word_rank') }}</th>
+                                    <th>{{ __('text.word_name') }}</th>
+                                    <th>{{ __('text.word_average') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

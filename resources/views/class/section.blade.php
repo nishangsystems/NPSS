@@ -13,7 +13,7 @@
                             @csrf
                             <div class="col-md-4 form-group">
                                 <select class="select2"  value="{{old('admission_year')}}"  required name="year">
-                                    <option>Change Academic year</option>
+                                    <option>{{ __('text.change_academic_year') }}</option>
                                     @foreach(\App\Session::all() as $class)
                                         <option {{($class->id == $year)?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
                                     @endforeach
@@ -21,21 +21,21 @@
                             </div>
                             <div class="col-md-4">
                                 <label></label>
-                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Get</button>
+                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark text-capitalize">{{ __('text.word_get') }}</button>
                             </div>
                         </form>
-                        <button onclick="ShowClassModal()" class="btn btn-lg btn-success">Edit Class</button>
+                        <button onclick="ShowClassModal()" class="btn btn-lg btn-success text-capitalize">{{ __('text.edit_class') }}</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table display data-table text-nowrap">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Student</th>
-                                <th>Teacher</th>
-                                <th>Subjects</th>
-                                <th></th>
-                            </tr>
+                            <thead class="text-capitalize">
+                                <tr>
+                                    <th>{{ __('text.word_name') }}</th>
+                                    <th>{{ __('text.word_student') }}</th>
+                                    <th>{{ __('text.word_teacher') }}</th>
+                                    <th>{{ __('text.word_subjects') }}</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                                @foreach($classes as $class)
@@ -44,15 +44,15 @@
                                        <td>{{$class->student->count()}}</td>
                                        <td>{{$class->teacher->count()}}</td>
                                        <td>{{$class->class->subjects()->count()}}</td>
-                                       <td align="right">
+                                       <td align="right" class="text-capitalize">
                                             @if(!(request('action') == 'student'))
                                                <a class="btn btn-secondary" href="{{route('class.teacher',$class->id)}}"><i
-                                                       class="fas fa-user text-dark-pastel-green"></i>  Teachers</a>
+                                                       class="fas fa-user text-dark-pastel-green"></i>  {{ __('text.word_teachers') }}</a>
                                                <a class="btn btn-success" href="{{route('subject.index')}}?class={{$class->id}}"><i
-                                                       class="fas fa-book text-orange-peel"></i>  Subject</a>
+                                                       class="fas fa-book text-orange-peel"></i>  {{ __('text.word_subject') }}</a>
                                             @else
                                                <a class="btn btn-primary" href="{{route('student.index')}}?class={{$class->id}}"><i
-                                                       class="fas fa-graduation-cap text-orange-red"></i>  Student</a>
+                                                       class="fas fa-graduation-cap text-orange-red"></i>  {{ __('text.student') }}</a>
                                             @endif
                                        </td>
                                    </tr>
@@ -71,24 +71,24 @@
                 @csrf
                 <input type="hidden" name="_method" value="put">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Enter Class Details</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel1">{{ __('text.enter_class_details') }}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="col-12 form-group">
-                        <label>Class Name *</label>
+                        <label class="text-capitalize">{{ __('text.class_name') }} *</label>
                         <input type="text" value="{{old('name')?old('name'):$clas->name}}" name="name" placeholder="{{$clas->name}}" class="form-control">
                     </div>
                     <div class="col-12 form-group">
-                        <label>Abbreviation *</label>
+                        <label class="text-capitalize">{{ __('text.word_abbreviation') }} *</label>
                         <input type="text" value="{{old('abbreviations')?old('abbreviations'):$clas->abbreviations}}" name="abbreviations" placeholder="{{$clas->abbreviations}}" class="form-control">
                     </div>
                     <div class="col-12 form-group">
-                        <label>Class limit *</label>
+                        <label class="text-capitalize">{{ __('text.class_limit') }} *</label>
                         <input type="text" value="{{old('limit')?old('limit'):$clas->limit}}" name="limit" placeholder="{{$clas->limit}}" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-gradient-yellow text-white">Save</button>
+                    <button type="submit" class="btn btn-gradient-yellow text-white text-capitalize">{{ __('text.word_save') }}</button>
                 </div>
             </form>
         </div>

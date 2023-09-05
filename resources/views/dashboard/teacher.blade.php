@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Teacher Dashboard
+    {{ __('text.teacher_dashboard') }}
 @endsection
 
 @section('style')
@@ -16,20 +16,20 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>My Students</h3>
+                            <h3>{{ __('text.my_student') }}
                         </div>
                     </div>
                     <div class="table-box-wrap">
                         <div class="table-responsive student-table-box">
                             <table class="table display data-table text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>Parents</th>
-                                    <th>Fee Bal</th>
-                                    <th></th>
-                                </tr>
+                                <thead class="text-capitalize">
+                                    <tr>
+                                        <th>{{ __('text.word_name') }}</th>
+                                        <th>{{ __('text.word_gender') }}</th>
+                                        <th>{{ __('text.word_parents') }}</th>
+                                        <th>{{ __('text.fee_bal') }}</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                    @if(\Auth::user()->class(getYear()))
@@ -39,7 +39,7 @@
                                                <td>{{$student->gender}}</td>
                                                <td>{{$student->parent()?$student->parent()->name:''}}</td>
                                                <td>{{$student->dept(getYear())}}</td>
-                                               <td> <a class="btn btn-success text-white" href="{{route('result.session',$student->slug)}}">View Result</a></td>
+                                               <td> <a class="btn btn-success text-white text-capitalize" href="{{route('result.session',$student->slug)}}">{{ __('text.view_results') }}</a></td>
                                            </tr>
                                        @endforeach
                                    @endif

@@ -17,14 +17,14 @@
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>Promote Student</h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.promote_student') }}</h3>
                 </div>
             </div>
             <form class="new-added-form" method="get"  action="{{route('student.promote')}}">
                 <div class="row">
                     <div class="col-12 form-group">
-                        <label>Select Class</label>
+                        <label class="text-capitalize">{{ __('text.select_class') }}</label>
                         <select class="select2" name="class" required>
                             @foreach(\App\Classes::get() as $class)
                                 <option {{request('class') == $class->id?'selected':''}} value="{{$class->id}}">{{$class->section->name}} - {{$class->byLocale()->name}}</option>
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="col-lg-6 col-12 form-group">
-                        <label>Academic Year</label>
+                        <label class="text-capitalize">{{ __('text.academic_year') }}</label>
                         <select class="select2"  name="year" required>
                             @foreach(\App\Session::get() as $class)
                                 <option {{request('year') == $class->id?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="col-lg-6 col-12 form-group">
-                        <label>Next Academic Year</label>
+                        <label class="text-capitalize">{{ __('text.next_academic_year') }}</label>
                         <select class="select2" name="next_year" required>
                             @foreach(\App\Session::get() as $class)
                                 <option {{request('next_year') == $class->id?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
@@ -50,8 +50,8 @@
                         </select>
                     </div>
 
-                    <div class="col-12 form-group mg-t-8">
-                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Next</button>
+                    <div class="col-12 form-group mg-t-8 text-capitalize">
+                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">{{ __('text.word_next') }}</button>
                     </div>
                 </div>
             </form>
@@ -62,8 +62,8 @@
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>Check Student to promote </h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.check_student_to_promote') }} </h3>
                 </div>
             </div>
             @if(request('class') && request('year') && request('next_year')  && count($students) != 0)
@@ -75,13 +75,13 @@
                     <input type="hidden" value="{{request('class')}}" name="class">
                     <table class="table display data-table text-nowrap">
                         <thead>
-                        <tr>
+                        <tr class="text-capitalize">
                             <th>
                                  <input type="checkbox" onClick="toggle(this)"  id="students" >
                             </th>
                             <th>#</th>
-                            <th>Student Matricule</th>
-                            <th>Student Name</th>
+                            <th>{{ __('text.student_matricule') }}</th>
+                            <th>{{ __('text.student_name') }}</th>
                         </tr>
                         </thead>
                         <tr id="body">
@@ -101,7 +101,7 @@
                     </table>
 
                     <div class="col-12 form-group mg-t-8">
-                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Promote</button>
+                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark text-capitalize">{{ __('text.word_promote') }}</button>
                     </div>
                 </form>
 

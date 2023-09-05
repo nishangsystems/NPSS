@@ -11,19 +11,19 @@
 <div class="table-responsive pb-5">
     <table class="table my-3">
         <tbody>
-        <tr>
-            <th rowspan="2">Subjects</th>
+        <tr class="text-capitalize">
+            <th rowspan="2">{{ __('text.word_subjects') }}</th>
             @foreach(\App\Terms::get() as $term)
                 <th colspan="{{$term->sequence->count()}}">{{$term->byLocale()->name}}</th>
-                <th rowspan="2" style="width: 50px">Total Mark</th>
-                <th rowspan="2" style="width: 50px">Appr</th>
+                <th rowspan="2" style="width: 50px">{{ __('text.total_mark') }}</th>
+                <th rowspan="2" style="width: 50px">{{ __('text.abbr_appr') }}</th>
             @endforeach
         </tr>
 
         <tr>
             @foreach(\App\Terms::get() as $term)
                 @foreach($term->sequence as $sequence)
-                    <th>{{substr($sequence->byLocale()->name,0,3)}} Month</th>
+                    <th>{{substr($sequence->byLocale()->name,0,3)}} {{ __('text.word_month') }}</th>
                 @endforeach
             @endforeach
         </tr>
@@ -41,7 +41,7 @@
         @endforeach
 
         <tr>
-            <th class="font-bold" style="width: 160px;">Total</th>
+            <th class="font-bold text-capitalize" style="width: 160px;">{{ __('text.word_total') }}</th>
             @foreach(\App\Terms::get() as $term)
                 @foreach($term->sequence as $sequence)
                     <th>{{$student->total($year->id, $sequence->id)}}</th>
@@ -52,7 +52,7 @@
         </tr>
 
         <tr>
-            <th class="font-bold" style="width: 160px;">Average</th>
+            <th class="font-bold text-capitalize" style="width: 160px;">{{ __('text.word_average') }}</th>
             @foreach(\App\Terms::get() as $term)
                 @foreach($term->sequence as $sequence)
                     <th>{{$student->average(getYear(), $term->id)}}</th>
@@ -63,7 +63,7 @@
         </tr>
 
         <tr>
-            <th class="font-bold" style="width: 160px;">Position</th>
+            <th class="font-bold text-capitalize" style="width: 160px;">{{ __('text.word_position') }}</th>
             @foreach(\App\Terms::get() as $term)
                 @foreach($term->sequence as $sequence)
                     <th>-</th>

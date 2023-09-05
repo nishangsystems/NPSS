@@ -2,9 +2,9 @@
 
 @section('title')
     @if(request('daterange'))
-        Expenses between {{request('daterange')}}
+      {{   __('text.expenses_between')  }} {request('daterange')}}
     @else
-        Todays Expenses
+        {{ __('text.todays_expenses') }}
     @endif    
 @endsection
 
@@ -19,37 +19,37 @@
         <div class="card-body">
             <div class="heading-layout1">
             <div></div>
-                <div class="d-flex justify-content-between">
-                    <button onclick="print()" class="text-white float-right btn-fill-md mx-2 bg-primary">Print</button>
-                    <a href="{{route('expenses.collect')}}" class="btn-fill-md btn-gradient-yellow">Add Expense</a>
+                <div class="d-flex justify-content-between text-capitalize">
+                    <button onclick="print()" class="text-white float-right btn-fill-md mx-2 bg-primary">{{ __('text.word_print') }}</button>
+                    <a href="{{route('expenses.collect')}}" class="btn-fill-md btn-gradient-yellow">{{ __('text.add_expense') }}</a>
                 </div>
             </div>
             <form class="mg-b-20"  method="get" action="">
                 <input type="hidden" name="action" value="{{request('action')}}">
                 <div id="query" class="row gutters-8 form-group">
                     <div class=" text-center pr-3 mt-1">
-                        <label class="text-center">Select Date Range</label>
+                        <label class="text-center text-capitalize">{{ __('text.select_date_rage') }}</label>
                     </div>
                     <div class="flex-grow-1 mt-1">
                         <input type="text" class="form-control" name="daterange" required value="{{request('daterange')}}" />
                     </div>
                     <div class="col-lg-2 mt-1">
-                        <button type="submit" class="text-white float-right btn-fill-md btn bg-success btn-success">Search</button>
+                        <button type="submit" class="text-white float-right btn-fill-md btn bg-success btn-success text-capitalize">{{ __('text.word_search') }}</button>
                     </div>
                 </div>
             </form>
 
             <div  class="table-responsive">
                 <table  class="table data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <td>Motive</td>
-                        <td>Expense</td>
-                        <th>Amount</th>
-                        <th></th>
-                    </tr>
+                    <thead class="text-capitalize">
+                        <tr>
+                            <th>{{ __('text.word_date') }}</th>
+                            <th>{{ __('text.word_name') }}</th>
+                            <td>{{ __('text.word_motive') }}</td>
+                            <td>{{ __('text.word_expense') }}</td>
+                            <th>{{ __('text.word_amount') }}</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                     @php
@@ -65,14 +65,14 @@
                             <td>{{$expense->user->name}}</td>
                             <td>{{$expense->motive}}</td>
                             <td>{{$expense->category->name}}</td>
-                            <td>XAF {{$expense->amount}}</td>
-                            <td>
+                            <td>{{__('text.currency_xaf')}} {{$expense->amount}}</td>
+                            <td class="text-capitalize">
                                 <a class="btn btn-success" href="{{route('expenses.edit', $expense->id)}}"><i
-                                        class="fas fa-edit"></i> View</a>
+                                        class="fas fa-edit"></i> {{ __('text.word_view') }}</a>
 
                                 <a onclick="event.preventDefault();
 												document.getElementById('delete').submit();" class=" btn text-white btn-danger"><i
-                                        class="fas"></i> Delete</a>
+                                        class="fas"></i> {{ __('text.word_delete') }}</a>
 
 
                                 <form id="delete" action="{{route('expenses.destroy')}}" method="POST" style="display: none;">
@@ -83,9 +83,9 @@
                         </tr>
                     @endforeach
 
-                    <tr>
-                            <td colspan="5">TOTAL</td>
-                            <td><b>XAF {{$sum}}</b></td>
+                    <tr class="text-capitalize">
+                            <td colspan="5">{{ __('text.word_total') }}</td>
+                            <td><b>{{ __('text.currency_xaf') }} {{$sum}}</b></td>
                         
                         </tr>
                     </tbody>

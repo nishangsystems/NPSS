@@ -23,7 +23,7 @@ class MessageController extends Controller{
         $data['amount'] = $request->amount;
         $data['message'] = $request->message;
         $data['year'] = $request->year;
-        $data['contact'] = "No matching contact found";
+        $data['contact'] = __('text.no_matching_contact_found');
         return view('message.create')->with($data);
     }
 
@@ -36,7 +36,7 @@ class MessageController extends Controller{
             'contact'=>'required'
         ]);
         $data['action'] = $request->action;
-        $data['contact'] = "No matching contact found";
+        $data['contact'] = __('text.no_matching_contact_found');
         if($request->action == 'send'){
             $message = new SMS();
             $message->sender_id = \Auth::user()->id;
@@ -49,7 +49,7 @@ class MessageController extends Controller{
 
 
             $message->save();
-            $request->session()->flash('success', "Message sent successfully");
+            $request->session()->flash('success', __('text.message_successfully_sent'));
             return redirect(route('message.index'));
         }else{
             $students = [];
@@ -68,7 +68,7 @@ class MessageController extends Controller{
             $input = $request->all();
             if(count($students) == 0){
                 $data = array_merge($data, $input);
-                $data['contact'] = "No matching contact found";
+                $data['contact'] = __('text.no_matching_contact_found');
             }else{
                 $data = array_merge($data, $input);
                 $data['contact'] = json_encode($students);
