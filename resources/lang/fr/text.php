@@ -5,7 +5,7 @@ return [
     'remember_me'=>' souviens-toi de moi ',
     'forgot_password'=>'mot de passe oublier?',
     'word_login'=>'se connecter',
-    'enter_username_slash_email'=>'entrée nom d’utilisateur/email',
+    'enter_username_slash_email'=>'entrée le nom d’utilisateur/email',
     'enter_password'=>'entrer mot de passe',
     'add_new_book'=>'ajouter un livre',
     'word_refresh'=>'rafraichir',
