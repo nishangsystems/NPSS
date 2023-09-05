@@ -226,7 +226,7 @@
                             </ul>
                         </li>
                     @endif
-
+{{-- 
                     @if (\Auth::user()->can('create_subject','see_class','delete_class'))
                         <li class="nav-item sidebar-nav-item text-capitalize">
                             <a href="{{route('subject.index')}}?type=parent" class="nav-link"><i class="flaticon-open-book"></i><span>{{ __('text.word_subjects') }}</span></a>
@@ -241,8 +241,8 @@
                                 @endif
                             </ul>
                         </li>
-                    @endif
-
+                    @endif --}}
+{{-- 
                     <li class="nav-item sidebar-nav-item text-capitalize">
                         <a href="{{route('fee')}}" class="nav-link"><i class="flaticon-technological"></i><span>{{ __('text.word_result') }}</span></a>
                         <ul class="nav sub-group-menu">
@@ -279,7 +279,7 @@
                            @endif
 
                         </ul>
-                    </li>
+                    </li> --}}
                     @if(\Auth::user()->class(getYear()))
                         <li class="nav-item text-capitalize">
                             <a href="{{route('student.index')}}?class={{\Auth::user()->class(getYear())->id}}" class="nav-link"><i class="flaticon-dashboard"></i><span>{{ __('text.class_list') }}</span></a>

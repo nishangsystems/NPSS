@@ -89,7 +89,7 @@ return [
     'add_type'=>'add type',
     'word_description'=>'description',
     'type_name'=>'type name',
-    'word_fee'=>'fee',
+    'word_fee'=>'pension',
     'class_fee'=>'class fee',
     'edit_class_fee'=>'edit class fee',
     'collect_fee'=>'collect fee',
@@ -351,4 +351,7 @@ return [
     'import_successful'=>'import successful',
     'invalid_file_extension'=>'invalid file extension',
     'inserted_successfully'=>'inserted successfully',
+    'word_terms'=>'terms',
+    'monthly_receipt'=>'monthly fee report',
+    ''
 ];
