@@ -52,7 +52,7 @@
                                                        class="fas fa-book text-orange-peel"></i>  {{ __('text.word_subject') }}</a>
                                             @else
                                                <a class="btn btn-primary" href="{{route('student.index')}}?class={{$class->id}}"><i
-                                                       class="fas fa-graduation-cap text-orange-red"></i>  {{ __('text.student') }}</a>
+                                                       class="fas fa-graduation-cap text-orange-red"></i>  {{ __('text.word_student') }}</a>
                                             @endif
                                        </td>
                                    </tr>
