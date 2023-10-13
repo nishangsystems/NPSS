@@ -98,6 +98,7 @@
                         <thead class="text-capitalize">
                             <th class="">#</th>
                             <th class="">{{ __('text.word_class') }}</th>
+                            <th class="">{{ __('text.word_students') }}</th>
                             <th class="">{{ __('text.amount_expected') }}</th>
                             <th class="">{{ __('text.amount_recieved') }}</th>
                         </thead>
@@ -109,6 +110,7 @@
                                 <tr>
                                     <td>{{ $k++ }}</td>
                                     <td>{{ $row->name }} - ({{ $row->section_id }})</td>
+                                    <td>{{ $row->student_count }}</td>
                                     <td>{{ $row->expected }}</td>
                                     <td>{{ $row->recieved }}</td>
                                 </tr>
