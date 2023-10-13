@@ -94,25 +94,34 @@
         <div class="col-lg-12  col-xl-6">
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
-                    <div class="heading-layout1 mg-b-17">
-                        <div class="item-title text-capitalize">
-                            <h3>{{ __('text.notice_board') }}</h3>
-                        </div>
-                    </div>
-                    <div class="notice-box-wrap">
-
-                        @foreach(request()->user()->receivedMessages() as $notice)
-                            <div class="notice-list">
-                                <div class="post-date bg-skyblue">{{$notice->created_at->format('d F, Y')}}</div>
-                                <h6 class="notice-title"><a href="#">{{$notice->content}}</a></h6>
-                                <div class="entry-meta"> {{$notice->user->name}} / <span>{{$notice->created_at->diffForHumans()}}</span></div>
-                            </div>
-                        @endforeach
-
-                    </div>
+                  <table class="table table-light table-stripped">
+                        <thead class="text-capitalize">
+                            <th class="">#</th>
+                            <th class="">{{ __('text.word_class') }}</th>
+                            <th class="">{{ __('text.amount_expected') }}</th>
+                            <th class="">{{ __('text.amount_recieved') }}</th>
+                        </thead>
+                        <tbody>
+                            @php
+                                $k = 1;
+                            @endphp
+                            @foreach($data as $key => $row)
+                                <tr>
+                                    <td>{{ $k++ }}</td>
+                                    <td>{{ $row->name }} - ({{ $row->section_id }})</td>
+                                    <td>{{ $row->expected }}</td>
+                                    <td>{{ $row->recieved }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>  
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="py-4">
+        
     </div>
 
 @endsection

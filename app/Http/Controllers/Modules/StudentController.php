@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\AnnualClass;
 use App\Http\Controllers\Controller;
+use App\StudentsClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,10 +16,10 @@ class StudentController extends Controller{
         $data['students'] =[];
         $data['year'] = $request->year?$request->year:getYear();
         if(!$request->class){
-            $data['students'] = \App\Student::orderBy('created_at','DESC')->get();
+            $data['students'] = \App\Student::orderBy('created_at','DESC')->paginate(100);
         }else{
             $class = \App\AnnualClass::find(\request('class'));
-            $data['students'] = $class->student;
+            $data['students'] = $class->student()->paginate(100);
         }
         $data['class'] = \App\AnnualClass::find(\request('class'));
         return view('student.index')->with($data);
@@ -136,7 +137,8 @@ class StudentController extends Controller{
             if($student == null){
                 abort(404);
             }
-           if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
+            if($student->feePayment()->count() == 0 && $student->discount->count() == 0){
+               dd($student->feePayment);
                $student->delete();
                $request->session()->flash('success', __('text.student_deleted_successfully'));
            }else{
@@ -226,38 +228,30 @@ class StudentController extends Controller{
         ]);
 
         $student = \App\Student::findOrFail($student);
-
+        // dd($request->all());
         try{
             \DB::beginTransaction();
-            $classR = $student->classR($student->sClass()->id);
+            // $classR = $student->classR($student->sClass()->id);
 
-            if($classR && $student->hasMany('App\StudentsClass','student_id')->count() > 1){
-                $classR->delete();
-            }elseif(isset($request->remove)){
-                $classR->delete();
-                if ($request->user()->can('delete_student')) {
-                    $student = \App\Student::whereSlug($id)->first();
-                    if($student == null){
-                        abort(404);
-                    }
-                   if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
-                       $student->delete();
-                       $request->session()->flash('success', __('text.student_deleted_successfully'));
-                   }else{
-                       $request->session()->flash('error', __('text.cant_del_stud_with_trans'));
-                   }
-        
-                }else{
-                    $request->session()->flash('error', __('text.action_not_allowed'));
-                }
-            }
 
+            $current_student_classes = StudentsClass::join('students', 'students.id', '=', 'students_classes.student_id')->where('students.id', $request->student)
+                ->join('annual_classes', 'annual_classes.id', '=', 'students_classes.class_id')->where('year_id', getYear())
+                ->where('annual_classes.class_id', $request->current_class)->select('students_classes.*')->get();
+
+                
           if(!isset($request->remove)){
-            $studentClass = \App\StudentsClass::create([
+              $studentClass = new \App\StudentsClass([
                 'student_id'=> $student->id,
                 'class_id'=> getSection($request->class, getYear())->id
-            ]);
-          }
+                ]);
+                $studentClass->save();
+            }
+            // delete current student class after inserting new class if required
+            if($current_student_classes->count() > 1 && $studentClass->id != null){
+                $current_student_classes->each(function($class){
+                    $class->delete();
+                });
+            }
 
 
 

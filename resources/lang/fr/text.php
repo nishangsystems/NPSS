@@ -351,4 +351,10 @@ return [
     'invalid_file_extension'=>' Extension de fichier invalide ',
     'inserted_successfully'=>' inséré avec succès ',
     'monthly_receipt'=>'Rapports de pension mensuels',
+
+
+    'amount_expected'=>'Montant attendu', 
+    'amount_recieved'=>'Montant reçu',
+    'all_pupil'=>'Tous les élèves',
+    'word_owing'=>'dû',
 ];

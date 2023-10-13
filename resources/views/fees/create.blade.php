@@ -29,13 +29,12 @@
                 </div>
                 <div class="form-group col-6">
                     <label class="text-capitalize">{{ __('text.word_reference') }}</label>
-                    <input type="text" value="{{old('reference')}}"  name="reference" required placeholder="Enter Payment Reference" class="form-control">
+                    <input type="text" value="{{old('reference')}}"  name="reference" placeholder="Enter Payment Reference" class="form-control">
                 </div>
 
                 <div class="form-group col-6">
                     <label class="text-capitalize">{{ __('text.fee_type') }}</label>
                     <select class=" select2" name="type" required>
-                        <option value="">{{ __('text.word_type') }} *</option>
                         @foreach(\App\FeeType::get() as $type)
                             <option  {{(old('type') == $type->id)?'selected':''}} value="{{$type->id}}">{{$type->name}}</option>
                         @endforeach
