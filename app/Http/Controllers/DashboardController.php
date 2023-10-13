@@ -23,13 +23,13 @@ class DashboardController extends Controller{
                     ->where('class_fees.year_id', getYear())->where('class_fees.type_id', 1)->distinct()
                     ->join('students_classes', 'students_classes.class_id', '=', 'annual_classes.id');
 
-            $expected = $_data->select('annual_classes.id as annual_class_id', DB::raw('SUM(class_fees.amount) as expected_sum'))->groupBy(['annual_class_id'])->get();
-            
+            $expected = $_data->select('annual_classes.id as annual_class_id', DB::raw('SUM(class_fees.amount) as expected_sum, COUNT(*) as student_count'))->groupBy(['annual_class_id'])->get();
             $recieved = $_data->join('student_fee_payments', 'student_fee_payments.student_id', '=', 'students_classes.student_id')
                     ->where('student_fee_payments.year_id', getYear())->where('student_fee_payments.type_id', 1)
                     ->select('annual_classes.id as annual_class_id', DB::raw('SUM(student_fee_payments.amount) as paid'))->groupBy('annual_class_id')->get();
             $data['data'] = $classes->map(function($el)use($expected, $recieved){
                 $el->expected = $expected->where('annual_class_id', $el->annual_class_id)->first()->expected_sum??0;
+                $el->student_count = $expected->where('annual_class_id', $el->annual_class_id)->first()->student_count??0;
                 $el->recieved = $recieved->where('annual_class_id', $el->annual_class_id)->first()->paid??0;
                 return $el;
             });
