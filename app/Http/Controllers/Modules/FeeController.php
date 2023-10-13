@@ -157,7 +157,7 @@ class FeeController extends Controller{
 
     public function student(Request $request){
         $student = [];
-        $year = $request->year?$request->year:getYear();
+        $year = $request->year!=null?$request->year:getYear();
         $data['year'] = $year;
 
         $q = $this->q;

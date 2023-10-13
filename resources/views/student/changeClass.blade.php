@@ -27,7 +27,7 @@
                         </select>
 
                         <div class="form-check">
-                            <input type="checkbox" value="1" name="remove" id="remove" class="form-check-input">
+                            <input type="checkbox" oninput="alert_delete()" value="1" name="remove" id="remove" class="form-check-input">
                             <label for="remove" class="form-check-label text-capitalize">{{ __('text.remove_student_from_current_class') }}</label>
                         </div>
 
@@ -52,4 +52,11 @@
             </form>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        let alert_delete = function(name){
+            alert(`You are about to delete {{ $student->name }} from his/her class`);
+        }
+    </script>
 @endsection

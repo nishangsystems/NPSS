@@ -65,7 +65,7 @@
                     <th class="sorting_asc" rowspan="1" colspan="1" aria-label="#" style="width: 16.1719px;">#</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">{{ __('text.word_name') }}</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">{{ __('text.word_class') }}</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">{{ __('text.word_year') }}</th>
+                    {{-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">{{ __('text.word_year') }}</th> --}}
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_paid') }}</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_owing') }}</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">{{ __('text.word_scholarship') }}</th>
@@ -93,7 +93,7 @@
                                 <td>{{$i++}} </td>
                                 <td>{{$student->name}}</td>
                                 <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
-                                <td>{{\App\Session::find($student->sClass()->year_id)->name}}</td>
+                                {{-- <td>{{\App\Session::find($year)->name}}</td> --}}
                                 <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
                                 <td class="{{$student->dept($year) >0?'text-red':''}}">{{$student->dept($year)}}</td>
                                 <td>{{$student->scholarship($year)}}</td>
@@ -110,7 +110,7 @@
                             <td class="text-capitalize"> {{ __('text.word_total') }}</td>
                             <td ></td>
                             <td ></td>
-                            <td ></td>
+                            {{-- <td ></td> --}}
                             <td>{{number_format($totalPaid)}}</td>
                             <td>{{number_format($dept)}}</td>
                             <td>{{number_format($scholarship)}}</td>

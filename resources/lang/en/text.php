@@ -353,5 +353,11 @@ return [
     'inserted_successfully'=>'inserted successfully',
     'word_terms'=>'terms',
     'monthly_receipt'=>'monthly fee report',
-    ''
+
+
+
+    'amount_expected'=>'amount expected', 
+    'amount_recieved'=>'amount recieved',
+    'all_pupil'=>'all pupils',
+    'word_owing'=>'owing',
 ];

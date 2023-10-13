@@ -27,12 +27,11 @@
                     @php($i =1)
                     <tr>
                         <th>#</th>
-                        <th>{{ __('text.word_matricule') }}</th>
+                        {{-- <th>{{ __('text.word_matricule') }}</th> --}}
                         <th>{{ __('text.word_name') }}</th>
                         <th>{{ __('text.word_gender') }}</th>
                         <th>{{ __('text.word_section') }}</th>
                         <th>{{ __('text.word_class') }}</th>
-                        <th>{{ __('text.word_parents') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -40,12 +39,12 @@
                         @foreach($students as $student)
                             <tr>
                                 <td>{{$i++}} </td>
-                                <td>{{$student->matricule}} </td>
+                                {{-- <td>{{$student->matricule}} </td> --}}
                                 <td>{{$student->name}} </td>
                                 <td>{{$student->gender}}</td>
                                 <td>{{($student->sClass())?$student->sClass()->class->section->name:''}}</td>
                                 <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
-                                <td>{{($student->parent() != null)?$student->parent()->name:''}} {{($student->parent() != null)?$student->parent()->last_name:''}}</td>
+                                {{-- <td>{{($student->parent() != null)?$student->parent()->name:''}} {{($student->parent() != null)?$student->parent()->last_name:''}}</td> --}}
                                 <td class="text-capitalize">
                                      <a class="btn btn-primary" href="{{route('student.show', $student->slug)}}"><i
                                                     class="fas fa-eye"></i> {{ __('text.word_view') }}</a>
@@ -67,6 +66,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $students->links() }}
         </div>
     </div>
     <!-- Student Table Area End Here -->

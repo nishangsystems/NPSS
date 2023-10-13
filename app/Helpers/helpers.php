@@ -183,7 +183,7 @@ if (!function_exists('getClassFee')) {
         if($fee == null){
             $fee = \App\ClassFee::where(['class_id'=>$class,'type_id'=>$type,])->get()->last();
         }
-        return $fee->amount;
+        return $fee->amount ?? 0;
     }
 }
 

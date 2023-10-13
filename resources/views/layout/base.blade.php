@@ -376,8 +376,12 @@
             </div>
         @endif
         <div class="dashboard-content-one">
-            <div class="breadcrumbs-area text-capitalize">
-                <h3>@yield('title')</h3>
+            <div class="breadcrumbs-area text-capitalize d-flex">
+                <h3>@yield('title')</h3> 
+                <a href="{{route('student.create')}}" class="btn btn-primary btn-lg ml-5 h6"><i class="fa fa-plus mr-2"></i>{{ __('text.enroll_pupil') }}</a>
+                <a href="{{route('fee.student')}}?action=fee" class="btn btn-success btn-lg ml-5 h6"><i class="fas fa-angle-right"></i>{{ __('text.received_fees') }}</a>
+                <a href="{{url('/student')}}?action=fee" class="btn btn-dark btn-lg ml-5 h6"><i class="fas fa-angle-right"></i>{{ __('text.all_pupil') }}</a>
+                
             </div>
             @yield('section')
         </div>
