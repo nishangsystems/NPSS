@@ -360,4 +360,5 @@ return [
     'amount_recieved'=>'amount recieved',
     'all_pupil'=>'all pupils',
     'word_owing'=>'owing',
+    'word_recieved'=>'recieved'
 ];

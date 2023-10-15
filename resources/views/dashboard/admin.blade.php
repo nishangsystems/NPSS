@@ -101,6 +101,7 @@
                             <th class="">{{ __('text.word_students') }}</th>
                             <th class="">{{ __('text.amount_expected') }}</th>
                             <th class="">{{ __('text.amount_recieved') }}</th>
+                            <th class="">%{{ __('text.word_recieved') }}</th>
                         </thead>
                         <tbody>
                             @php
@@ -113,6 +114,11 @@
                                     <td>{{ $row->student_count }}</td>
                                     <td>{{ $row->expected }}</td>
                                     <td>{{ $row->recieved }}</td>
+                                    <td>
+                                        @if($row->expected > 0)
+                                            {{ number_format(($row->recieved * 100/$row->expected), 2) }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

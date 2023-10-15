@@ -357,4 +357,6 @@ return [
     'amount_recieved'=>'Montant reçu',
     'all_pupil'=>'Tous les élèves',
     'word_owing'=>'dû',
+    'word_recieved'=>'reçu',
+    ''
 ];
