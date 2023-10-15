@@ -65,7 +65,7 @@ class FeeController extends Controller{
             $this->validate($request, [
                 'student' => 'required',
                 'amount' => 'required|integer',
-                'reference' => 'required',
+                // 'reference' => 'required',
                 'method' =>'required',
                 'year'=>'required',
                 'type'=>'required',
