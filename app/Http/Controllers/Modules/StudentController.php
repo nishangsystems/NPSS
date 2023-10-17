@@ -138,7 +138,7 @@ class StudentController extends Controller{
                 abort(404);
             }
             if($student->feePayment()->count() == 0 && $student->discount->count() == 0){
-               dd($student->feePayment);
+            //    dd($student->feePayment);
                $student->delete();
                $request->session()->flash('success', __('text.student_deleted_successfully'));
            }else{
