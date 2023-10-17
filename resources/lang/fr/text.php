@@ -358,5 +358,5 @@ return [
     'all_pupil'=>'Tous les élèves',
     'word_owing'=>'dû',
     'word_recieved'=>'reçu',
-    ''
+    'word_totals'=>'totales',
 ];

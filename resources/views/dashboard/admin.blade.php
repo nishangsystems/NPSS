@@ -121,6 +121,17 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr class="py-2 text-capitalize border-bottom" style="font-weight: bold;">
+                                <td colspan="2">{{ __('text.word_totals') }}</td>
+                                <td>{{ $data->sum('student_count') }}</td>
+                                <td>{{ $data->sum('expected') }}</td>
+                                <td>{{ $data->sum('recieved') }}</td>
+                                <td>
+                                    @if($data->sum('expected') > 0)
+                                        {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 2) }}
+                                    @endif
+                                </td>
+                            </tr>
                         </tbody>
                     </table>  
                 </div>
