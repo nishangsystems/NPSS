@@ -124,11 +124,11 @@
                             <tr class="py-2 text-capitalize border-bottom" style="font-weight: bold;">
                                 <td colspan="2">{{ __('text.word_totals') }}</td>
                                 <td>{{ number_format($data->sum('student_count')) }}</td>
-                                <td>{{ number_format($data->sum('expected'), 2) }}</td>
-                                <td>{{ number_format($data->sum('recieved'), 2) }}</td>
+                                <td>{{ number_format($data->sum('expected'), 0) }}</td>
+                                <td>{{ number_format($data->sum('recieved'), 0) }}</td>
                                 <td>
                                     @if($data->sum('expected') > 0)
-                                        {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 2) }}
+                                        {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 0) }}
                                     @endif
                                 </td>
                             </tr>
