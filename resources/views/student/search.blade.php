@@ -11,7 +11,7 @@
             <div class="row w-100">
                 <div class="col-12 form-group">
                     <label class="text-capitalize"> {{ __('text.search_student_and_change_class') }}</label>
-                    <input type="text" placeholder="Type to search"   onchange="search(this.value)" on onkeypress="search(this.value)"  class="form-control border">
+                    <input type="text" placeholder="Type to search"   oninput="search(this.value)" onkeypress="search(this.value)"  class="form-control border">
                 </div>
             </div>
         </div>

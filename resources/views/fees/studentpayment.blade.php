@@ -85,6 +85,13 @@
                                                         </div>
                                                         <div style=" float:left; width:200px;  height:25px;margin-top:3px;"></div>
                                                     </div>
+                                                    <div style=" float:left; width:170px; height:25px;font-size:17px; text-transform: capitalize;"> {{ __('text.word_class') }}:</div>
+                                                    <div style=" float:left; width:500px;border-bottom:1px solid #000;font-weight:normal; height:25px;font-size:17px;">
+                                                        <div style=" float:left; width:300px;margin-top:3px;">
+                                                            {{$fee->student->class($year)->name??null}}
+                                                        </div>
+                                                        <div style=" float:left; width:200px;  height:25px;margin-top:3px;"></div>
+                                                    </div>
                                                     <div style=" float:left; width:700px;margin-top:3px;TEXT-ALIGN:CENTER; font-family:arial; height:300px; font-size:13px; ">
                                                         <div style=" float:left; width:170px; height:25px;font-size:17px; text-transform: capitalize;"> {{ __('text.amount_in_fugure') }}</div>
                                                         <div style=" float:left; width:500px; height:25px;font-size:17px;">
