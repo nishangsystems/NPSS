@@ -321,14 +321,14 @@ class FeeController extends Controller{
             foreach ($clas->subClass($year) as $class) {
                 if ($request->class == 0) {
                     foreach ($class->student as $student) {
-                        if ($student->dept($year) > $q['amount']) {
+                        if ($student->dept($year) >= 0) {
                             $students->push($student);
                         }
                     }
                 } else {
                     if ($request->class == $class->id) {
                         foreach ($class->students($year) as $student) {
-                            if ($student->dept($year) >= $q['amount']) {
+                            if ($student->dept($year) >= 0) {
                                 $students->push($student);
                             }
                         }
