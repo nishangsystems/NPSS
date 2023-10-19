@@ -55,69 +55,82 @@
                     </div>
                 </div>
             </form>
+
+            
+            <div class="heading-layout1">
+                <div class="row w-100">
+                    <div class="col-12 form-group">
+                        {{-- <label class="text-capitalize"> {{ __('text.search_student_and_change_class') }}</label> --}}
+                        <input type="text" placeholder="Type to search"   oninput="search(this.value)" onkeypress="search(this.value)"  class="form-control border">
+                    </div>
+                </div>
+            </div>
+
+
             <div class="table-responsive">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                
             <table class="table data-table text-nowrap dataTable no-footer" id="DataTables_Table_0" role="grid">
                     
-            <thead>
-                 <tr role="row text-capitalize">
-                    <th class="sorting_asc" rowspan="1" colspan="1" aria-label="#" style="width: 16.1719px;">#</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">{{ __('text.word_name') }}</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">{{ __('text.word_class') }}</th>
-                    {{-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">{{ __('text.word_year') }}</th> --}}
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_paid') }}</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_owing') }}</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">{{ __('text.word_scholarship') }}</th>
-                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 164.625px;">{{ __('text.word_action') }}</th>
-                    
-                </tr>
-                    </thead>
+                <thead>
+                    <tr role="row text-capitalize">
+                        <th class="sorting_asc" rowspan="1" colspan="1" aria-label="#" style="width: 16.1719px;">#</th>
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 292.062px;">{{ __('text.word_name') }}</th>
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending" style="width: 77.1875px;">{{ __('text.word_class') }}</th>
+                        {{-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="year: activate to sort column ascending" style="width: 70.5469px;">{{ __('text.word_year') }}</th> --}}
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountPaid: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_paid') }}</th>
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="AmountOwing: activate to sort column ascending" style="width: 58.9219px;">{{ __('text.word_amount') }}<br>{{ __('text.word_owing') }}</th>
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Scholarship: activate to sort column ascending" style="width: 83.6875px;">{{ __('text.word_scholarship') }}</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 164.625px;">{{ __('text.word_action') }}</th>
+                    </tr>
+                </thead>
 
-                    <tbody>
+                <tbody id="body">
                     @php
-                            $totalPaid = 0;
-                            $scholarship = 0;
-                            $dept= 0;
-                            $i =1;
+                        $totalPaid = 0;
+                        $scholarship = 0;
+                        $dept= 0;
+                        $i =1;
+                    @endphp
+
+                    @foreach($students as $student)
+
+                        @php
+                            $totalPaid =   $totalPaid + ($student->totalPaid($year) < 0?0:$student->totalPaid($year));
+                            $scholarship += $student->scholarship($year);
+                            $dept += $student->dept($year);
                         @endphp
-
-                        @foreach($students as $student)
-
-                            @php
-                                $totalPaid =   $totalPaid + ($student->totalPaid($year) < 0?0:$student->totalPaid($year));
-                                $scholarship += $student->scholarship($year);
-                                $dept += $student->dept($year);
-                            @endphp
-                                <tr role="row" class="odd">
-                                <td>{{$i++}} </td>
-                                <td>{{$student->name}}</td>
-                                <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
-                                {{-- <td>{{\App\Session::find($year)->name}}</td> --}}
-                                <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
-                                <td class="{{$student->dept($year) >0?'text-red':''}}">{{$student->dept($year)}}</td>
-                                <td>{{$student->scholarship($year)}}</td>
-                                <td class="text-capitalize">
-                                    <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> {{ __('text.view_receipt') }} </a>
-                                    <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> {{ __('text.collect_fee') }}</a>
-                                    @if(request('action')=='scholarship' || request('action') =='giftscholarship')
-                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> {{ __('text.word_scholarship') }}</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                         <tr class="font-weight-bold">
-                            <td class="text-capitalize"> {{ __('text.word_total') }}</td>
-                            <td ></td>
-                            <td ></td>
-                            {{-- <td ></td> --}}
-                            <td>{{number_format($totalPaid)}}</td>
-                            <td>{{number_format($dept)}}</td>
-                            <td>{{number_format($scholarship)}}</td>
-                            <td> </td>
-                        </tr></tbody>
-                </table></div>
+                        <tr role="row" class="odd">
+                            <td>{{$i++}} </td>
+                            <td>{{$student->name}}</td>
+                            <td>{{($student->sClass())?$student->sClass()->class->byLocale()->name:''}}</td>
+                            {{-- <td>{{\App\Session::find($year)->name}}</td> --}}
+                            <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
+                            <td class="{{$student->dept($year) >0?'text-red':''}}">{{$student->dept($year)}}</td>
+                            <td>{{$student->scholarship($year)}}</td>
+                            <td class="text-capitalize">
+                                <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> {{ __('text.view_receipt') }} </a>
+                                <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> {{ __('text.collect_fee') }}</a>
+                                @if(request('action')=='scholarship' || request('action') =='giftscholarship')
+                                    <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> {{ __('text.word_scholarship') }}</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    <tr class="font-weight-bold">
+                        <td class="text-capitalize"> {{ __('text.word_total') }}</td>
+                        <td ></td>
+                        <td ></td>
+                        {{-- <td ></td> --}}
+                        <td>{{number_format($totalPaid)}}</td>
+                        <td>{{number_format($dept)}}</td>
+                        <td>{{number_format($scholarship)}}</td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
+        </div>
         </div>
     </div>
 @endsection
@@ -145,6 +158,49 @@
             w.document.close();
             w.focus();
             return true;
+        }
+
+        function search(name) {
+            if(name!=''){
+                $.ajax({
+                    type: "GET",
+                    url: "{{route('search.student_fee')}}",
+                    dataType: 'JSON',
+                    data: {
+                        'param':name
+                    },
+                    success: function (response) {
+                        let html = "";
+                        items = response.data;
+                        for (let i = 0; i < items.length; i++) {
+                            item = items[i];
+                            html += `
+                                <tr role="row" class="odd">
+                                    <td>${i+1} </td>
+                                    <td>${item.name}</td>
+                                    <td>${item.class}</td>
+                                    <td>${item.paid}</td>
+                                    <td class="${item.debt >0? 'text-red':''}">${item.debt}</td>
+                                    <td>${item.scholarship}</td>
+                                    <td class="text-capitalize">
+                                        <a class="btn btn-primary" href="${item.print_link}"><i class="fas fa-print"></i> {{ __('text.view_receipt') }} </a>
+                                        <a class="btn btn-primary" href="${item.collect_link}"><i class="fas fa-plus"></i> {{ __('text.collect_fee') }}</a>
+                                        @if(request('action')=='scholarship' || request('action') =='giftscholarship')
+                                            <a class="btn btn-primary" href="${item.scholarship_link}"><i class="fas fa-edit"></i> {{ __('text.word_scholarship') }}</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                        if(items.length == 0){
+                            html += "<tr><td colspan='3' align='center'>{{ __('text.no_results_found') }}</td> </tr>"
+                        }
+                        $('#body').html(html);
+                    },
+                    error: function(e){
+                    }
+                });
+            }
         }
     </script>
 @endsection

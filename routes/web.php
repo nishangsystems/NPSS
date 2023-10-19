@@ -118,6 +118,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('search/student', 'Modules\SearchController@student')->name('search.student');
+Route::get('search/student_fee', 'Modules\SearchController@student_fee')->name('search.student_fee');
 
 Route::get('/image/{filename}', 'ImageController@renderImage')->name('image.render');
 Route::get('/document/{filename}', 'DocumentController@renderDocument')->name('document.render');
