@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\AnnualClass;
 use App\Http\Controllers\Controller;
+use App\Student;
 use App\StudentsClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,9 +15,13 @@ use DateTime;
 class StudentController extends Controller{
     public function index(Request $request){
         $data['students'] =[];
-        $data['year'] = $request->year?$request->year:getYear();
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
         if(!$request->class){
-            $data['students'] = \App\Student::orderBy('created_at','DESC')->paginate(100);
+            $data['students'] = Student::join('students_classes', 'students_classes.student_id', '=', 'students_classes.student_id')
+                        ->join('annual_classes', 'annual_classes.id', '=', 'students_classes.class_id')->where('annual_classes.year_id', $year)
+                        ->select('students.*')->orderBy('created_at','DESC')->distinct()->paginate(100);
+            // $data['students'] = \App\Student::orderBy('created_at','DESC')->distinct()->paginate(100);
         }else{
             $class = \App\AnnualClass::find(\request('class'));
             $data['students'] = $class->student()->paginate(100);
@@ -24,6 +29,7 @@ class StudentController extends Controller{
         $data['class'] = \App\AnnualClass::find(\request('class'));
         return view('student.index')->with($data);
     }
+
     public function show(Request $request, $slug){
         $data['student'] = \App\Student::whereSlug($slug)->first();
         $data['year'] = $request->year?$request->year:getYear();
@@ -132,18 +138,20 @@ class StudentController extends Controller{
     }
     public function destroy(Request $request, $id)
     {
+        $year = $request->year ?? getYear();
         if ($request->user()->can('delete_student')) {
             $student = \App\Student::whereSlug($id)->first();
             if($student == null){
                 abort(404);
             }
+            // remove fee entries
             if($student->feePayment()->count() == 0 && $student->discount->count() == 0){
-            //    dd($student->feePayment);
-               $student->delete();
-               $request->session()->flash('success', __('text.student_deleted_successfully'));
-           }else{
-               $request->session()->flash('error', __('text.cant_del_stud_with_trans'));
-           }
+                $student->feePayment()->where('student_fee_payments.year_id', $year)->each(function($pmt){$pmt->delete();});
+            }
+            // remove student-class instances
+            StudentsClass::where('student_id', $student->id)->each(function($row){$row->delete();});
+            $student->delete();
+            $request->session()->flash('success', __('text.student_deleted_successfully'));
 
         }else{
             $request->session()->flash('error', __('text.action_not_allowed'));
