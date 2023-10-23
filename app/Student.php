@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'name','email','gender','phone','dob','address','class','section','admission_year','phone','slug','photo','matricule'
     ];
