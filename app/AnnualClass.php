@@ -12,6 +12,9 @@ class AnnualClass extends Model
     public function class(){
         return $this->belongsTo(\App\Classes::class,'class_id');
     }
+    public function session(){
+        return $this->belongsTo(\App\Session::class,'year_id');
+    }
 
     public function student(){
         return $this->belongsToMany('App\Student','students_classes','class_id','student_id');

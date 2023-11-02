@@ -32,6 +32,7 @@ class StudentController extends Controller{
 
     public function show(Request $request, $slug){
         $data['student'] = \App\Student::whereSlug($slug)->first();
+        $data['student_classes'] = $data['student']->_classR;
         $data['year'] = $request->year?$request->year:getYear();
         if($data['student'] == null){
             abort(404);
@@ -140,24 +141,24 @@ class StudentController extends Controller{
     {
         $year = $request->year ?? getYear();
         if ($request->user()->can('delete_student')) {
-            $student = \App\Student::whereSlug($id)->first();
-            if($student == null){
+            $student_class = \App\StudentsClass::find($id);
+            if($student_class == null){
                 abort(404);
             }
             // remove fee entries
-            if($student->feePayment()->count() == 0 && $student->discount->count() == 0){
-                $student->feePayment()->where('student_fee_payments.year_id', $year)->each(function($pmt){$pmt->delete();});
+            if(($payments =  $student_class->student->feePayment()->where('year_id', $student_class->aClass->year_id))->count() > 0){
+                $payments->each(function($pmt){$pmt->delete();});
             }
             // remove student-class instances
-            StudentsClass::where('student_id', $student->id)->each(function($row){$row->delete();});
-            $student->delete();
+            $student_class->delete();
             $request->session()->flash('success', __('text.student_deleted_successfully'));
+            return back();
 
         }else{
             $request->session()->flash('error', __('text.action_not_allowed'));
+            return back();
         }
 
-        return redirect()->to(route('student.index'));
     }
 
     public function promote(Request $request){
