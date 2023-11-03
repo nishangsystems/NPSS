@@ -29,11 +29,15 @@ class Student extends Model
     }
 
     public function class($year){
-        return $this->aClass($year)->class;
+        return $this->aClass($year)->class??null;
     }
 
     public function classR($class){
         return $this->hasMany('App\StudentsClass','student_id')->where('class_id',$class)->first();
+    }
+
+    public function _classR(){
+        return $this->hasMany('App\StudentsClass','student_id');
     }
 
     public function dept($year){

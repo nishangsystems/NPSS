@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td class="text-capitalize">{{ __('text.word_class') }}:</td>
-                                <td  class="font-medium text-dark-medium">{{($student->class($year) != null)?$student->class($year)->name:$student->class($student->admission_year)->name." , ".\App\Session::find($student->admission_year)->name}}</td>
+                                <td  class="font-medium text-dark-medium">{{($student->class($year) != null)?$student->class($year)->name:$student->class($student->admission_year)->name??null." , ".\App\Session::find($student->admission_year)->name??null}}</td>
                             </tr>
                             <tr>
                                 <td class="text-capitalize">{{ __('text.word_address') }}:</td>
@@ -68,6 +68,40 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Student Class Listings -->
+    <div class="card height-auto">
+        <div class="card-body">
+            <table class="table">
+                <thead class="text-capitalize">
+                    <th>#</th>
+                    <th>@lang('text.word_class')</th>
+                    <th>@lang('text.word_year')</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @php
+                        $k = 1;
+                    @endphp
+                    @foreach($student_classes as $key => $stcls)
+                        <tr class="shadow-sm rounded my-2">
+                            <td>{{ $k++ }}</td>
+                            <td>{{ ($stcls->aClass->class->name??'') .' '.($stcls->aClass->section_id??'').' - '.($stcls->aClass->class->section->name??'') }}</td>
+                            <td>{{ $stcls->aClass->session->name??'' }}</td>
+                            <td>
+                                <a onclick="event.preventDefault();
+												confirm(`You are about to delete a student ({{ $student->name }}). This will remove all of this student's fee and class data for {{ $stcls->aClass->session->name }}. This can not be undone.`) ? document.getElementById('delete{{$student->id}}').submit() : null;" class=" btn text-white btn-danger"><i
+                                                class="fas"></i> {{ __('text.word_delete') }}</a>
+                                <form id="delete{{$student->id}}" action="{{route('student.destroy', $stcls->id)}}" method="POST" style="display: none;">
+                                    @method('DELETE')
+                                    {{ csrf_field() }}
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- Student Details Area End Here -->

@@ -51,14 +51,6 @@
                                     @if(\Auth::user()->hasRole('admin'))
                                         <a class="btn btn-success" href="{{route('student.edit', $student->slug)}}"><i
                                                 class="fas fa-edit"></i> {{ __('text.word_edit') }}</a>
-
-                                        <a onclick="event.preventDefault();
-												confirm(`You are about to delete a student ({{ $student->name }}). This will remove all of this student's data from this system, including fee information and class records. This can not be undone.`) ? document.getElementById('delete{{$student->id}}').submit() : null;" class=" btn text-white btn-danger"><i
-                                                class="fas"></i> {{ __('text.word_delete') }}</a>
-                                        <form id="delete{{$student->id}}" action="{{route('student.destroy', $student->slug)}}" method="POST" style="display: none;">
-                                            @method('DELETE')
-                                            {{ csrf_field() }}
-                                        </form>
                                     @endif
                                 </td>
                             </tr>
