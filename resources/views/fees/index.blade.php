@@ -36,11 +36,11 @@
                     <tbody>
                         @foreach($fees as $fee)
                             <tr>
-                                <td>{{$fee->student->name}}</td>
+                                <td>{{$fee->student->name??null}}</td>
                                
-                                <td>{{$fee->amount}}</td>
-                                <td>{{$fee->user->name}}</td>
-                                <td>{{$fee->session->name}}</td>
+                                <td>{{$fee->amount??null}}</td>
+                                <td>{{$fee->user->name??null}}</td>
+                                <td>{{$fee->session->name??null}}</td>
                                 <td>{{$fee->created_at->format('d/m/Y')}}</td>
                                 <td class="text-capitalize">
                                     <a onclick="event.preventDefault();
