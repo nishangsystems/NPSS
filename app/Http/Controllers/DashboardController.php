@@ -21,8 +21,10 @@ class DashboardController extends Controller{
             $_data = Classes::join('annual_classes', 'annual_classes.class_id', '=', 'classes.id')->where('annual_classes.year_id', getYear())
                     ->join('class_fees', 'class_fees.class_id', '=', 'classes.id')
                     ->where('class_fees.year_id', getYear())->where('class_fees.type_id', 1)->distinct()
-                    ->join('students_classes', 'students_classes.class_id', '=', 'annual_classes.id');
+                    ->join('students_classes', 'students_classes.class_id', '=', 'annual_classes.id')
+                    ;
 
+            // dd($_data->get('annual_classes.*'));
             $expected = $_data->select('annual_classes.id as annual_class_id', DB::raw('SUM(class_fees.amount) as expected_sum, COUNT(*) as student_count'))->groupBy(['annual_class_id'])->get();
             $recieved = $_data->join('student_fee_payments', 'student_fee_payments.student_id', '=', 'students_classes.student_id')
                     ->where('student_fee_payments.year_id', getYear())->where('student_fee_payments.type_id', 1)
@@ -33,7 +35,6 @@ class DashboardController extends Controller{
                 $el->recieved = $recieved->where('annual_class_id', $el->annual_class_id)->first()->paid??0;
                 return $el;
             });
-            // dd($recieved);
             return view('dashboard.admin', $data);
         }else if($request->user()->hasRole('teacher')){
             return view('dashboard.teacher');
