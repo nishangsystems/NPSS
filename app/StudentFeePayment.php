@@ -31,4 +31,12 @@ class StudentFeePayment extends Model
     public function user(){
         return $this->belongsTo('App\User', 'bursar_id');
     }
+
+    public function deletedBy(){
+        return $this->belongsTo('App\User', 'deleted_by');
+    }
+
+    public function restoredBy(){
+        return $this->belongsTo('App\User', 'restored_by');
+    }
 }

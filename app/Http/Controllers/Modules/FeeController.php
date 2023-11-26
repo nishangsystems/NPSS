@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 
 use anlutro\LaravelSettings\ArrayUtil;
 use App\Http\Controllers\Controller;
+use App\StudentFeePayment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,6 +25,21 @@ class FeeController extends Controller{
         $data['fees'] = \App\StudentFeePayment::whereDate('created_at', \Carbon\Carbon::today())->get();
         return view('fees.index')->with($data);
     }
+
+    public function trash_index(Request $request){
+        $data['fees'] = \App\StudentFeePayment::onlyTrashed()->get();
+        // dd($data);
+        return view('fees.trash_index')->with($data);
+    }
+
+    public function trash_restore(Request $request, $id){
+        if(($item = \App\StudentFeePayment::withTrashed()->find($id)) != null){
+            $item->restore();
+            $item->update(['restored_by'=>auth()->id()]);
+        }
+        return back()->with('success', 'record successfully restored');
+    }
+
 
     public function show(Request $request, $slug){
         return view('fees.show');
@@ -90,8 +106,14 @@ class FeeController extends Controller{
     public function destroy(Request $request, $id)
     {
         if ($request->user()->can('delete-tasks')) {
+            if(($record = StudentFeePayment::find($id)) != null){
+                $record->update(['deleted_by'=>auth()->id()]);
+                $record->delete();
+                return redirect()->to(route('fee'))->with(['success'=> __('text.fee_deleted_successfully')]);
+            }
+            return redirect()->to(route('fee'))->with(['error'=> __('text.no_results_found')]);
         }
-        return redirect()->to(route('roles.index'))->with(['success'=> __('text.roles_created_successfully')]);
+        return redirect()->to(route('fee'))->with(['error'=> __('text.permission_denied')]);
     }
     public function classFee(Request $request){
         return view('fees.class');
