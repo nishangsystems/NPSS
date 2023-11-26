@@ -94,46 +94,48 @@
         <div class="col-lg-12  col-xl-6">
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
-                  <table class="table table-light table-stripped">
-                        <thead class="text-capitalize">
-                            <th class="">#</th>
-                            <th class="">{{ __('text.word_class') }}</th>
-                            <th class="">{{ __('text.word_students') }}</th>
-                            <th class="">{{ __('text.amount_expected') }}</th>
-                            <th class="">{{ __('text.amount_recieved') }}</th>
-                            <th class="">%{{ __('text.word_recieved') }}</th>
-                        </thead>
-                        <tbody>
-                            @php
-                                $k = 1;
-                            @endphp
-                            @foreach($data as $key => $row)
-                                <tr>
-                                    <td>{{ $k++ }}</td>
-                                    <td>{{ $row->name }} - ({{ $row->section_id }})</td>
-                                    <td>{{ $row->student_count }}</td>
-                                    <td>{{ $row->expected }}</td>
-                                    <td>{{ $row->recieved }}</td>
+                    @isset($data)
+                        <table class="table table-light table-stripped">
+                            <thead class="text-capitalize">
+                                <th class="">#</th>
+                                <th class="">{{ __('text.word_class') }}</th>
+                                <th class="">{{ __('text.word_students') }}</th>
+                                <th class="">{{ __('text.amount_expected') }}</th>
+                                <th class="">{{ __('text.amount_recieved') }}</th>
+                                <th class="">%{{ __('text.word_recieved') }}</th>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $k = 1;
+                                @endphp
+                                @foreach($data as $key => $row)
+                                    <tr>
+                                        <td>{{ $k++ }}</td>
+                                        <td>{{ $row->name }} - ({{ $row->section_id }})</td>
+                                        <td>{{ $row->student_count }}</td>
+                                        <td>{{ $row->expected }}</td>
+                                        <td>{{ $row->recieved }}</td>
+                                        <td>
+                                            @if($row->expected > 0)
+                                                {{ number_format(($row->recieved * 100/$row->expected), 2) }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr class="py-2 text-capitalize border-bottom" style="font-weight: bold;">
+                                    <td colspan="2">{{ __('text.word_totals') }}</td>
+                                    <td>{{ number_format($data->sum('student_count')) }}</td>
+                                    <td>{{ number_format($data->sum('expected'), 0) }}</td>
+                                    <td>{{ number_format($data->sum('recieved'), 0) }}</td>
                                     <td>
-                                        @if($row->expected > 0)
-                                            {{ number_format(($row->recieved * 100/$row->expected), 2) }}
+                                        @if($data->sum('expected') > 0)
+                                            {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 0) }}
                                         @endif
                                     </td>
                                 </tr>
-                            @endforeach
-                            <tr class="py-2 text-capitalize border-bottom" style="font-weight: bold;">
-                                <td colspan="2">{{ __('text.word_totals') }}</td>
-                                <td>{{ number_format($data->sum('student_count')) }}</td>
-                                <td>{{ number_format($data->sum('expected'), 0) }}</td>
-                                <td>{{ number_format($data->sum('recieved'), 0) }}</td>
-                                <td>
-                                    @if($data->sum('expected') > 0)
-                                        {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 0) }}
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>  
+                            </tbody>
+                        </table>  
+                    @endisset
                 </div>
             </div>
         </div>

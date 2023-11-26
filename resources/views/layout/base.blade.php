@@ -172,9 +172,11 @@
                                 <li class="nav-item">
                                     <a href="{{route('fee.monthly.receipt')}}" class="nav-link"><i class="fas fa-angle-right"></i>{{ __('text.monthly_receipt') }}</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('fee.trash')}}" class="nav-link"><i class="fas fa-angle-right"></i>{{ __('text.word_trash') }}</a>
-                                </li>
+                                @if(\Auth::user()->hasRole('admin'))
+                                    <li class="nav-item">
+                                        <a href="{{route('fee.trash')}}" class="nav-link"><i class="fas fa-angle-right"></i>{{ __('text.word_trash') }}</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     @endif
