@@ -64,6 +64,8 @@ Route::middleware('license_check')->group(function(){
         Route::get('fee','Modules\FeeController@index')->name('fee');
         Route::post('fee','Modules\FeeController@update')->name('fee.delete');
         Route::get('fee/collection','Modules\FeeController@collect')->name('fee.collect');
+        Route::get('fee/trash','Modules\FeeController@trash_index')->name('fee.trash');
+        Route::post('fee/restore/{id}','Modules\FeeController@trash_restore')->name('fee.restore');
         Route::get('class/fee/status','Modules\FeeController@classFee')->name('class.fee');
         Route::post('class/fee/status','Modules\FeeController@classFeeUpdate')->name('class.fee.update');
         Route::post('fee/collection','Modules\FeeController@store')->name('fee.collect.submit');

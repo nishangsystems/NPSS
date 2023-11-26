@@ -362,5 +362,10 @@ return [
     'word_owing'=>'owing',
     'word_recieved'=>'recieved',
     'word_totals'=>'totals',
+    'word_trash'=>'trash',
+    'word_restore'=>'restore',
+    'trashed_fees'=>'trashed fees',
+    'deleted_by'=>'deleted by',
+    'permission_denied'=>'permission denied',
     ''
 ];
