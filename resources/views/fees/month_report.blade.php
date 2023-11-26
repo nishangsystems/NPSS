@@ -66,9 +66,12 @@
                     </thead>
                     <tbody>
                     @foreach($fees as $fee)
+                        @if($fee->student == null)
+                            @continue
+                        @endif
                         <tr>
-                            <td>{{$fee->student->name}}</td>
-                            <td>{{($fee->student->class($fee->session->id))?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
+                            <td>{{$fee->student->name??''}}</td>
+                            <td>{{($fee->student->class($fee->session->id)??false)?$fee->student->class($fee->session->id)->byLocale()->name:''}}</td>
                             <td>{{$fee->amount}}</td>
                             <td>{{$fee->user->name}}</td>
                             <td>{{$fee->session->name}}</td>

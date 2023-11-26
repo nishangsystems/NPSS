@@ -27,7 +27,7 @@ class FeeController extends Controller{
     }
 
     public function trash_index(Request $request){
-        $data['fees'] = \App\StudentFeePayment::onlyTrashed()->get();
+        $data['fees'] = \App\StudentFeePayment::onlyTrashed()->orderBy('id', 'DESC')->get();
         // dd($data);
         return view('fees.trash_index')->with($data);
     }
@@ -35,7 +35,8 @@ class FeeController extends Controller{
     public function trash_restore(Request $request, $id){
         if(($item = \App\StudentFeePayment::withTrashed()->find($id)) != null){
             $item->restore();
-            $item->update(['restored_by'=>auth()->id()]);
+            $item->restored_by = auth()->id();
+            $item->save();
         }
         return back()->with('success', 'record successfully restored');
     }
@@ -66,6 +67,8 @@ class FeeController extends Controller{
     public function update(Request $request){
         $fee = \App\StudentFeePayment::findOrFail($request->fee);
         if ($request->user()->can('create_fee')) {
+            $fee->deleted_by = auth()->id();
+            $fee->save();
             $fee->delete();
             $request->session()->flash('success', __('text.fee_deleted_successfully'));
             return redirect(route('fee'));
