@@ -62,7 +62,7 @@ Route::middleware('license_check')->group(function(){
         Route::resource('message','Modules\MessageController');
     
         Route::get('fee','Modules\FeeController@index')->name('fee');
-        Route::post('fee','Modules\FeeController@update')->name('fee.delete');
+        // Route::post('fee','Modules\FeeController@update')->name('fee.delete');
         Route::get('fee/collection','Modules\FeeController@collect')->name('fee.collect');
         Route::get('fee/trash','Modules\FeeController@trash_index')->name('fee.trash');
         Route::post('fee/restore/{id}','Modules\FeeController@trash_restore')->name('fee.restore');
