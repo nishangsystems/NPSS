@@ -43,15 +43,7 @@
                                 <td>{{$fee->session->name??null}}</td>
                                 <td>{{$fee->created_at->format('d/m/Y')}}</td>
                                 <td class="text-capitalize">
-                                    <a onclick="event.preventDefault();
-												document.getElementById('{{ $fee->id }}_delete').submit();" class=" btn text-white btn-danger"><i
-                                            class="fas"></i> {{ __('text.word_delete') }}</a>
-
-
-                                    <form id="{{ $fee->id }}_delete" action="{{route('fee.delete')}}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" name="fee" value="{{$fee->id}}">
-                                    </form>
+                                    
                                 </td>
                             </tr>
                         @endforeach
