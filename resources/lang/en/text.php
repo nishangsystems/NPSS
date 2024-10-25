@@ -367,5 +367,6 @@ return [
     'trashed_fees'=>'trashed fees',
     'deleted_by'=>'deleted by',
     'permission_denied'=>'permission denied',
+    'thermal_receipt'=>'thermal receipt',
     ''
 ];

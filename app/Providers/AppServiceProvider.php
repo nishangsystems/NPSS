@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Institution;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Blade::component('components.rate', 'rate');
+        View::share('institution', Institution::first());
     }
 }
