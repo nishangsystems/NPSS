@@ -134,10 +134,10 @@
                                             <div id="top">
                                                 <div class="logo">
                                                     <div style="text-transform: capitalize; text-align:center; padding-right: 3px;">
-                                                        <span style="font-size: x-large; font-weight:700;">{{$institution->name??"SCHOOL-NAME-HERE"}}</span><br>
-                                                        <span style="font-size: larger;"><b><i>{{$institution->motto??"SCHOOL-MOTTO-HERE"}}</i></b></span><br>
-                                                        <span style="font-size: large;"><i>{{$institution->address??"school-address-here"}}</i></span><br>
-                                                        <span style="font-size: large; font-weight:700"><i>{{$institution->contact??"school_contact-here"}}</i></span>
+                                                        <span style="font-size: x-large; font-weight:700;">{{$institution->name??""}}</span><br>
+                                                        <span style="font-size: larger;"><b><i>{{$institution->motto??""}}</i></b></span><br>
+                                                        <span style="font-size: large;"><i>{{$institution->address??""}}</i></span><br>
+                                                        <span style="font-size: large; font-weight:700"><i>{{$institution->contact??""}}</i></span>
                                                     </div>
                                                 </div>
                                                 <div class="info" style="text-align: center; text-transform:capitalize;"> 
@@ -209,7 +209,7 @@
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.balance_due') }}:</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext">{{$fee->student->dept($year)}}</p></th>
                                                             </tr>
-                                                            {{-- <tr><td colspan="3"><br><br></td></tr>
+                                                            <tr><td colspan="3"><br><br></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" colspan="3" style="text-align: end;"><p class="itemtext">___________________<br /><br />{{ __('text.student_signature') }}</p></th>
@@ -219,7 +219,7 @@
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" colspan="3" style="text-align: end;"><p class="itemtext">___________________<br /><br />{{ __('text.bursar_signature') }}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"></td></tr> --}}
+                                                            <tr><td colspan="3"></td></tr>
     
                                                             
                                                         </tbody>
