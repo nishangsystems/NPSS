@@ -132,14 +132,15 @@
                                         <div id="invoice-POS">
                                             
                                             <div id="top">
-                                                <div class="logo">
+                                                <div class="logo" style="height:fit-content; padding-bottom: 0.4rem;">
                                                     <div style="text-transform: capitalize; text-align:center; padding-right: 3px;">
-                                                        <span style="font-size: x-large; font-weight:700;">{{$institution->name??""}}</span><br>
-                                                        <span style="font-size: larger;"><b><i>{{$institution->motto??""}}</i></b></span><br>
+                                                        <span style="font-size: large; font-weight:700;">{{$institution->name??""}}</span><br>
+                                                        <span style="font-size: medium; font-weight:600"><b><i>{{$institution->motto??""}}</i></b></span><br>
                                                         <span style="font-size: large;"><i>{{$institution->address??""}}</i></span><br>
                                                         <span style="font-size: large; font-weight:700"><i>{{$institution->contact??""}}</i></span>
                                                     </div>
                                                 </div>
+                                                {{-- <hr style="border-color:transparent;"> --}}
                                                 <div class="info" style="text-align: center; text-transform:capitalize;"> 
                                                     <h2>{{ __('text.cash_receipt') }}</h2>
                                                 </div><!--End Info-->
