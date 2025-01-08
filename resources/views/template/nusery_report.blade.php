@@ -19,10 +19,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th>Subjects</th>
+                    <tr class="text-capitalize">
+                        <th>{{ __('text.word_subjects') }}</th>
                         @foreach(\App\Sequence::get() as $sequence)
-                            <th><p class="mb-0">Appreciation</p>
+                            <th><p class="mb-0">{{ __('text.word_appreciation') }}</p>
                                 <div class="d-flex w-100">
                                     <div class=" d-flex flex-nowrap w-100 justify-content-center text-center">
                                         <div class="border h-100 flex-grow-1">1</div>

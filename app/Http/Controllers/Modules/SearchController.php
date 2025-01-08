@@ -40,4 +40,21 @@ class SearchController extends Controller{
     }
 
 
+    public function student_fee(Request $request){
+        $param = $request->param;
+        $year = getYear();
+        $data = \App\Student::where('name', 'like', '%'.$param.'%')
+            ->orWhere('email', 'like', '%'.$param.'%')
+            ->paginate(30)->map(function($el)use($year){
+                $el->class = ($el->sClass())?$el->sClass()->class->byLocale()->name:'';
+                $el->paid = $el->totalPaid($year) < 0?0:$el->totalPaid($year);
+                $el->debt = $el->dept($year);
+                $el->scholarship = $el->scholarship($year);
+                $el->print_link = route('fee.print')."?student=$el->slug&action=print";
+                $el->collect_link = route('fee.collect')."?student=$el->slug";
+                $el->scholarship_link = route('fee.scholarship')."student=$el->slug";
+                return $el;
+            });
+        return response()->json(['data'=>$data->toArray()]);
+    }
 }

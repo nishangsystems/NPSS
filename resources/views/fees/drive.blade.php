@@ -7,25 +7,25 @@
 @section('section')
     <div id="layout" class="card height-auto">
         <div class="card-body">
-            <div class="heading-layout1">
+            <div class="heading-layout1 text-capitalize">
                 <div class="item-title">
-                    <h3>Fee drive</h3>
+                    <h3>{{ __('text.fee_drive') }}</h3>
                 </div>
 
-                <button onclick="print()">print</button>
+                <button onclick="print()">{{ __('text.word_print') }}</button>
             </div>
 
             <form class="mg-b-20"  method="get" action="">
                 <input type="hidden" name="action" value="{{request('amount')}}">
                 <div class="row gutters-8">
                     <div class="col-lg-3  mt-1">
-                        <div class="dropdown">
+                        <div class="dropdown text-capitalize">
                             <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
-                               aria-expanded="false">{{$q['amount'] == 40000 ?"First Installment":($q['amount'] == 15000 ? 'Second Installment':'Third Installment')}}</a>
+                               aria-expanded="false">{{$q['amount'] == 40000 ? __('text.first_installment') :($q['amount'] == 15000 ? __('text.second_installment'):__('text.third_installment'))}}</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>40000,'year'=>$q['year'],'classr'=>$q['class']])}}">First Installment</a>
-                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>15000,'year'=>$q['year'],'classr'=>$q['class']])}}">Second Installment</a>
-                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>10000,'year'=>$q['year'],'classr'=>$q['class']])}}">Third Installment</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>40000,'year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.first_installment') }}</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>15000,'year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.second_installment') }}</a>
+                                <a class="dropdown-item" href="{{route('fee.drive' ,['amount'=>10000,'year'=>$q['year'],'classr'=>$q['class']])}}">{{ __('text.third_installment') }}</a>
                             </div>
                         </div>
                     </div>
@@ -59,18 +59,18 @@
             </form>
             <div class="table-responsive">
                 <table  class="table data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        @php($i =1)
-                        <th>#</th>
-                        <th>Name</th>
-                         <th>Class</th>
-                        <th>year</th>
-                        <th>Amount<br/>Paid</th>
-                        <th>Amount<br/>Owing</th>
-                        <th>Scholarship</th>
-                        <th></th>
-                    </tr>
+                    <thead class="text-capitalize">
+                        <tr>
+                            @php($i =1)
+                            <th>#</th>
+                            <th>{{ __('text.word_name') }}</th>
+                            <th>{{ __('text.word_class') }}</th>
+                            <th>{{ __('text.word_year') }}</th>
+                            <th>{{ __('text.word_amount') }}<br/>{{ __('text.word_paid') }}</th>
+                            <th>{{ __('text.word_amount') }}<br/>{{ __('text.word_owned') }}</th>
+                            <th>{{ __('text.word_scholarship') }}</th>
+                            <th></th>
+                        </tr>
                     </thead>
 
                     <tbody>
@@ -83,11 +83,11 @@
                                 <td>{{$student->totalPaid($year) < 0?0:$student->totalPaid($year)}}</td>
                                 <td class="{{$student->dept($year) > 0?'text-red':''}}">{{$student->dept($year)}}</td>
                                 <td>{{$student->scholarship($year)}}</td>
-                                <td>
-                                    <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> View receipt </a>
-                                    <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> Collect Fee</a>
+                                <td class="text-capitalize">
+                                    <a class="btn btn-primary" href="{{route('fee.print')}}?student={{$student->slug}}&action=print"><i class="fas fa-print"></i> {{ __('text.view_receipt') }} </a>
+                                    <a class="btn btn-primary" href="{{route('fee.collect')}}?student={{$student->slug}}"><i class="fas fa-plus"></i> {{ __('text.collect_fee') }}</a>
                                     @if(request('amount')=='scholarship' || request('amount') =='giftscholarship')
-                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> Scholarship</a>
+                                        <a class="btn btn-primary" href="{{route('fee.scholarship')}}?student={{$student->slug}}"><i class="fas fa-edit"></i> {{ __('text.word_scholarship') }}</a>
                                     @endif
                                 </td>
                             </tr>

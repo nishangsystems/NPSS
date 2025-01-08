@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 
 use anlutro\LaravelSettings\ArrayUtil;
 use App\Http\Controllers\Controller;
+use App\StudentFeePayment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,6 +25,22 @@ class FeeController extends Controller{
         $data['fees'] = \App\StudentFeePayment::whereDate('created_at', \Carbon\Carbon::today())->get();
         return view('fees.index')->with($data);
     }
+
+    public function trash_index(Request $request){
+        $data['fees'] = \App\StudentFeePayment::onlyTrashed()->orderBy('id', 'DESC')->get();
+        // dd($data);
+        return view('fees.trash_index')->with($data);
+    }
+
+    public function trash_restore(Request $request, $id){
+        if(($item = \App\StudentFeePayment::withTrashed()->find($id)) != null){
+            $item->restore();
+            $item->restored_by = auth()->id();
+            $item->save();
+        }
+        return back()->with('success', 'record successfully restored');
+    }
+
 
     public function show(Request $request, $slug){
         return view('fees.show');
@@ -50,11 +67,13 @@ class FeeController extends Controller{
     public function update(Request $request){
         $fee = \App\StudentFeePayment::findOrFail($request->fee);
         if ($request->user()->can('create_fee')) {
+            $fee->deleted_by = auth()->id();
+            $fee->save();
             $fee->delete();
-            $request->session()->flash('success',"Fee Deleted Successfully");
+            $request->session()->flash('success', __('text.fee_deleted_successfully'));
             return redirect(route('fee'));
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=> __('text.action_not_allowed')]);
             return redirect(route('fee'));
         }
     }
@@ -65,7 +84,7 @@ class FeeController extends Controller{
             $this->validate($request, [
                 'student' => 'required',
                 'amount' => 'required|integer',
-                'reference' => 'required',
+                // 'reference' => 'required',
                 'method' =>'required',
                 'year'=>'required',
                 'type'=>'required',
@@ -74,24 +93,30 @@ class FeeController extends Controller{
 
             $student = \App\Student::find($request->student);
             if($request->amount > $student->dept(getYear())){
-                $request->session()->flash('error', "Negative Balance");
+                $request->session()->flash('error', __('text.negative_balance'));
                 return redirect()->back()->withInput($request->all());
             }else{
                 \Auth::user()->collectFee($request);
-                $request->session()->flash('success',"Fee Collected Successfully");
+                $request->session()->flash('success', __('text.fee_collected_successfully'));
             }
 
             return redirect(route('fee'));
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=>__('text.action_not_allowed')]);
         }
 
     }
     public function destroy(Request $request, $id)
     {
         if ($request->user()->can('delete-tasks')) {
+            if(($record = StudentFeePayment::find($id)) != null){
+                $record->update(['deleted_by'=>auth()->id()]);
+                $record->delete();
+                return redirect()->to(route('fee'))->with(['success'=> __('text.fee_deleted_successfully')]);
+            }
+            return redirect()->to(route('fee'))->with(['error'=> __('text.no_results_found')]);
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('fee'))->with(['error'=> __('text.permission_denied')]);
     }
     public function classFee(Request $request){
         return view('fees.class');
@@ -107,7 +132,7 @@ class FeeController extends Controller{
                 $class->setFee($amount, $t->id);
             }
         }
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success',__('text.word_successful'));
         return redirect()->back();
     }
     public function type(){
@@ -120,7 +145,7 @@ class FeeController extends Controller{
         ]);
 
         $type = \App\FeeType::create($request->all());
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success',__('text.word_successful'));
         return redirect()->back();
     }
 
@@ -157,7 +182,7 @@ class FeeController extends Controller{
 
     public function student(Request $request){
         $student = [];
-        $year = $request->year?$request->year:getYear();
+        $year = $request->year!=null?$request->year:getYear();
         $data['year'] = $year;
 
         $q = $this->q;
@@ -321,14 +346,14 @@ class FeeController extends Controller{
             foreach ($clas->subClass($year) as $class) {
                 if ($request->class == 0) {
                     foreach ($class->student as $student) {
-                        if ($student->dept($year) > $q['amount']) {
+                        if ($student->dept($year) >= 0) {
                             $students->push($student);
                         }
                     }
                 } else {
                     if ($request->class == $class->id) {
                         foreach ($class->students($year) as $student) {
-                            if ($student->dept($year) >= $q['amount']) {
+                            if ($student->dept($year) >= 0) {
                                 $students->push($student);
                             }
                         }
@@ -407,13 +432,13 @@ class FeeController extends Controller{
             ]);
             \App\Student::find($request->student)->setScholarShip($request);
            if($request->amount < 0){
-                $request->session()->flash('success',"Dept saved successfully");
+                $request->session()->flash('success',__('text.debt_saved_successfully'));
            }else{
-                $request->session()->flash('success',"Scholarship Saved Successfully");
+                $request->session()->flash('success',__('text.scholarship_saved_successfully'));
            }
             return redirect(route('fee.student')."?action=scholarship");
         }else{
-            return redirect()->back()->with(['error'=>'Not allowed to perform this action']);
+            return redirect()->back()->with(['error'=>__('text.action_not_allowed')]);
         }
     }
 
@@ -430,7 +455,7 @@ class FeeController extends Controller{
         }
     }
     public function income(Request $request){
-        $data['title'] =   "Income Statement";
+        $data['title'] =   __('text.income_statement');
         if($request->action == 'print'){
             $pdf = \PDF::loadView('template.income', $data);
             return $pdf->download('Income_report.pdf');

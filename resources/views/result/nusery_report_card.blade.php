@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Student Result
+    {{ __('text.student_result') }}
 @endsection
 
 @section('style')
@@ -32,11 +32,11 @@
 
                             </div>
                             <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                <button type="submit" class="fw-btn-fill btn-gradient-yellow">Get</button>
+                                <button type="submit" class="fw-btn-fill btn-gradient-yellow text-capitalize">{{ __('text.word_get') }}</button>
                             </div>
 
                             <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                <button onclick="print()"  class="fw-btn-fill btn-gradient-yellow">Print</button>
+                                <button onclick="print()"  class="fw-btn-fill btn-gradient-yellow text-capitalize">{{ __('text.word_print') }}</button>
                             </div>
                         </div>
                     </form>
@@ -56,7 +56,7 @@
                     <tr>
                         <th>Subjects</th>
                         @foreach(\App\Sequence::get() as $sequence)
-                            <th><p class="mb-0">Appreciation</p>
+                            <th><p class="mb-0 text-capitalize">{{ __('text.word_appreciation') }}</p>
                                 <div class="d-flex w-100">
                                     <div class=" d-flex flex-nowrap w-100 justify-content-center text-center">
                                         <div class="border h-100 flex-grow-1">1</div>

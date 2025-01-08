@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Parent Dashboard
+    {{ __('text.parent_dashboard') }}
 @endsection
 
 @section('style')
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Due Fees</div>
+                            <div class="item-title text-capitalize">{{ __('text.due_fees') }}</div>
                             <div class="item-number"><span>$</span><span class="counter" data-num="4503">4,503</span></div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Notifications</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_notifications') }}</div>
                             <div class="item-number"><span class="counter" data-num="0">0</span></div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">My Student</div>
+                            <div class="item-title text-capitalize">{{ __('text.my_student') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\Auth::user()->students->count()}}">{{\Auth::user()->students->count()}}</span></div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Expenses</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_expenses') }}</div>
                             <div class="item-number"><span class="counter" data-num="193000">0</span></div>
                         </div>
                     </div>
@@ -86,8 +86,8 @@
             <div class="card dashboard-card-twelve">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>My Kids</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.my_kids') }}</h3>
                         </div>
                     </div>
                     <div class="kids-details-wrap">
@@ -99,23 +99,23 @@
                                             <table class="table text-nowrap">
                                                 <tbody>
                                                 <tr>
-                                                    <td>Name:</td>
+                                                    <td class="text-capitalize">{{ __('text.word_name') }}:</td>
                                                     <td>{{$student->name}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Gender:</td>
+                                                    <td class="text-capitalize">{{ __('text.word-gender') }}:</td>
                                                     <td>{{$student->gender}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Class:</td>
+                                                    <td class="text-capitalize">{{ __('text.word_class') }}:</td>
                                                     <td>{{$student->class(getYear())->name}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Admission Id:</td>
+                                                    <td class="text-capitalize">{{ __('text.admission_number') }}:</td>
                                                     <td>{{$student->id}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Admission Date:</td>
+                                                    <td class="text-capitalize">{{ __('text.admission_date') }}:</td>
                                                     <td>{{$student->created_at->format('d.m.Y')}}</td>
                                                 </tr>
                                                 </tbody>
@@ -133,21 +133,21 @@
             <div class="card dashboard-card-eleven">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>All Expenses</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.all_expenses') }}</h3>
                         </div>
                     </div>
                     <div class="table-box-wrap">
                         <div class="table-responsive expenses-table-box">
                             <table class="table data-table text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>Expense</th>
-                                    <th>Amount</th>
-                                    <th>Student</th>
-                                    <th>Date</th>
-                                    <th></th>
-                                </tr>
+                                <thead class="text-capitalize">
+                                    <tr>
+                                        <th>{{ __('text.word_expense') }}</th>
+                                        <th>{{ __('text.word_amount') }}</th>
+                                        <th>{{ __('text.word_student') }}</th>
+                                        <th>{{ __('text.word_date') }}</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr>

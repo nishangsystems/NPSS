@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-   Result
+   {{ __('text.word_result') }}
 @endsection
 
 @section('style')
@@ -12,8 +12,8 @@
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3>Choose Class</h3>
+                <div class="item-title text-capitalize">
+                    <h3>{{ __('text.choose_class') }}</h3>
                 </div>
             </div>
             <div class="row px-2">

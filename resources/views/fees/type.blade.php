@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Fee
+    {{ __('text.word_fee') }}
 @endsection
 
 @section('style')
@@ -11,22 +11,22 @@
 @section('section')
     <div class="card height-auto">
         <div class="card-body">
-            <div class="heading-layout1">
+            <div class="heading-layout1 text-capitalize">
                 <div class="item-title">
-                    <h3>All Fees Types</h3>
+                    <h3>{{ __('text.all_fee_types') }}</h3>
                 </div>
                 <div class="dropdown">
-                    <button onclick="showAddModal()" class="fw-btn-fill btn-gradient-yellow">Add Type</button>
+                    <button onclick="showAddModal()" class="fw-btn-fill btn-gradient-yellow">{{ __('text.add_type') }}</button>
                 </div>
             </div>
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
+                    <thead class="text-capitalize">
+                        <tr>
+                            <th>{{ __('text.word_name') }}</th>
+                            <th>{{ __('text.word_description') }}</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach(\App\FeeType::get() as $type)
@@ -45,19 +45,19 @@
 
     <div class="modal fade" id="addModal"  role="dialog" aria-labelledby="exampleModalLabel1">
         <div class="modal-dialog" role="document">
-            <form method="post" class="modal-content" action="{{route('fee.type.post')}}">
+            <form method="post" class="modal-content text-capitalize" action="{{route('fee.type.post')}}">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Add Fee Type</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">{{ __('text.add_fee_type') }}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="col-12 form-group">
-                        <label>Type Name</label>
+                        <label>{{ __('text.type_name') }}</label>
                         <input type="text" name="name" placeholder="" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-gradient-yellow text-white">Save</button>
+                    <button type="submit" class="btn btn-gradient-yellow text-white">{{ __('text.word_save') }}</button>
                 </div>
             </form>
         </div>

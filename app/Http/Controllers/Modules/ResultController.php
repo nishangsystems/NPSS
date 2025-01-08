@@ -16,7 +16,7 @@ class ResultController extends Controller{
         }elseif(\Auth::user()->hasRole('teacher')){
             $subClass = \Auth::user()->class(getYear());
             if($subClass == null){
-                $request->session()->flash('error',"You have Being assigned to no class, contact admin");
+                $request->session()->flash('error',__('text.not_assigned_to_class'));
                 return redirect()->back()->with($data);
             }else{
                 $data['class'] = $subClass;
@@ -50,13 +50,13 @@ class ResultController extends Controller{
     public function result(Request $request, $slug){
         $student = \App\Student::whereSlug($slug)->first();
         if($student == null){
-            $request->session()->flash('error',"Invalid URL");
+            $request->session()->flash('error',__('text.invalid_url'));
             return redirect()->back();
         }
 
         $class = $student->aClass(getYear());
         if($class == null){
-            $request->session()->flash('error',"Student was not part of this session");
+            $request->session()->flash('error',__('text.student_not_in_session'));
             return redirect()->back();
         }
         $class = $class->class;
@@ -65,7 +65,7 @@ class ResultController extends Controller{
         $data['year'] = \App\Session::find(getYear());
         $data['class'] = $class;
         if($request->action == 'print'){
-            $data['title'] = $student->name.' Result';
+            $data['title'] = $student->name.' '.__('text.word_result');
             $data['section'] = $class->section->id;
             if($class->section->id <= 2){
                 $pdf = \PDF::loadView('template.nusery_report', $data);
@@ -89,14 +89,14 @@ class ResultController extends Controller{
     public function resultPost(Request $request, $slug){
         $student = \App\Student::whereSlug($slug)->first();
         if($student == null){
-            $request->session()->flash('error',"Invalid URL");
+            $request->session()->flash('error',__('text.invalid_url'));
             return redirect()->back();
         }
 
         $class = $student->aClass($request->get('year'));
 
         if($class == null){
-            $request->session()->flash('error',"Student was not part of this session");
+            $request->session()->flash('error',__('text.student_not_in_session'));
             return redirect()->back();
         }
 
@@ -115,14 +115,14 @@ class ResultController extends Controller{
     public function edit(Request $request, $slug){
         $student = \App\Student::whereSlug($slug)->first();
         if($student == null){
-            $request->session()->flash('error',"Invalid URL");
+            $request->session()->flash('error',__('text.invalid_url'));
             return redirect()->back();
         }
         $data['student'] = $student;
         if($request->sequence && $request->year){
             $class = $student->class($request->year);
             if($class == null){
-                $request->session()->flash('error',"Student was not part of this session");
+                $request->session()->flash('error',__('text.student_not_in_session'));
                 return redirect()->back();
             }
             $data['year'] = \App\Session::find($request->year);
@@ -132,7 +132,7 @@ class ResultController extends Controller{
         }else{
             $class = $student->class(getYear());
             if($class == null){
-                $request->session()->flash('error',"Student was not part of this session");
+                $request->session()->flash('error',__('text.student_not_in_session'));
                 return redirect()->back();
             }
             $data['year'] = \App\Session::find(getYear());
@@ -155,13 +155,13 @@ class ResultController extends Controller{
 
         $student = \App\Student::find($request->student);
         if($student == null){
-            $request->session()->flash('error',"Invalid URL");
+            $request->session()->flash('error',__('text.invalid_url'));
             return redirect()->back();
         }
 
         $class = $student->class($request->get('year'));
         if($class == null){
-            $request->session()->flash('error',"Student was not part of this session");
+            $request->session()->flash('error',__('text.student_not_in_session'));
             return redirect()->back();
         }
 
@@ -170,7 +170,7 @@ class ResultController extends Controller{
         }
 
 
-        $request->session()->flash('success',"Result Inserted Successfully");
+        $request->session()->flash('success', __('text.result_inserted_successfully'));
         return redirect(route('result.session', $student->slug));
     }
     public function feeControl(Request $request){
@@ -179,13 +179,13 @@ class ResultController extends Controller{
            if($request->class == "0"){
                $sections = \Auth::user()->classes(getYear());
                if($sections->count() == 0){
-                   $request->session()->flash('error',"No class assign to you");
+                   $request->session()->flash('error',__('text.not_assigned_to_class'));
                    return redirect(route('dashboard'));
                }
            }else{
                $sections = \App\Classes::find($request->class)->subClass($request->year);
                if($sections->count() == 0){
-                   $request->session()->flash('error',"No sub section found for this class");
+                   $request->session()->flash('error',__('text.no_sub_section_found'));
                }
            }
         }
@@ -206,7 +206,7 @@ class ResultController extends Controller{
         if($request->year && $request->class){
             $sections = \App\Classes::find($request->class)->subClass($request->year);
             if($sections->count() == 0){
-                $request->session()->flash('error',"No sub section found for this class");
+                $request->session()->flash('error',__('text.no_sub_section_found'));
             }
         }
         $sec = \App\AnnualClass::find($request->section);
@@ -217,7 +217,7 @@ class ResultController extends Controller{
                 $content['section'] = $sec->class->section->id;
                 $content['year'] = \App\Session::find($request->get('year'));
                 $content['class'] = $sec->class;
-                $content['title'] = $student->name.' '.$content['year']->name.' Report Card';
+                $content['title'] = $student->name.' '.$content['year']->name.' '.__('text.report_card');
                 if($sec->class->section->id <= 2){
                     array_push($students, view('template.nusery_report')->with($content));
                 }else{

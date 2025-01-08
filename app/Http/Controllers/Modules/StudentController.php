@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Modules;
 
 use App\AnnualClass;
 use App\Http\Controllers\Controller;
+use App\Student;
+use App\StudentsClass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,18 +15,24 @@ use DateTime;
 class StudentController extends Controller{
     public function index(Request $request){
         $data['students'] =[];
-        $data['year'] = $request->year?$request->year:getYear();
+        $year = $request->year?$request->year:getYear();
+        $data['year'] = $year;
         if(!$request->class){
-            $data['students'] = \App\Student::orderBy('created_at','DESC')->get();
+            $data['students'] = Student::join('students_classes', 'students_classes.student_id', '=', 'students_classes.student_id')
+                        ->join('annual_classes', 'annual_classes.id', '=', 'students_classes.class_id')->where('annual_classes.year_id', $year)
+                        ->select('students.*')->orderBy('created_at','DESC')->distinct()->paginate(100);
+            // $data['students'] = \App\Student::orderBy('created_at','DESC')->distinct()->paginate(100);
         }else{
             $class = \App\AnnualClass::find(\request('class'));
-            $data['students'] = $class->student;
+            $data['students'] = $class->student()->paginate(100);
         }
         $data['class'] = \App\AnnualClass::find(\request('class'));
         return view('student.index')->with($data);
     }
+
     public function show(Request $request, $slug){
         $data['student'] = \App\Student::whereSlug($slug)->first();
+        $data['student_classes'] = $data['student']->_classR;
         $data['year'] = $request->year?$request->year:getYear();
         if($data['student'] == null){
             abort(404);
@@ -73,14 +81,14 @@ class StudentController extends Controller{
                 $student->save();
 
                 \DB::commit();
-                $request->session()->flash('success', "Student updated successfully");
+                $request->session()->flash('success', __('text.student_saved_successfully'));
             }catch(\Exception $e){
                 \DB::rollback();
-                $request->session()->flash('error', "Something went wrong");
+                $request->session()->flash('error', __('text.something_went_wrong'));
             }
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('student.index'));
     }
@@ -118,36 +126,39 @@ class StudentController extends Controller{
                     'class_id'=> getSection($request->class, getYear())->id
                 ]);
                 \DB::commit();
-                $request->session()->flash('success', "Student Created successfully");
+                $request->session()->flash('success', __('text.student_saved_successfully'));
             }catch(\Exception $e){
                 \DB::rollback();
-                $request->session()->flash('error', "Something went wrong");
+                $request->session()->flash('error', __('text.something_went_wrong'));
             }
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('student.index'));
     }
     public function destroy(Request $request, $id)
     {
+        $year = $request->year ?? getYear();
         if ($request->user()->can('delete_student')) {
-            $student = \App\Student::whereSlug($id)->first();
-            if($student == null){
+            $student_class = \App\StudentsClass::find($id);
+            if($student_class == null){
                 abort(404);
             }
-           if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
-               $student->delete();
-               $request->session()->flash('success', "Student Deleted successfully");
-           }else{
-               $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
-           }
+            // remove fee entries
+            if(($payments =  $student_class->student->feePayment()->where('year_id', $student_class->aClass->year_id))->count() > 0){
+                $payments->each(function($pmt){$pmt->delete();});
+            }
+            // remove student-class instances
+            $student_class->delete();
+            $request->session()->flash('success', __('text.student_deleted_successfully'));
+            return back();
 
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
+            return back();
         }
 
-        return redirect()->to(route('student.index'));
     }
 
     public function promote(Request $request){
@@ -159,7 +170,7 @@ class StudentController extends Controller{
 
         if($request->next_year){
             if($request->next_year < $year){
-                $request->session()->flash('error', "Invalid promotion academic year");
+                $request->session()->flash('error', __('text.invalid_promotion_ay'));
             }
         }
 
@@ -191,11 +202,11 @@ class StudentController extends Controller{
                    ]);
                }
            }
-           $request->session()->flash('success', "Student Promoted Successfully");
+           $request->session()->flash('success', __('text.student_promoted_successfully'));
            return redirect()->back();
         }catch(\Exception $e){
            
-            $request->session()->flash('error', "Something went wrong");
+            $request->session()->flash('error', __('text.something_went_wrong'));
         }
     }
 
@@ -226,47 +237,39 @@ class StudentController extends Controller{
         ]);
 
         $student = \App\Student::findOrFail($student);
-
+        // dd($request->all());
         try{
             \DB::beginTransaction();
-            $classR = $student->classR($student->sClass()->id);
+            // $classR = $student->classR($student->sClass()->id);
 
-            if($classR && $student->hasMany('App\StudentsClass','student_id')->count() > 1){
-                $classR->delete();
-            }elseif(isset($request->remove)){
-                $classR->delete();
-                if ($request->user()->can('delete_student')) {
-                    $student = \App\Student::whereSlug($id)->first();
-                    if($student == null){
-                        abort(404);
-                    }
-                   if($student->feePayment->count() == 0 && $student->discount->count() == 0 && $student->hasMany('App\StudentsClass','student_id')->count() == 0 ){
-                       $student->delete();
-                       $request->session()->flash('success', "Student Deleted successfully");
-                   }else{
-                       $request->session()->flash('error', "Cant Delete Student, has some transaction saved");
-                   }
-        
-                }else{
-                    $request->session()->flash('error', "Not allowed to perform this action");
-                }
-            }
 
+            $current_student_classes = StudentsClass::join('students', 'students.id', '=', 'students_classes.student_id')->where('students.id', $request->student)
+                ->join('annual_classes', 'annual_classes.id', '=', 'students_classes.class_id')->where('year_id', getYear())
+                ->where('annual_classes.class_id', $request->current_class)->select('students_classes.*')->get();
+
+                
           if(!isset($request->remove)){
-            $studentClass = \App\StudentsClass::create([
+              $studentClass = new \App\StudentsClass([
                 'student_id'=> $student->id,
                 'class_id'=> getSection($request->class, getYear())->id
-            ]);
-          }
+                ]);
+                $studentClass->save();
+            }
+            // delete current student class after inserting new class if required
+            if($current_student_classes->count() > 1 && $studentClass->id != null){
+                $current_student_classes->each(function($class){
+                    $class->delete();
+                });
+            }
 
 
 
             \DB::commit();
-            $request->session()->flash('success', "Student Migrated Successfully");
+            $request->session()->flash('success', __('text.student_migrated_successfully'));
         }catch(\Exception $e){
             \DB::rollback();
             //echo $e;
-        $request->session()->flash('error', "Something went wrong");
+        $request->session()->flash('error', __('text.something_went_wrong'));
        }
 
          return redirect()->back();

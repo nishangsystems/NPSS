@@ -57,9 +57,9 @@ class SubjectController extends Controller{
             $subject->section_id = $request->section;
             $subject->save();
 
-            $request->session()->flash('success', "Subject updated successfully");
+            $request->session()->flash('success', __('text.subject_updated_successfully'));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('subject.index'));
     }
@@ -83,9 +83,9 @@ class SubjectController extends Controller{
             $subject->section_id = $request->section;
             $subject->save();
 
-            $request->session()->flash('success', "Subject Created successfully");
+            $request->session()->flash('success', __('text.subject_created_successfully'));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('subject.index'));
     }
@@ -94,9 +94,9 @@ class SubjectController extends Controller{
         if ($request->user()->can('create_subject')) {
             $subject = \App\Subject::whereSlug($slug)->first();
             $subject->delete();
-            $request->session()->flash('success', "Subject Deleted successfully");
+            $request->session()->flash('success', __('text.subject_deleted_successfully'));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('subject.index'));
     }

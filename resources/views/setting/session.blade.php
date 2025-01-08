@@ -8,8 +8,8 @@
             <div class="card height-auto">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Add Session</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.add_session') }}</h3>
                         </div>
                     </div>
                     <form class="mg-b-20" method="post" action="{{route('settings.sessionPost')}}">
@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-6 col-12 form-group">
                                 <div>
-                                    <button type="submit" class=" fw-btn-fill btn-gradient-yellow">save</button>
+                                    <button type="submit" class=" fw-btn-fill btn-gradient-yellow text-capitalize">{{ __('text.word_save') }}</button>
                                 </div>
                             </div>
                         </div>

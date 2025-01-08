@@ -38,7 +38,7 @@ class TransportController extends Controller{
         if ($request->user()->can('create-tasks')) {
             //Code goes here
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('roles.index'))->with(['success'=>__('text.roles_created_successfully')]);
     }
 
     public function destroy(Request $request, $id)
@@ -46,6 +46,6 @@ class TransportController extends Controller{
         if ($request->user()->can('delete-tasks')) {
             //Code goes here
         }
-        return redirect()->to(route('roles.index'))->with(['success'=>'Roles Created Successfully']);
+        return redirect()->to(route('roles.index'))->with(['success'=>__('text.roles_created_successfully')]);
     }
 }

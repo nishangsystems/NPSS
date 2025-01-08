@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('style')
@@ -14,23 +14,23 @@
     <div class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
+                <div class="item-title text-capitalize">
                    @if(request('class'))
-                        <h3>{{\App\Classes::find(request('class'))->byLocale()->name}} Teachers</h3>
+                        <h3>{{\App\Classes::find(request('class'))->byLocale()->name}} {{ __('text.word_teachers') }}</h3>
                     @else
-                        <h3>All Teachers Data</h3>
+                        <h3>{{ __('text.all_teachers_data') }}</h3>
                    @endif
                 </div>
             </div>
             <div class="table-responsive">
                 <table class="table display data-table text-nowrap">
-                    <thead>
+                    <thead class="text-capitalize">
                     <tr>
-                        <th>Name</th>
-                        <th>Class</th>
-                        <th>Gender</th>
-                        <th>Address</th>
-                        <th>Phone</th>
+                        <th>{{ __('text.word_name') }}</th>
+                        <th>{{ __('text.word_class') }}</th>
+                        <th>{{ __('text.word_gender') }}</th>
+                        <th>{{ __('text.word_address') }}</th>
+                        <th>{{ __('text.word_phone') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -42,16 +42,16 @@
                                 <td>{{$user->gender}}</td>
                                 <td>{{$user->address}}</td>
                                 <td>{{$user->phone}}</td>
-                                <td>
+                                <td class="text-capitalize">
                                     <div class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <span class="flaticon-more-button-of-three-dots"></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="{{route('user.edit',$user->slug)}}"><i
-                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>{{ __('text.word_edit') }}</a>
                                             <a class="dropdown-item" href="{{route('user.show',$user->slug)}}"><i
-                                                    class="fa fa-trash text-red"></i> View</a>
+                                                    class="fa fa-trash text-red"></i> {{ __('text.word_view') }}</a>
 
                                         </div>
                                     </div>

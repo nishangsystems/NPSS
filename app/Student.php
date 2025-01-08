@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'name','email','gender','phone','dob','address','class','section','admission_year','phone','slug','photo','matricule'
     ];
@@ -27,11 +29,15 @@ class Student extends Model
     }
 
     public function class($year){
-        return $this->aClass($year)->class;
+        return $this->aClass($year)->class??null;
     }
 
     public function classR($class){
         return $this->hasMany('App\StudentsClass','student_id')->where('class_id',$class)->first();
+    }
+
+    public function _classR(){
+        return $this->hasMany('App\StudentsClass','student_id');
     }
 
     public function dept($year){

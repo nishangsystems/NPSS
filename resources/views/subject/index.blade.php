@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('style')
@@ -16,23 +16,23 @@
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
-                    <div class="item-title">
+                    <div class="item-title text-capitalize">
                         <h3>{{$title}}</h3>
                     </div>
                     <div class="dropdown">
                        @if(\Auth::user()->can('create_subject'))
-                            <a href="{{route('subject.create')}}" class="fw-btn-fill btn-gradient-yellow">Add Subject</a>
+                            <a href="{{route('subject.create')}}" class="fw-btn-fill btn-gradient-yellow">{{ __('text.add_subject') }}</a>
                        @endif
                     </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table display data-table text-nowrap">
-                        <thead>
+                        <thead class="text-capitalize">
                         <tr>
-                           <th>S/N</th>
-                            <th>Subject Name</th>
-                            <th>Subject Code</th>
-                            <th>Section</th>
+                           <th>{{ __('text.sn') }}</th>
+                            <th>{{ __('text.subject_name') }}</th>
+                            <th>{{ __('text.subject_code') }}</th>
+                            <th>{{ __('text.word_section') }}</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -44,13 +44,13 @@
                                     <td>{{$subject->byLocale()->name}}</td>
                                     <td>{{$subject->id}}</td>
                                     <td>{{$subject->section->byLocale()->name}}</td>
-                                    <td>
+                                    <td class="text-capitalize">
                                         <a class="btn btn-success" href="{{route('subject.edit', $subject->slug)}}"><i
-                                                class="fas fa-edit"></i> Edit</a>
+                                                class="fas fa-edit"></i> {{ __('text.word_edit') }}</a>
 
                                         <a onclick="event.preventDefault();
                                             document.getElementById('delete{{$subject->id}}').submit();" class=" btn text-white btn-danger"><i
-                                                class="fas"></i> Delete</a>
+                                                class="fas"></i> {{ __('text.word_delete') }}</a>
                                         <form id="delete{{$subject->id}}" action="{{route('subject.destroy', $subject->slug)}}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             {{ csrf_field() }}

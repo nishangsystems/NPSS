@@ -39,13 +39,13 @@ class RolesController extends Controller{
                     ]);
                 }
                 \DB::commit();
-                $request->session()->flash('success', $request->role.' saved successfully');
+                $request->session()->flash('success', $request->role.' '.__('text.saved_successfully'));
             }catch(\Exception $e){
                 \DB::rollback();
                 $request->session()->flash('error', $e->getMessage());
             }
         }else{
-            $request->session()->flash('error', "Not Permitted to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('roles.index'));
     }
@@ -93,9 +93,9 @@ class RolesController extends Controller{
                     ]);
                 }
                 \DB::commit();
-                $request->session()->flash('success', $request->role.' role saved successfully');
+                $request->session()->flash('success', $request->role.' '.__('text.saved_successfully'));
             }else{
-                $request->session()->flash('error', 'Cant edit this role');
+                $request->session()->flash('error', __('text.cant_edit_this_role'));
             }
         }catch(\Exception $e){
             \DB::rollback();
@@ -144,14 +144,14 @@ class RolesController extends Controller{
                     'user_id'=>$user->id,
                 ]);
                 \DB::commit();
-                $request->session()->flash('success', $request->role.' Role saved successfully');
+                $request->session()->flash('success', $request->role.' '.__('text.saved_successfully'));
 
             }catch(\Exception $e){
                 \DB::rollback();
                 $request->session()->flash('error', $e->getMessage());
             }
         }else{
-            $request->session()->flash('error', 'Cant Edit this Role');
+            $request->session()->flash('error', __('text.cant_edit_this_role'));
         }
         return redirect()->to(route('user.index'));
     }

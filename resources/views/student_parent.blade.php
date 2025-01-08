@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('style')
@@ -15,8 +15,8 @@
     <div id="layout" class="card height-auto">
         <div class="card-body">
             <div class="heading-layout1">
-                <div class="item-title">
-                    <h3 id="title">Student Parent</h3>
+                <div class="item-title text-capitalize">
+                    <h3 id="title">{{ __('text.student_parent') }}</h3>
                     <div class="dropdown">
                         <a class="text-dark text-left btn btn-fill-md w-100 bg-ash text-14" href="#" role="button" data-toggle="dropdown"
                            aria-expanded="false">{{\App\Session::find($year)->name}}</a>
@@ -27,20 +27,20 @@
                         </div>
                     </div>
                 </div>
-                <button onclick="print()">print</button>
+                <button onclick="print()">{{ __('text.word_print') }}</button>
             </div>
 
             <div  class="table-responsive">
                 <table  class="table display data-table text-nowrap">
-                    <thead>
+                    <thead class="tex-capitalize">
                     @php($i =1)
                     <tr>
                         <th>#</th>
-                        <th>Matricule</th>
-                        <th>Name</th>
-                        <th>CLass</th>
-                        <th>Parent</th>
-                        <th>Contact</th>
+                        <th>{{ __('text.word_matricule') }}</th>
+                        <th>{{ __('text.word_name') }}</th>
+                        <th>{{ __('text.word_class') }}</th>
+                        <th>{{ __('text.word_parent') }}</th>
+                        <th>{{ __('text.word_contact') }}</th>
                     </tr>
                     </thead>
                     <tbody>

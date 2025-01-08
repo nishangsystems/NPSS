@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 
@@ -11,8 +11,8 @@
             <div class="card height-auto">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>{{request('role')?\App\Role::whereSlug(request('role'))->first()->byLocale()->name." Permissions":"User Permissions"}}</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{request('role')?\App\Role::whereSlug(request('role'))->first()->byLocale()->name." ".__('text.word_permissions')  : __('text.user_permissions')}}</h3>
                         </div>
                     </div>
 
@@ -20,7 +20,7 @@
                         <table class="table display data-table text-nowrap">
                             <thead>
                             <tr>
-                                <th>Name</th>
+                                <th class="text-capitalize">{{ __('text.word_name') }}</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -29,8 +29,8 @@
                                 <tr>
                                     <td>{{$role->byLocale()->name}}</td>
                                     <td align="right">
-                                        <a class="btn btn-primary" href="{{route('user.index')}}?permission={{$role->slug}}"><i
-                                                class="fas fa-user"></i> Users</a>
+                                        <a class="btn btn-primary text-capitalize" href="{{route('user.index')}}?permission={{$role->slug}}"><i
+                                                class="fas fa-user"></i> {{ __('text.word_users') }}</a>
                                     </td>
                                 </tr>
                             @endforeach

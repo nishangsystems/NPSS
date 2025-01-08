@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Edit Result
+    {{ __('text.edit_result') }}
 @endsection
 
 @section('section')
@@ -49,9 +49,9 @@
                 <input type="hidden" name="student" value="{{$student->id}}">
                 <table class="table my-3">
                     <thead>
-                    <tr>
-                        <td>Subject</td>
-                        <td>Mark</td>
+                    <tr class="text-capitalize">
+                        <td>{{ __('text.word_subject') }}</td>
+                        <td>{{ __('text.word_mark') }}</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,7 +64,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex  justify-content-end align-items-end">
-                    <button type="submit" class="btn-fill-sm bg-success text-white btn-gradient-yellow">Save</button>
+                    <button type="submit" class="btn-fill-sm bg-success text-white btn-gradient-yellow text-capitalize">{{ __('text.word_save') }}</button>
                 </div>
             </form>
         </div>

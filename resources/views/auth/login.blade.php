@@ -30,24 +30,24 @@
             <form action="{{route('login.submit')}}" method="post" class="login-form">
                 @csrf
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" placeholder="Enter username/Email "  name="email" class="form-control">
+                    <label class="text-capitalize">{{ __('text.word_username')}}</label>
+                    <input type="text" placeholder="{{ __('text.enter_username_slash_email') }} "  name="email" class="form-control">
                     <i class="far fa-envelope"></i>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter password" name="password" class="form-control">
+                    <label class="text-capitalize">{{ __('text.word_password') }}</label>
+                    <input type="password" placeholder="{{ __('text.enter_password') }}" name="password" class="form-control">
                     <i class="fas fa-lock"></i>
                 </div>
                 <div class="form-group d-flex align-items-center justify-content-between">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="remember-me">
-                        <label for="remember-me" name="remember" class="form-check-label">Remember Me</label>
+                        <label for="remember-me" name="remember" class="form-check-label text-capitalize">{{ __('text.remember_me') }}</label>
                     </div>
-                    <a href="#" class="forgot-btn">Forgot Password?</a>
+                    <a href="#" class="forgot-btn text-capitalize">{{ __('text.forgot_password') }}</a>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="login-btn">Login</button>
+                    <button type="submit" class="login-btn text-capitalize">{{ __('text.word_login') }}</button>
                 </div>
             </form>
     </div>

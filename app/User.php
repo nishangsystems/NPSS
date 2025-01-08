@@ -95,7 +95,7 @@ class User extends Authenticatable
                 'method' => $request->method,
                 'bursar_id' => $this->id,
                 'year_id' => $request->year,
-                'reference' => $request->reference,
+                'reference' => $request->reference??null,
                 'type_id' => $request->type,
             ]);
         }

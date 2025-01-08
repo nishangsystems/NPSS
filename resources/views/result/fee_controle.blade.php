@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-  Result - Bulk Print
+  {{ __('text.result-bulk_print') }}
 @endsection
 
 @section('section')
@@ -15,7 +15,7 @@
                     @csrf
                     <div class="row">
                         <div class="col-lg-12 form-group">
-                            <label>Section</label>
+                            <label class="text-capitalize">{{ __('text.word_section') }}</label>
                             <select class="select2" required name="section">
                                 @foreach($sections as $section)
                                     <option value="{{$section->id}}">{{$section->class->name}} {{$section->section_id}}</option>
@@ -24,12 +24,12 @@
                         </div>
 
                         <div class=" col-12 form-group">
-                            <label>Amount</label>
+                            <label class="text-capitalize">{{ __('text.word_amount') }}</label>
                             <input type="number" name="amount"  value="{{old('amount')}}"  class="form-control">
                         </div>
 
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Next</button>
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow text-capitalize btn-hover-bluedark">{{ __('text.word_next') }}</button>
                         </div>
                     </div>
                 </form>
@@ -43,7 +43,7 @@
                 <form method="get" class="new-added-form">
                     <div class="row">
                         <div class="col-lg-12 form-group">
-                            <label>Academic Year</label>
+                            <label class="text-capitalize">{{ __('text.academic_year') }}</label>
                             <select class="select2"    required name="year">
                                 @foreach(\App\Session::all() as $class)
                                     <option {{($class->id == old('year',getYear()))?'selected':''}} value="{{$class->id}}">{{$class->name}}</option>
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="col-12 form-group">
-                            <label>Class *</label>
+                            <label class="text-capitalize">{{ __('text.word_class') }} *</label>
                             <select class="select2"  value="{{old('class')}}"  name="class" required>
                                 @foreach(\App\Section::all() as $section)
                                     @foreach($section->class as $class)
@@ -63,7 +63,7 @@
                         </div>
 
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Next</button>
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow text-capitalize btn-hover-bluedark">{{ __('text.word_next') }}</button>
                         </div>
                     </div>
                 </form>

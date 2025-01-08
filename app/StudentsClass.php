@@ -15,7 +15,12 @@ class StudentsClass extends Model
         return $this->belongsTo(\App\AnnualClass::class,'class_id');
     }
 
-    public function class(){
-        return $this->aClass()->class;
+    public function student(){
+        return $this->belongsTo(\App\Student::class,'student_id');
     }
+
+    public function class(){
+        return $this->aClass->class??null;
+    }
+
 }

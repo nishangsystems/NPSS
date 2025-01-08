@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-   Expense Type
+   {{ __('text.expense_type') }}
 @endsection
 
 @section('style')
@@ -11,22 +11,22 @@
 @section('section')
     <div class="card height-auto">
         <div class="card-body">
-            <div class="heading-layout1">
+            <div class="heading-layout1 text-capitalize">
                 <div class="item-title">
-                    <h3>Expense Types</h3>
+                    <h3>{{ __('text.expense_types') }}</h3>
                 </div>
                 <div class="dropdown">
-                    <button onclick="showAddModal()" class="fw-btn-fill btn-gradient-yellow">Add Type</button>
+                    <button onclick="showAddModal()" class="fw-btn-fill btn-gradient-yellow">{{ __('text.add_type') }}</button>
                 </div>
             </div>
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
+                    <thead class="text-capitalize">
+                        <tr>
+                            <th>{{ __('text.word_name') }}</th>
+                            <th>{{ __('text.word_description') }}</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach(\App\ExpenceType::get() as $type)
@@ -48,16 +48,16 @@
             <form method="post" class="modal-content" action="{{route('expenses.type.post')}}">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Expense Type</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel1">{{ __('text.expense_type') }}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="col-12 form-group">
-                        <label>Type Name</label>
+                        <label class="text-capitalize">{{ __('text.type_name') }}</label>
                         <input type="text" name="name" placeholder="" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-gradient-yellow text-white">Save</button>
+                    <button type="submit" class="btn btn-gradient-yellow text-white text-capitalize">{{ __('text.word_save') }}</button>
                 </div>
             </form>
         </div>

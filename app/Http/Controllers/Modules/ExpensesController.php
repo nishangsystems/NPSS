@@ -19,7 +19,7 @@ class ExpensesController extends Controller{
         ]);
 
         $type = \App\ExpenceType::create($request->all());
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success', __('text.word_successful'));
         return redirect()->back();
     }
 
@@ -28,7 +28,7 @@ class ExpensesController extends Controller{
     }
 
     public function deleteType(Request $request){
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success',__('text.word_successful'));
         return redirect()->back();
     }
 
@@ -43,9 +43,9 @@ class ExpensesController extends Controller{
             $end = Carbon::createFromFormat('m/d/Y',  $end)->toDateTimeString();
             $data['expenses'] = \App\Expenses::where('created_at','>',$start)
                                                 ->where('created_at','<=',$end)->get();
-            $data['title'] = "All Expenses from ".$daterange[0]." to ".$daterange[1];
+            $data['title'] = __('text.all_expenses_from')." ".$daterange[0]." to ".$daterange[1];
         }else{
-            $data['title'] = "All Expenses recent expenses";
+            $data['title'] = __('text.all_expenses');
             $data['expenses'] = \App\Expenses::orderBY('created_at', 'DESC')->paginate(40);
         }
 
@@ -79,9 +79,9 @@ class ExpensesController extends Controller{
             $input['user_id'] =\Auth::user()->id;
             $student = \App\Expenses::create($input);
 
-            $request->session()->flash('success', "Expense Created successfully");
+            $request->session()->flash('success', __('text.expense_successfully_created'));
         }else{
-            $request->session()->flash('error', "Cant perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('expenses'));
     }
@@ -104,9 +104,9 @@ class ExpensesController extends Controller{
             $expense->save();
 
 
-            $request->session()->flash('success', "Expense Updated successfully");
+            $request->session()->flash('success', __('text.expense_updated_successfully'));
         }else{
-            $request->session()->flash('error', "Cant perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('expenses'));
     }
@@ -116,7 +116,7 @@ class ExpensesController extends Controller{
         if ($request->user()->can('delete_fee')) {
             $expense = \App\Expenses::findOrFail($request->id);
             $expense->delete();
-                return redirect()->to(route('expenses'))->with(['success'=>'Expense Deleted Successfully']);
+                return redirect()->to(route('expenses'))->with(['success'=> __('text.expense_deleted_successfully')]);
         }else{
             $request->session()->flash('error', "Cant perform this action");
             return redirect()->to(route('expenses'));

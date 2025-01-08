@@ -6,11 +6,11 @@
             <div class="table-responsive">
                 <table class="table data-table text-nowrap">
                     <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Class</th>
-                        <th>Amount</th>
-                        <th>Date</th>
+                    <tr class="text-capitalize">
+                        <th>{{ __('text.word_name') }}</th>
+                        <th>{{ __('text.word_class') }}</th>
+                        <th>{{ __('text.word_amount') }}</th>
+                        <th>{{ __('text.word_date') }}</th>
 
                     </tr>
                     </thead>

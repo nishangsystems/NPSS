@@ -21,7 +21,7 @@ class ClassController extends Controller{
         $year = $request->year?$request->year:getYear();
 
         if($class == null){
-            $request->session()->flash('error',"Invalid Class");
+            $request->session()->flash('error',__('text.invalid_class'));
             return redirect()->back();
         }
 
@@ -52,9 +52,9 @@ class ClassController extends Controller{
              $class->limit = $request->limit;
             $class->save();
 
-            $request->session()->flash('success', "Class Updated successfully");
+            $request->session()->flash('success', __('text.class_updated_successfully'));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
         return redirect()->to(route('class.section', $request->class));
     }
@@ -74,10 +74,10 @@ class ClassController extends Controller{
                     'abbreviations' => $request->abbreviations,
                ]);
 
-               $request->session()->flash('success', "Class Created successfully");
+               $request->session()->flash('success', __('text.class_created_succesfully'));
                return redirect()->to(route('class.section', $class->id));
         }else{
-            $request->session()->flash('error', "Not allowed to perform this action");
+            $request->session()->flash('error', __('text.action_not_allowed'));
         }
       return redirect()->back();
     }
@@ -89,7 +89,7 @@ class ClassController extends Controller{
         }
         $class = \App\ClassSection::find($id);
         $class->delete();
-        return redirect()->to(route('class.index',$class->class_id))->with(['success'=>'Class Deleted Successfully']);
+        return redirect()->to(route('class.index',$class->class_id))->with(['success'=>__('text.class_deleted_successfully')]);
     }
 
     public  function teacher($id){
@@ -102,7 +102,7 @@ class ClassController extends Controller{
 
         $class = \App\Classes::find($id);
         if($class == null){
-            $request->session()->flash('error',"Class Not Found");
+            $request->session()->flash('error',__('text.class_not_found'));
             return redirect()->back();
         }
 
@@ -121,7 +121,7 @@ class ClassController extends Controller{
 
            $class->removeTeacher($request->teacher);
        }
-        $request->session()->flash('success',"Successful");
+        $request->session()->flash('success', __('text.word_successful'));
         return redirect()->back();
     }
 }

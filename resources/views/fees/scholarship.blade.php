@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-   Scholarship
+   {{ __('text.word_scholarship') }}
 @endsection
 @section('section')
     <div class="card height-auto">
@@ -18,20 +18,20 @@
                     </select>
                 </div>
                 <div class="form-group col-12">
-                    <label>Scholarship Amount</label>
+                    <label class="text-capitalize">{{ __('text.scholarship_amount') }}</label>
                     <input type="text" name="amount" value="{{$student->scholarship(getYear())}}" required placeholder="Enter Amount" class="form-control">
                 </div>
                 <div class="form-group col-12">
-                    <label>Select Accademic Year</label>
+                    <label class="text-capitalize">{{ __('text.select_academic_year') }}</label>
                     <select class="select2" name="year" required>
-                        <option value="">Select Academic Year*</option>
+                        <option value="">{{ __('text.select_academic_year') }}*</option>
                         @foreach(\App\Session::get() as $y)
                             <option {{($y->id == old('year',getYear()))?'selected':''}} value="{{$y->id}}">{{$y->name}}</option>
                         @endforeach
                     </select>
                 </div>
                  <div class="col-12 pull-right mt-4">
-                    <button type="submit" class="btn-fill-md btn-gradient-yellow text-white">Update</button>
+                    <button type="submit" class="btn-fill-md btn-gradient-yellow text-white text-capitalize">{{ __('text.word_update') }}</button>
                 </div>
             </form>
         </div>

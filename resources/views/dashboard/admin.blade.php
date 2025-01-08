@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title')
-    Admin Dashboard
+    {{ __('text.admin_dashboard') }}
 @endsection
 
 @section('section')
@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Teachers</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_teachers') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::whereSlug('teacher')->first()->users()->count()}}">{{\App\Role::whereSlug('teacher')->first()->users()->count()}}</span></div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Parents</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_parent') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::whereSlug('parent')->first()->users()->count()}}">{{\App\Role::whereSlug('parent')->first()->users()->count()}}</span></div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Roles</div>
+                            <div class="item-title text-capitalize">{{ __('text.word_roles') }}</div>
                             <div class="item-number"><span class="counter" data-num="{{\App\Role::count()}}">{{\App\Role::count()}}</span></div>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
             <div class="card dashboard-card-three pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Students</h3>
+                        <div class="item-title text-capitalize">
+                            <h3>{{ __('text.word_students') }}</h3>
                         </div>
                     </div>
                     <div class="doughnut-chart-wrap">
@@ -76,13 +76,13 @@
                     </div>
                     <div class="student-report">
                         <div class="student-count pseudo-bg-blue">
-                            <h4 class="item-title">Female Students</h4>
+                            <h4 class="item-title text-capitalize">{{ __('text.female_students') }}</h4>
                             <div class="item-number">{{\App\Student::whereHas('classes', function($q){
                                 $q->where('year_id',getYear());
                             })->where('gender','female')->count()}}</div>
                         </div>
                         <div class="student-count pseudo-bg-yellow">
-                            <h4 class="item-title">Male Students</h4>
+                            <h4 class="item-title text-capitalize">{{ __('text.male_students') }}</h4>
                             <div class="item-number">{{\App\Student::whereHas('classes', function($q){
                                 $q->where('year_id',getYear());
                             })->where('gender','male')->count()}}</div>
@@ -94,25 +94,55 @@
         <div class="col-lg-12  col-xl-6">
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
-                    <div class="heading-layout1 mg-b-17">
-                        <div class="item-title">
-                            <h3>Notice Board</h3>
-                        </div>
-                    </div>
-                    <div class="notice-box-wrap">
-
-                        @foreach(request()->user()->receivedMessages() as $notice)
-                            <div class="notice-list">
-                                <div class="post-date bg-skyblue">{{$notice->created_at->format('d F, Y')}}</div>
-                                <h6 class="notice-title"><a href="#">{{$notice->content}}</a></h6>
-                                <div class="entry-meta"> {{$notice->user->name}} / <span>{{$notice->created_at->diffForHumans()}}</span></div>
-                            </div>
-                        @endforeach
-
-                    </div>
+                    @isset($data)
+                        <table class="table table-light table-stripped">
+                            <thead class="text-capitalize">
+                                <th class="">#</th>
+                                <th class="">{{ __('text.word_class') }}</th>
+                                <th class="">{{ __('text.word_students') }}</th>
+                                <th class="">{{ __('text.amount_expected') }}</th>
+                                <th class="">{{ __('text.amount_recieved') }}</th>
+                                <th class="">%{{ __('text.word_recieved') }}</th>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $k = 1;
+                                @endphp
+                                @foreach($data as $key => $row)
+                                    <tr>
+                                        <td>{{ $k++ }}</td>
+                                        <td>{{ $row->name }} - ({{ $row->section_id }})</td>
+                                        <td>{{ $row->student_count }}</td>
+                                        <td>{{ $row->expected }}</td>
+                                        <td>{{ $row->recieved }}</td>
+                                        <td>
+                                            @if($row->expected > 0)
+                                                {{ number_format(($row->recieved * 100/$row->expected), 2) }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr class="py-2 text-capitalize border-bottom" style="font-weight: bold;">
+                                    <td colspan="2">{{ __('text.word_totals') }}</td>
+                                    <td>{{ number_format($data->sum('student_count')) }}</td>
+                                    <td>{{ number_format($data->sum('expected'), 0) }}</td>
+                                    <td>{{ number_format($data->sum('recieved'), 0) }}</td>
+                                    <td>
+                                        @if($data->sum('expected') > 0)
+                                            {{ number_format(($data->sum('recieved') * 100/$data->sum('expected')), 0) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                    @endisset
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="py-4">
+        
     </div>
 
 @endsection
