@@ -132,33 +132,31 @@
                                         <div id="invoice-POS">
                                             
                                             <div id="top">
-                                                <div class="logo" style="height:fit-content; padding-bottom: 0.4rem;">
+                                                <div class="logo" style="height:fit-content; padding-bottom: 0.2rem;">
                                                     <div style="text-transform: capitalize; text-align:center; padding-right: 3px;">
                                                         <span style="font-size: large; font-weight:700;">{{$institution->name??""}}</span><br>
                                                         <span style="font-size: medium; font-weight:600"><b><i>{{$institution->motto??""}}</i></b></span><br>
-                                                        <span style="font-size: large;"><i>{{$institution->address??""}}</i></span><br>
-                                                        <span style="font-size: large; font-weight:700"><i>{{$institution->contact??""}}</i></span>
+                                                        <span style="font-size: medium;"><i>{{$institution->address??""}}</i></span><br>
+                                                        <span style="font-size: small; font-weight:700"><i>{{$institution->contact??""}}</i></span>
                                                     </div>
                                                 </div>
                                                 {{-- <hr style="border-color:transparent;"> --}}
-                                                <div class="info" style="text-align: center; text-transform:capitalize;"> 
+                                                <div class="info" style="text-align: center; text-transform:capitalize; font-size: large !important;"> 
                                                     <h2>{{ __('text.cash_receipt') }}</h2>
                                                 </div><!--End Info-->
                                             </div><!--End InvoiceTop-->
                                             
-                                            <div id="mid">
-                                                <div class="info" style="text-align: center; text-transform:capitalize;"><b><p>N<SUP>0</SUP> 00{{$fee->id}}</p></b></div>
+                                            <div style="height: fit-content !important; max-height: 2.5rem; !important">
+                                                <div  style="text-align: center; text-transform:capitalize; margin: 0.3rem 0 !important;"><b><p>N<SUP>0</SUP> 00{{$fee->id}}</p></b></div>
                                             </div><!--End Invoice Mid-->
                                             
                                             <div id="bot" >
                                                 <div id="table">
                                                     <table style="width:96%;">
                                                         <thead>
-                                                            <tr class="tabletitle">
-                                                                <td class="item"><h2></h2></td>
-                                                                <td class="Hours"><h2></h2></td>
-                                                                <td class="Rate"><h2></h2></td>
-                                                            </tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
                                                         </thead>
                                                         <tbody>
 
@@ -166,37 +164,37 @@
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.word_name') }} :</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext" aria-colcount="3">{{$fee->student->name}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.word_purpose') }} :</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end; font-weight:700"><p class="itemtext">{{$fee->type->name}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.academic_year') }}:</p></th>
                                                                 <td class="tableitem text-right" colspan="2" style="text-align: end;"><p class="itemtext">{{\App\Session::find($year)->name}}</p></td>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.word_class') }}:</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext">{{$fee->student->class($year)->name??null}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
                                                             
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.amount_in_fugure') }}:</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext">{{ __('text.currency_xaf') }} {{$fee->amount}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
                                                             
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.word_date') }}:</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext">{{$fee->updated_at->format('d/m/Y')}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
                                                             
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.amount_in_word') }}:</p></th>
@@ -204,23 +202,23 @@
                                                             </tr>
     
                                                            
-                                                            <tr><td colspan="3"><hr></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" style="text-align: start; text-transform: capitalize;"><p class="itemtext">{{ __('text.balance_due') }}:</p></th>
                                                                 <th class="tableitem" colspan="2" style="text-align: end;"><p class="itemtext">{{$fee->student->dept($year)}}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><br><br></td></tr>
+                                                            <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" colspan="3" style="text-align: end;"><p class="itemtext">___________________<br /><br />{{ __('text.student_signature') }}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"><br><br></td></tr>
+                                                            <tr ><td colspan="3"><hr style="border-color:transparent;"></td></tr>
     
                                                             <tr class="service border-bottom">
                                                                 <th class="tableitem" colspan="3" style="text-align: end;"><p class="itemtext">___________________<br /><br />{{ __('text.bursar_signature') }}</p></th>
                                                             </tr>
-                                                            <tr><td colspan="3"></td></tr>
+                                                            {{-- <tr  style="padding-block: 0 !important;"><td colspan="3"  style="padding-block: 0 !important;"><hr style="margin-block: 0"></td></tr> --}}
     
                                                             
                                                         </tbody>

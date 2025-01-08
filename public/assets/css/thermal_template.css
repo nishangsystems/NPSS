@@ -49,7 +49,7 @@ body{
     }
     
     #top{ font-size: 2.3rem; text-transform: capitalize; font-weight: 600;}
-    #mid{min-height: 80px;} 
+    #mid{min-height: 30px;} 
     #bot{ min-height: 50px;}
     
     #top .logo{
