@@ -388,6 +388,9 @@
                 <a href="{{url('/student')}}?action=fee" class="btn btn-dark btn-lg ml-5 h6"><i class="fas fa-angle-right"></i>{{ __('text.all_pupil') }}</a>
                 
             </div>
+            <div class="alert alert-danger fade in text-center">
+                <strong style="font-size: 2.5rem;">Your software has expired. Contact service provider to renew your software by or before Wednesday 4th Nov 2026 to keep the software running</strong>
+            </div>
             @yield('section')
         </div>
     </div>
